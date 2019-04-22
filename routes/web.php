@@ -14,6 +14,17 @@
 Route::get('/', function() {
     return 'this is reached';
 });
+
+Route::resource('client', 'ClientController');
+Route::resource('events', 'EventController');
+Route::resource('locations', 'LocationController');
+Route::resource('resource', 'ResourceController');
+Route::resource('services', 'ServiceController');
+
+Route::resource('articles', 'ArticleController');
+Route::resource('messages', 'MessageController');
+Route::resource('reviews', 'ReviewController');
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
