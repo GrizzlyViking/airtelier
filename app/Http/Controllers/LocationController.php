@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LocationRequest;
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\View\View;
 
 class LocationController extends Controller
@@ -23,7 +25,10 @@ class LocationController extends Controller
             return response()->json($locations,200,[],JSON_UNESCAPED_UNICODE);
         }
 
-        return view('locations.index', compact('locations'));
+        /** @var Location $location */
+        $columns = array_keys(Arr::except($locations->first()->toArray(), ['id', 'deleted_at', 'created_at', 'updated_at', 'meta']));
+
+        return view('locations.index', compact('locations', 'columns'));
     }
 
     /**
@@ -31,7 +36,8 @@ class LocationController extends Controller
      */
     public function create(): Response
     {
-        return view('locations.create');
+        $options = User::all();
+        return response()->view('locations.create', compact('options'));
     }
 
     /**
@@ -41,6 +47,7 @@ class LocationController extends Controller
      */
     public function store(LocationRequest $request): Response
     {
+        dd($request->toArray());
         Location::create($request->toArray());
 
         if (request()->ajax()) {

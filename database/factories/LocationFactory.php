@@ -11,6 +11,8 @@ $factory->define(Location::class, function (Faker $faker) {
         'name' => $faker->company,
         'description' => $faker->text,
         'address' => $faker->address,
+        'postcode' => $faker->postcode,
+        'town' => $faker->city,
         'owner_id' => factory(User::class),
         'meta' => [
             'geo_location' => [

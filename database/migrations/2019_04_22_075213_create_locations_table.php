@@ -19,7 +19,9 @@ class CreateLocationsTable extends Migration
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name', 255);
             $table->text('description');
-            $table->string('address', 255);
+            $table->string('address', 255)->nullable(true);
+            $table->string('postcode', 40)->nullable(true);
+            $table->string('town', 255)->nullable(true);
             $table->jsonb('meta')->nullable(true);
             $table->softDeletes();
             $table->timestamps();

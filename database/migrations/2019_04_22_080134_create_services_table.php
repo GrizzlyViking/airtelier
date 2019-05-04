@@ -20,6 +20,8 @@ class CreateServicesTable extends Migration
             $table->string('name', 255);
             $table->text('description');
             $table->string('address', 255);
+            $table->string('postcode', 40);
+            $table->string('town', 255);
             $table->jsonb('meta')->nullable(true);
             $table->softDeletes();
             $table->timestamps();

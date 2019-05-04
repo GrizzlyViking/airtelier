@@ -13,7 +13,7 @@ class LocationRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,10 +25,10 @@ class LocationRequest extends FormRequest
     {
         return [
             'owner_id'    => 'required|integer|min:1|exists:users,id',
-            'name'        => 'required|alpha_dash',
+            'name'        => 'required|regex:/[\w]+/u',
             'description' => 'sometimes',
             'address'     => 'sometimes',
-            'meta'        => 'array',
+            'meta'        => 'nullable|array',
         ];
     }
 }

@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property string $name
  * @property string $description
  * @property string $address
+ * @property string $town
+ * @property string $post_code
  * @property array $meta
  * @property Carbon $created_at
  * @property Carbon $updated_at

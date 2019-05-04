@@ -41,6 +41,10 @@ class Service extends Model
         'un_publish',
     ];
 
+    protected $casts = [
+        'meta' => 'array'
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
