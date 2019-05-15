@@ -21,20 +21,19 @@
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" class="form-control" id="description" rows="3" name="description"></textarea>
+                <editor-component name="description" body_class="form-control" rows="5"></editor-component>
             </div>
+
 
             <div class="form-group">
                 <label for="address">Address:</label>
-                <textarea name="address" class="form-control" id="address" rows="3"></textarea>
+                <textarea name="address" class="form-control" id="address" rows=3></textarea>
             </div>
 
             <div class="form-group">
                 <label for="meta">Other (please enter as json)</label>
-                <textarea name="meta" class="form-control" id="meta" rows="3"></textarea>
+                <meta-component name="meta" class="form-control" id="meta"></meta-component>
             </div>
-
-
 
             <button type="submit" class="btn btn-outline-primary">Save</button>
         </form>

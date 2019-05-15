@@ -20,13 +20,14 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::all();
+        $locations = Location::all()->columns(['owner.name', 'name', 'description', 'address']);
+
         if (request()->ajax()) {
             return response()->json($locations,200,[],JSON_UNESCAPED_UNICODE);
         }
 
         /** @var Location $location */
-        $columns = array_keys(Arr::except($locations->first()->toArray(), ['id', 'deleted_at', 'created_at', 'updated_at', 'meta']));
+        $columns = array_keys(Arr::except($locations->first(), ['id', 'deleted_at', 'created_at', 'updated_at', 'meta']));
 
         return view('locations.index', compact('locations', 'columns'));
     }
