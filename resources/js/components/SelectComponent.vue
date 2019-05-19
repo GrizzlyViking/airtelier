@@ -11,10 +11,8 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
     export default {
         name: "SelectComponent",
-        components: {vSelect},
         props: {
             options: {
                 type: Array,

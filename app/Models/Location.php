@@ -29,8 +29,11 @@ class Location extends Model
 
     protected $fillable = [
         'name',
+        'owner_id',
         'description',
         'address',
+        'postcode',
+        'town',
         'meta',
     ];
 

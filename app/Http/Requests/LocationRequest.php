@@ -16,6 +16,15 @@ class LocationRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($meta = json_decode($this->meta, true)) {
+            $this->merge([
+                'meta' => $meta
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,6 +37,8 @@ class LocationRequest extends FormRequest
             'name'        => 'required|regex:/[\w]+/u',
             'description' => 'sometimes',
             'address'     => 'sometimes',
+            'postcode'     => 'sometimes',
+            'town'     => 'sometimes',
             'meta'        => 'nullable|array',
         ];
     }

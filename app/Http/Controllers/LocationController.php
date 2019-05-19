@@ -44,15 +44,14 @@ class LocationController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param LocationRequest $request
-     * @return Response
+     * @return Response|RedirectResponse
      */
-    public function store(LocationRequest $request): Response
+    public function store(LocationRequest $request)
     {
-        dd($request->toArray());
         Location::create($request->toArray());
 
         if (request()->ajax()) {
-            return response()->json('success', 200);
+            return response()->json('success', Response::HTTP_CREATED);
         }
 
         return response()->redirectToRoute('locations.index');
