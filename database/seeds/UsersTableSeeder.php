@@ -2,10 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\User,
-    App\Models\Location,
-    App\Models\Resource,
-    App\Models\Service;
-use Illuminate\Support\Facades\Hash;
+    App\Models\Address,
+    App\Models\Offer;
+use Illuminate\Support\Arr;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,24 +15,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create(
-            [
-                'name' => 'Sebastian Scheel Edelmann',
-                'email' => 'sebastian@edelmann.co.uk',
-                'password' => Hash::make('V1k1ng053c0'),
-            ]
-        );
-
-        factory(User::class, 20)->create()->each(function(User $user) {
-            $user->locations()->save(factory(Location::class)->make());
-        });
-
-        factory(User::class, 10)->create()->each(function(User $user) {
-            $user->resources()->save(factory(Resource::class)->make());
-        });
-
-        factory(User::class, 10)->create()->each(function(User $user) {
-            $user->services()->save(factory(Service::class)->make());
+        factory(User::class, 20)->create()->each(function (User $user) {
+            $user->address()->associate(factory(Address::class)->make());
+            $user->save();
+            $user->offers()->saveMany(factory(Offer::class, Arr::random([1,1,1,2,3]))->make());
         });
     }
 }

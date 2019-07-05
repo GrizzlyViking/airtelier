@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocationsTable extends Migration
+class CreateOffersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name', 255);
+            $table->unsignedBigInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->unsignedSmallInteger('type_id');
+            $table->foreign('type_id')->references('id')->on('offer_types')->onDelete('cascade');
             $table->text('description');
-            $table->string('address', 255)->nullable(true);
-            $table->string('postcode', 40)->nullable(true);
-            $table->string('town', 255)->nullable(true);
             $table->jsonb('meta')->nullable(true);
             $table->softDeletes();
             $table->timestamps();
@@ -35,6 +36,6 @@ class CreateLocationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('offers');
     }
 }

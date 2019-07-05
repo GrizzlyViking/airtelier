@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\User;
+use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
-class ClientController extends Controller
+class OfferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        $headers = ['name', 'email'];
-        return response()->view('users.index', compact('users', 'headers'));
+        $offers = Offer::all();
+        return view('offers.index')->with(compact('offers'));
     }
 
     /**
@@ -44,10 +43,10 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show(Offer $offer)
     {
         //
     }
@@ -55,10 +54,10 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit(Offer $offer)
     {
         //
     }
@@ -67,10 +66,10 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, Offer $offer)
     {
         //
     }
@@ -78,10 +77,10 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(Offer $offer)
     {
         //
     }

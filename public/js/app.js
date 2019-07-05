@@ -2591,6 +2591,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     isSortable: function isSortable(column) {
       return _.indexOf(this.sortable, column) > -1;
+    },
+    clickRow: function clickRow(data) {
+      console.log('row clicked in component.');
+      this.$emit('click-row', data);
     }
   },
   filters: {
@@ -48392,8 +48396,17 @@ var render = function() {
           _vm._l(_vm.tableData, function(row) {
             return _c(
               "tr",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.clickRow(row)
+                  }
+                }
+              },
               _vm._l(row, function(cell) {
-                return _c("td", [_vm._v(_vm._s(cell))])
+                return _c("td", { domProps: { innerHTML: _vm._s(cell) } }, [
+                  _vm._v(_vm._s(cell))
+                ])
               }),
               0
             )
@@ -60750,7 +60763,13 @@ Vue.component('input-group', __webpack_require__(/*! ./components/bootstrap/Inpu
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  methods: {
+    redirectFromClick: function redirectFromClick(event) {
+      console.log('this is reached');
+      console.log(event);
+    }
+  }
 });
 
 /***/ }),

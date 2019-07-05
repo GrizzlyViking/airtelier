@@ -35,5 +35,11 @@ Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').de
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    methods: {
+        redirectFromClick(event) {
+            console.log('this is reached');
+            console.log(event);
+        }
+    }
 });

@@ -15,11 +15,8 @@ Route::get('/', function() {
     return response()->redirectToRoute('home');
 });
 
-Route::resource('client', 'ClientController');
 Route::resource('events', 'EventController');
-Route::resource('locations', 'LocationController');
-Route::resource('resource', 'ResourceController');
-Route::resource('services', 'ServiceController');
+Route::resource('offers', 'OfferController');
 
 Route::resource('articles', 'ArticleController');
 Route::resource('messages', 'MessageController');

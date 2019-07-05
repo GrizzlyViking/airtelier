@@ -18,8 +18,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="row in tableData">
-                <td v-for="cell in row">{{ cell }}</td>
+            <tr v-for="row in tableData" @click="clickRow(row)">
+                <td v-for="cell in row" v-html="cell">{{cell}}</td>
             </tr>
             </tbody>
             <tfoot>
@@ -103,6 +103,10 @@
             },
             isSortable(column) {
                 return _.indexOf(this.sortable, column) > -1;
+            },
+            clickRow(data) {
+                console.log('row clicked in component.');
+                this.$emit('click-row', data)
             }
         },
         filters: {
