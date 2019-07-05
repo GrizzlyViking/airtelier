@@ -20,8 +20,14 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('v-select', require('vue-select').default);
+Vue.component('editor-component', require('./components/EditorComponent.vue').default);
+Vue.component('table-component', require('./components/TableComponent.vue').default);
+Vue.component('select-component', require('./components/SelectComponent.vue').default);
+Vue.component('wysiwyg-editor', require('@tinymce/tinymce-vue').default);
 
+Vue.component('meta-component', require('./components/MetaComponent.vue').default);
+Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,5 +35,11 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    methods: {
+        redirectFromClick(event) {
+            console.log('this is reached');
+            console.log(event);
+        }
+    }
 });
