@@ -1,8 +1,10 @@
 <template>
     <div class="card">
         <div class="card-body">
-        <h5 class="card-title">{{offer.name }}</h5>
-        <p class="card-text">{{ offer.description }}</p>
+            <input v-if="this.edit" type="text" v-model="offer.name" class="card-title h5 form-control-plaintext">
+            <h5 v-if="!this.edit" class="card-title">{{offer.name }}</h5>
+            <textarea v-if="this.edit" class="form-control-plaintext">{{ offer.description }}</textarea>
+            <p v-if="!this.edit" class="card-text">{{ offer.description }}</p>
         </div>
         <div class="card-footer">
             <ul class="list-group list-group-flush">
@@ -25,7 +27,8 @@
                 }
             },
             edit: {
-                type: Boolean
+                type: Boolean,
+                default: false
             }
         },
     }

@@ -2417,6 +2417,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'skill',
   props: {
@@ -2427,7 +2429,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     edit: {
-      type: Boolean
+      type: Boolean,
+      "default": false
     }
   }
 });
@@ -48680,11 +48683,47 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-body" }, [
-      _c("h5", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.offer.name))]),
+      this.edit
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.offer.name,
+                expression: "offer.name"
+              }
+            ],
+            staticClass: "card-title h5 form-control-plaintext",
+            attrs: { type: "text" },
+            domProps: { value: _vm.offer.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.offer, "name", $event.target.value)
+              }
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("p", { staticClass: "card-text" }, [
-        _vm._v(_vm._s(_vm.offer.description))
-      ])
+      !this.edit
+        ? _c("h5", { staticClass: "card-title" }, [
+            _vm._v(_vm._s(_vm.offer.name))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      this.edit
+        ? _c("textarea", { staticClass: "form-control-plaintext" }, [
+            _vm._v(_vm._s(_vm.offer.description))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      !this.edit
+        ? _c("p", { staticClass: "card-text" }, [
+            _vm._v(_vm._s(_vm.offer.description))
+          ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-footer" }, [

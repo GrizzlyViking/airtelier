@@ -59,7 +59,7 @@ class OfferController extends Controller
      */
     public function edit(Offer $offer)
     {
-        return view('offers.show', compact('offer'));
+        return view('offers.edit', compact('offer'));
     }
 
     /**
