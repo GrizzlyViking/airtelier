@@ -7,7 +7,7 @@
                     class="text-center text-nowrap"
                     v-for="header in columnHeaders"
                     scope="col"
-                >{{ header | ucwords }}
+                >{{ header | capitalize }}
                 <chevrons-down-icon
                     width="12"
                     stroke="red"
@@ -19,7 +19,7 @@
             </thead>
             <tbody>
             <tr v-for="row in tableData" @click="clickRow(row)">
-                <td v-for="cell in row" v-html="cell">{{cell}}</td>
+                <td v-for="cell in row" v-html="reformatObject(cell)"></td>
             </tr>
             </tbody>
             <tfoot>
@@ -105,14 +105,21 @@
                 return _.indexOf(this.sortable, column) > -1;
             },
             clickRow(data) {
-                console.log('row clicked in component.');
                 this.$emit('click-row', data)
+            },
+            reformatObject(collection) {
+                if (typeof collection === 'object') {
+                    return _.map(collection, (value, key) => {
+                        if (typeof value === 'object') {
+                            return;
+                        }
+                        return "<b>" + _.startCase(_.toLower(key)) + "</b>:<br />" + value + "<br />";
+                    }).join('');
+                }
+                return collection;
             }
         },
         filters: {
-            ucwords(string) {
-                return _.startCase(_.toLower(string));
-            },
             count(collection) {
                 return _.size(collection)
             }

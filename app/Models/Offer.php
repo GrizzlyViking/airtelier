@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class Offer
@@ -40,31 +40,34 @@ class Offer extends Model
 
     protected $appends = [
         'creator',
-        'type'
+        'type',
     ];
 
-    public function getCreatorAttribute()
+    public function getCreatorAttribute(): string
     {
         return $this->owner->name;
     }
 
-    public function getTypeAttribute()
-    {
-        return $this->offerType->type;
-    }
-
-    public function owner(): BelongsTo
+    public function owner(): Relation
     {
         return $this->belongsTo(User::class);
     }
 
-    public function address(): BelongsTo
+    public function address(): Relation
     {
         return $this->belongsTo(Address::class);
     }
 
-    public function offerType(): BelongsTo
+    public function offerType(): Relation
     {
-        return $this->belongsTo(OfferType::class);
+        return $this->belongsTo(OfferType::class, 'type_id');
+    }
+
+    public function getTypeAttribute(): string
+    {
+        if (!$this->offerType()->first() instanceof OfferType) {
+            return 'unknown';
+        }
+        return $this->offerType()->first()->type;
     }
 }

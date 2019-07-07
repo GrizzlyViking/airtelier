@@ -28,6 +28,14 @@ Vue.component('wysiwyg-editor', require('@tinymce/tinymce-vue').default);
 
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
+
+Vue.component('skill', require('./components/Offers/SkillComponent.vue').default);
+Vue.component('resource', require('./components/Offers/ResourceComponent.vue').default);
+Vue.component('location', require('./components/Offers/LocationComponent.vue').default);
+
+Vue.filter('capitalize', (string) => {
+    return _.startCase(_.toLower(string));
+},);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

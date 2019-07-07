@@ -15,7 +15,7 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offers = Offer::all();
+        $offers = Offer::with('address')->get();
         return view('offers.index')->with(compact('offers'));
     }
 
@@ -48,7 +48,7 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
-        //
+        return view('offers.show', compact('offer'));
     }
 
     /**
@@ -59,7 +59,7 @@ class OfferController extends Controller
      */
     public function edit(Offer $offer)
     {
-        //
+        return view('offers.show', compact('offer'));
     }
 
     /**

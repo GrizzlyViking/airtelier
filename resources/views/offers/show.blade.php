@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <pre>
-        {{ json_encode($location, JSON_PRETTY_PRINT) }}
-    </pre>
+    <div class="container">
+        <skill :offer="{{ $offer }}"></skill>
+    </div>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class OfferType
@@ -20,7 +21,7 @@ class OfferType extends Model
 
     protected $fillable = ['type'];
 
-    public function offers()
+    public function offers(): Relation
     {
         return $this->belongsToMany(Offer::class);
     }

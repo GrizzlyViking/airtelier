@@ -26,11 +26,17 @@ class Address extends Model
         'town',
         'country',
         'geo_location',
-        'meta'
+        'meta',
     ];
 
     protected $casts = [
         'geo_location' => 'array',
         'meta'         => 'array',
+    ];
+
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
 }
