@@ -24,7 +24,9 @@ Vue.component('v-select', require('vue-select').default);
 Vue.component('editor-component', require('./components/EditorComponent.vue').default);
 Vue.component('table-component', require('./components/TableComponent.vue').default);
 Vue.component('select-component', require('./components/SelectComponent.vue').default);
-Vue.component('wysiwyg-editor', require('@tinymce/tinymce-vue').default);
+Vue.component('item-list', require('./components/_partials/KeyArrayComponent.vue').default);
+Vue.component('countries-component', require('./components/_partials/CountriesComponent.vue').default);
+Vue.component('type-component', require('./components/_partials/TypeComponent.vue').default);
 
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
@@ -35,7 +37,7 @@ Vue.component('location', require('./components/Offers/LocationComponent.vue').d
 
 Vue.filter('capitalize', (string) => {
     return _.startCase(_.toLower(string));
-},);
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

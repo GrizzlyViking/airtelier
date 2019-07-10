@@ -1,17 +1,13 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <input v-if="this.edit" type="text" v-model="offer.name" class="card-title h5 form-control-plaintext">
-            <h5 v-if="!this.edit" class="card-title">{{offer.name }}</h5>
-            <textarea v-if="this.edit" class="form-control-plaintext">{{ offer.description }}</textarea>
-            <p v-if="!this.edit" class="card-text">{{ offer.description }}</p>
+            <input v-if="edit" type="text" v-model="offer.name" class="card-title h5 form-control-plaintext">
+            <h5 v-if="!edit" class="card-title">{{offer.name }}</h5>
+            <editor-component v-if="edit" v-model="offer.description"></editor-component>
+            <p v-if="!edit" class="card-text">{{ offer.description }}</p>
         </div>
         <div class="card-footer">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-light" v-for="(item, index) in offer.meta">
-                    <span class="font-weight-bolder">{{ index | capitalize }}</span> : {{ item }}
-                </li>
-            </ul>
+            <item-list v-model="offer.meta" :edit="edit"></item-list>
         </div>
     </div>
 </template>

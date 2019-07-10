@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OfferRequest;
+use App\Models\Address;
 use App\Models\Offer;
+use App\Models\OfferType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -26,18 +30,23 @@ class OfferController extends Controller
      */
     public function create()
     {
-        //
+        $options = User::all();
+        $types = OfferType::all()->map(function(OfferType $type){
+            return [
+                'id' => $type->id,
+                'name' => ucwords($type->type),
+            ];
+        });
+        return response()->view('offers.create', compact('options', 'types'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param OfferRequest $request
      */
-    public function store(Request $request)
+    public function store(OfferRequest $request)
     {
-        //
+        $address = Address::create($request->only(['address', 'post_code', 'town', 'country']));
+
     }
 
     /**
