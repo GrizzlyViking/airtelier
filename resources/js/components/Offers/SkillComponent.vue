@@ -43,6 +43,11 @@
                 default: false
             }
         },
+        methods: {
+            updateOffer() {
+
+            }
+        }
     }
 </script>
 
