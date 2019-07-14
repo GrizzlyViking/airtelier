@@ -25,6 +25,9 @@
             edit: {
                 type: Boolean,
                 default: false
+            },
+            value: {
+                default: () => { return []; }
             }
         }
     }

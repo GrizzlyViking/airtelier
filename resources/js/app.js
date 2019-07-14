@@ -27,6 +27,8 @@ Vue.component('select-component', require('./components/SelectComponent.vue').de
 Vue.component('item-list', require('./components/_partials/KeyArrayComponent.vue').default);
 Vue.component('countries-component', require('./components/_partials/CountriesComponent.vue').default);
 Vue.component('type-component', require('./components/_partials/TypeComponent.vue').default);
+Vue.component('user-component', require('./components/_partials/UserComponent.vue').default);
+Vue.component('address-component', require('./components/_partials/AddressComponent.vue').default);
 
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);

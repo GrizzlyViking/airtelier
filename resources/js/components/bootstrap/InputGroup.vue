@@ -3,57 +3,56 @@
         <div class="input-group">
             <input type="text"
                    class="input-group-text rounded-right-0 border-right-0"
-                   v-model="key_pair.assoc_key"
-                   @blur="updateParent"
+                   v-model="assoc_key"
+                   @keyup="updateParent"
                    @keyup.tab="setFocus"
             >
             <input type="text"
-                   ref="key_value"
-                   v-model="key_pair.property_value"
+                   v-model="obj_value"
                    class="form-control"
-                   id="basic-url"
-                   :tabindex="tabindex"
                    aria-describedby="basic-addon3"
-                   @blur="updateParent"
+                   @keyup="updateParent"
             >
+            <div class="input-group-append" @click="remove">
+                <span class="input-group-text"><trash-2-icon height="16" class="custom-class"></trash-2-icon></span>
+            </div>
         </div>
             <small v-if="error" id="emailHelp" class="form-text text-danger">{{ error }}</small>
     </div>
 </template>
 
 <script>
+    import { Trash2Icon } from 'vue-feather-icons';
     export default {
+        components: {Trash2Icon},
         props: {
-            label: {
-                type: String,
-                default: ''
-            },
-            row_value: {
-                type: String,
-                default: ''
-            },
             error: {
                 type: String|Boolean,
                 default: false
             },
-            tabindex: {
-                type: Number
+            value: {
+                default: () => {
+                    return {};
+                }
             }
         },
         data() {
             return {
-                key_pair: {
-                    assoc_key: this.label,
-                    property_value: this.row_value
-                }
+                assoc_key: Object.keys(this.value)[0],
+                obj_value: this.value[Object.keys(this.value)[0]]
             }
         },
         methods: {
             updateParent() {
-                this.$emit('newValue', this.key_pair);
+                let obj = {};
+                obj[this.assoc_key] = this.obj_value;
+                this.$emit('newValue', obj);
             },
             setFocus() {
-                this.$refs.key_value.$el.focus()
+                this.$refs.key_value.$el.focus();
+            },
+            remove() {
+                this.$emit('remove', this.assoc_key);
             }
         }
     }

@@ -11,7 +11,7 @@
             @csrf
             <div class="form-group">
                 <label for="owner_id">Owner</label>
-                <select-component :options="{{$options ?? '{}'}}" input_name="owner_id" label="name" initial-value="{{old('owner_id', 5)}}"></select-component>
+                <select-component></select-component>
             </div>
 
             <div class="form-group">
@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" value="{{old('name')}}" id="name" name="name" placeholder="Enter name">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
             </div>
 
             <div class="form-group">

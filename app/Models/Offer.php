@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  */
 class Offer extends Model
 {
+    protected $with = ['offerType', 'address', 'owner'];
+
     protected $casts = [
         'meta' => 'array'
     ];
@@ -35,7 +37,6 @@ class Offer extends Model
         'owner_id',
         'deleted_at',
         'updated_at',
-        'owner',
     ];
 
     protected $appends = [
