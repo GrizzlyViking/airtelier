@@ -1,5 +1,5 @@
 <template>
-    <form class="container">
+    <form class="container" @submit.prevent="saveForm">
         <div class="form-group">
             <label for="owner_id">Owner</label>
             <user-component v-model="offer.owner"></user-component>
@@ -45,7 +45,17 @@
         },
         methods: {
             updateOffer() {
-
+                axios
+                    .patch('/offers/' + this.offer.id, this.offer)
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
+            saveForm() {
+                this.updateOffer();
             }
         }
     }

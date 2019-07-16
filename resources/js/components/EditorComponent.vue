@@ -1,11 +1,22 @@
 <template>
-    <vue-editor v-model="$attrs.value"></vue-editor>
+    <vue-editor v-model="content" @input="handleInput"></vue-editor>
 </template>
 
 <script>
     import { VueEditor } from "vue2-editor";
 
     export default {
+        props: ['value'],
+        data() {
+            return {
+                content: this.value
+            }
+        },
+        methods: {
+            handleInput() {
+                this.$emit('input', this.content);
+            }
+        },
         components: {
             VueEditor
         }

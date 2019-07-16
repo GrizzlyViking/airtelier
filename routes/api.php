@@ -16,20 +16,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('api')->get('/users', function () {
+Route::middleware('auth:api')->get('/users', function () {
     return User::all();
 });
 
-Route::middleware('api')->get('/countries', function () {
-    return Countries::all()->map(function (Countries $country) {
-
-        return [
-            'id'   => $country->code,
-            'name' => $country->name,
-        ];
-    });
+Route::middleware('auth:api')->get('/countries', function () {
+    return Countries::all();
 });
 
-Route::middleware('api')->get('/types', function () {
+Route::middleware('auth:api')->get('/types', function () {
     return OfferType::all();
 });

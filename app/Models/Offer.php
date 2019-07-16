@@ -28,7 +28,18 @@ class Offer extends Model
     protected $with = ['offerType', 'address', 'owner'];
 
     protected $casts = [
-        'meta' => 'array'
+        'meta' => 'array',
+        'geo_location',
+    ];
+
+    protected $fillable = [
+        'owner_id',
+        'name',
+        'address_id',
+        'description',
+        'geo_location',
+        'meta',
+        'type_id',
     ];
 
     protected $hidden = [

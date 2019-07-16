@@ -7,8 +7,9 @@ use App\Models\Address;
 use App\Models\Offer;
 use App\Models\OfferType;
 use App\Models\User;
+use http\Client\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+use Exception;
 
 class OfferController extends Controller
 {
@@ -63,8 +64,8 @@ class OfferController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param  Offer  $offer
+     * @return Response
      */
     public function edit(Offer $offer)
     {
@@ -74,23 +75,27 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Offer  $offer
+     * @return Response
      */
     public function update(Request $request, Offer $offer)
     {
-        //
+        $offer->update($request->toArray());
+        //$offer->address()->update($request->get('address'));
+
+        return response($request->get('address'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Offer $offer
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @return Response
+     * @throws Exception
      */
-    public function destroy(Offer $offer)
+    public function destroy(Offer $offer): Response
     {
-        //
+        $offer->delete();
+        return response('ok');
     }
 }
