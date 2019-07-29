@@ -8,8 +8,9 @@ use App\Models\Offer;
 use App\Models\OfferType;
 use App\Models\User;
 use http\Client\Response;
-use Illuminate\Http\Request;
+use App\Http\Requests\OfferRequest as Request;
 use Exception;
+use Illuminate\Support\Arr;
 
 class OfferController extends Controller
 {
@@ -46,7 +47,7 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
-        $address = Address::create($request->only(['address', 'post_code', 'town', 'country']));
+        $address = Address::create($request->all());
 
     }
 
@@ -81,10 +82,10 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
-        $offer->update($request->toArray());
-        //$offer->address()->update($request->get('address'));
+        $offer->address()->update(Arr::except($request->get('address'), ['country']));
+        $offer->update($request->except('address', 'owner', 'offer_type'));
 
-        return response($request->get('address'));
+        return response($offer->toArray());
     }
 
     /**

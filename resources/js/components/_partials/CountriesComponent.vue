@@ -1,18 +1,31 @@
 <template>
-    <select-component v-model="selected" @input="handleInput" :key="reload" :options="options" input_name="country" label="name" initial-value="DK"></select-component>
+    <v-select
+            v-model="selected"
+            style="background-color: white;"
+            @input="handleInput"
+            :label="label"
+            :key="reload"
+            :options="options"
+    ></v-select>
 </template>
 
 <script>
     export default {
         name: "CountriesComponent",
-        props: ['value'],
+        props: {
+            value: {
+                type: Object,
+                default() {
+                    return {'code': 'DK', 'name': 'Denmark'}
+                }
+            }
+        },
         data() {
             return {
+                label:    'name',
                 selected: this.value,
-                'options': [
-                    {'code': 'DK', 'name': 'Denmark'}
-                ],
-                'reload': false
+                options:  [],
+                reload:   false
             }
         },
         methods: {

@@ -6,14 +6,16 @@
                    v-model="assoc_key"
                    @keyup="updateParent"
                    @keyup.tab="setFocus"
+                   :disabled="!edit"
             >
             <input type="text"
                    v-model="obj_value"
                    class="form-control"
                    aria-describedby="basic-addon3"
                    @keyup="updateParent"
+                   :disabled="!edit"
             >
-            <div class="input-group-append" @click="remove">
+            <div class="input-group-append" v-if="edit" @click="remove">
                 <span class="input-group-text"><trash-2-icon height="16" class="custom-class"></trash-2-icon></span>
             </div>
         </div>
@@ -34,6 +36,10 @@
                 default: () => {
                     return {};
                 }
+            },
+            edit: {
+                type: Boolean,
+                default: false
             }
         },
         data() {

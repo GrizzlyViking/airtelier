@@ -1,8 +1,9 @@
 <template>
     <div>
-        <label>Additional properties</label> <plus-circle-icon height="16" @click="addProperty"></plus-circle-icon>
+        <label>Additional properties</label> <plus-circle-icon v-if="edit" height="16" @click="addProperty"></plus-circle-icon>
         <div class="row">
             <input-group
+                    :edit="edit"
                     class="col-12"
                     v-for="(row, index) in meta_data"
                     v-model="meta_data[index]"
@@ -32,8 +33,11 @@
                 default() {
                     return []
                 }
+            },
+            edit: {
+                type: Boolean,
+                default: false
             }
-
         },
         data() {
             return {

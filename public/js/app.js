@@ -1809,6 +1809,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1828,6 +1829,10 @@ __webpack_require__.r(__webpack_exports__);
       "default": function _default() {
         return [];
       }
+    },
+    edit: {
+      type: Boolean,
+      "default": false
     }
   },
   data: function data() {
@@ -1946,6 +1951,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'skill',
   props: {
@@ -1955,14 +2010,21 @@ __webpack_require__.r(__webpack_exports__);
         return {};
       }
     },
-    edit: {
-      type: Boolean,
-      "default": false
+    action: {
+      type: String,
+      "default": function _default() {
+        return 'create';
+      }
     }
+  },
+  data: function data() {
+    return {
+      edit: this.action !== 'show'
+    };
   },
   methods: {
     updateOffer: function updateOffer() {
-      axios.patch('/offers/' + this.offer.id, this.offer).then(function (response) {
+      axios.patch('/offers/' + this.offer.id, this.offer, ['country']).then(function (response) {
         console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
@@ -2215,9 +2277,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AddressComponent",
-  props: ['address']
+  props: {
+    address: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    },
+    edit: {
+      type: Boolean,
+      "default": function _default() {
+        return false;
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -2235,17 +2340,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CountriesComponent",
-  props: ['value'],
+  props: {
+    value: {
+      type: Object,
+      "default": function _default() {
+        return {
+          'code': 'DK',
+          'name': 'Denmark'
+        };
+      }
+    }
+  },
   data: function data() {
     return {
+      label: 'name',
       selected: this.value,
-      'options': [{
-        'code': 'DK',
-        'name': 'Denmark'
-      }],
-      'reload': false
+      options: [],
+      reload: false
     };
   },
   methods: {
@@ -2435,6 +2555,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2449,6 +2571,10 @@ __webpack_require__.r(__webpack_exports__);
       "default": function _default() {
         return {};
       }
+    },
+    edit: {
+      type: Boolean,
+      "default": false
     }
   },
   data: function data() {
@@ -20567,7 +20693,7 @@ return jQuery;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.14';
+  var VERSION = '4.17.15';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -63407,10 +63533,12 @@ var render = function() {
     [
       _c("label", [_vm._v("Additional properties")]),
       _vm._v(" "),
-      _c("plus-circle-icon", {
-        attrs: { height: "16" },
-        on: { click: _vm.addProperty }
-      }),
+      _vm.edit
+        ? _c("plus-circle-icon", {
+            attrs: { height: "16" },
+            on: { click: _vm.addProperty }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -63419,6 +63547,7 @@ var render = function() {
           return _c("input-group", {
             key: new Date().getTime() + index,
             staticClass: "col-12",
+            attrs: { edit: _vm.edit },
             on: {
               remove: function($event) {
                 return _vm.$delete(_vm.meta_data, index)
@@ -63524,105 +63653,188 @@ var render = function() {
       }
     },
     [
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _c("label", { attrs: { for: "owner_id" } }, [_vm._v("Owner")]),
-          _vm._v(" "),
-          _c("user-component", {
-            model: {
-              value: _vm.offer.owner,
-              callback: function($$v) {
-                _vm.$set(_vm.offer, "owner", $$v)
-              },
-              expression: "offer.owner"
-            }
-          })
-        ],
-        1
-      ),
+      _vm.edit
+        ? _c("div", [
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "owner_id" } }, [_vm._v("Owner")]),
+                _vm._v(" "),
+                _c("user-component", {
+                  attrs: { id: "owner_id" },
+                  model: {
+                    value: _vm.offer.owner,
+                    callback: function($$v) {
+                      _vm.$set(_vm.offer, "owner", $$v)
+                    },
+                    expression: "offer.owner"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", [_vm._v("Type")]),
+                _vm._v(" "),
+                _c("type-component", {
+                  model: {
+                    value: _vm.offer.offer_type,
+                    callback: function($$v) {
+                      _vm.$set(_vm.offer, "offer_type", $$v)
+                    },
+                    expression: "offer.offer_type"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.offer.name,
+                    expression: "offer.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  id: "name",
+                  name: "name",
+                  placeholder: "Enter name"
+                },
+                domProps: { value: _vm.offer.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.offer, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "description" } }, [
+                  _vm._v("Description")
+                ]),
+                _vm._v(" "),
+                _c("editor-component", {
+                  attrs: {
+                    id: "description",
+                    name: "description",
+                    body_class: "form-control",
+                    rows: "5"
+                  },
+                  model: {
+                    value: _vm.offer.description,
+                    callback: function($$v) {
+                      _vm.$set(_vm.offer, "description", $$v)
+                    },
+                    expression: "offer.description"
+                  }
+                })
+              ],
+              1
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _c("label", { attrs: { for: "type_id" } }, [_vm._v("Type")]),
-          _vm._v(" "),
-          _c("type-component", {
-            model: {
-              value: _vm.offer.offer_type,
-              callback: function($$v) {
-                _vm.$set(_vm.offer, "offer_type", $$v)
-              },
-              expression: "offer.offer_type"
-            }
-          })
-        ],
-        1
-      ),
+      !_vm.edit
+        ? _c("div", [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("ul", { staticClass: "list-group list-group-flush" }, [
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                        _vm._v("Name:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-12" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.offer.name) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                        _vm._v("Type:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-12" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.offer.offer_type.type) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                        _vm._v("Owner:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-12" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.offer.owner.name) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                        _vm._v("Description:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "col-12",
+                        domProps: { innerHTML: _vm._s(_vm.offer.description) }
+                      })
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.offer.name,
-              expression: "offer.name"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            id: "name",
-            name: "name",
-            placeholder: "Enter name"
-          },
-          domProps: { value: _vm.offer.name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.offer, "name", $event.target.value)
-            }
-          }
-        })
-      ]),
+      _c("hr"),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _c("label", { attrs: { for: "description" } }, [
-            _vm._v("Description")
-          ]),
-          _vm._v(" "),
-          _c("editor-component", {
-            attrs: {
-              name: "description",
-              body_class: "form-control",
-              rows: "5"
-            },
-            model: {
-              value: _vm.offer.description,
-              callback: function($$v) {
-                _vm.$set(_vm.offer, "description", $$v)
-              },
-              expression: "offer.description"
-            }
-          })
-        ],
-        1
-      ),
+      _c("address-component", {
+        attrs: { address: _vm.offer.address, edit: _vm.edit }
+      }),
       _vm._v(" "),
-      _c("address-component", { attrs: { address: _vm.offer.address } }),
+      _c("hr"),
       _vm._v(" "),
       _c("meta-component", {
-        attrs: { name: "meta", id: "meta" },
+        attrs: { name: "meta", id: "meta", edit: _vm.edit },
         model: {
           value: _vm.offer.meta,
           callback: function($$v) {
@@ -63632,11 +63844,32 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-outline-primary", attrs: { type: "submit" } },
-        [_vm._v("Save")]
-      )
+      _vm.edit
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-primary",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Save")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.edit
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-primary",
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  _vm.edit = !_vm.edit
+                }
+              }
+            },
+            [_vm._v("Edit")]
+          )
+        : _vm._e()
     ],
     1
   )
@@ -63868,102 +64101,160 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "address" } }, [_vm._v("Address:")]),
-      _vm._v(" "),
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.address.address,
-            expression: "address.address"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { name: "address", id: "address", rows: "3" },
-        domProps: { value: _vm.address.address },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.address, "address", $event.target.value)
-          }
-        }
-      })
-    ]),
+    _vm.edit
+      ? _c("div", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "address" } }, [_vm._v("Address:")]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.address.address,
+                  expression: "address.address"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "address", id: "address", rows: "3" },
+              domProps: { value: _vm.address.address },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.address, "address", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "postcode" } }, [_vm._v("Post code")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.address.post_code,
+                  expression: "address.post_code"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Enter postcode" },
+              domProps: { value: _vm.address.post_code },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.address, "post_code", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "town" } }, [_vm._v("Town or City")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.address.town,
+                  expression: "address.town"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Enter town" },
+              domProps: { value: _vm.address.town },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.address, "town", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("label", { attrs: { for: "type_id" } }, [_vm._v("Country")]),
+              _vm._v(" "),
+              _c("countries-component", {
+                model: {
+                  value: _vm.address.country,
+                  callback: function($$v) {
+                    _vm.$set(_vm.address, "country", $$v)
+                  },
+                  expression: "address.country"
+                }
+              })
+            ],
+            1
+          )
+        ])
+      : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "postcode" } }, [_vm._v("Post code")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.address.post_code,
-            expression: "address.post_code"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Enter postcode" },
-        domProps: { value: _vm.address.post_code },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.address, "post_code", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "town" } }, [_vm._v("Town or City")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.address.town,
-            expression: "address.town"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Enter town" },
-        domProps: { value: _vm.address.town },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.address, "town", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "form-group" },
-      [
-        _c("label", { attrs: { for: "type_id" } }, [_vm._v("Country")]),
-        _vm._v(" "),
-        _c("countries-component", {
-          model: {
-            value: _vm.address.country,
-            callback: function($$v) {
-              _vm.$set(_vm.address, "country", $$v)
-            },
-            expression: "address.country"
-          }
-        })
-      ],
-      1
-    )
+    !_vm.edit
+      ? _c("div", { staticClass: "card" }, [
+          _c("ul", { staticClass: "list-group list-group-flush" }, [
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                  _vm._v("Address:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12" }, [
+                  _vm._v(_vm._s(_vm.address.address))
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                  _vm._v("Post Code:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12" }, [
+                  _vm._v(_vm._s(_vm.address.post_code))
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                  _vm._v("City/Town:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12" }, [
+                  _vm._v(_vm._s(_vm.address.town))
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-12 font-weight-bolder" }, [
+                  _vm._v("Country:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12" }, [
+                  _vm._v(_vm._s(_vm.address.country.name))
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -63988,14 +64279,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("select-component", {
+  return _c("v-select", {
     key: _vm.reload,
-    attrs: {
-      options: _vm.options,
-      input_name: "country",
-      label: "name",
-      "initial-value": "DK"
-    },
+    staticStyle: { "background-color": "white" },
+    attrs: { label: _vm.label, options: _vm.options },
     on: { input: _vm.handleInput },
     model: {
       value: _vm.selected,
@@ -64205,7 +64492,7 @@ var render = function() {
           }
         ],
         staticClass: "input-group-text rounded-right-0 border-right-0",
-        attrs: { type: "text" },
+        attrs: { type: "text", disabled: !_vm.edit },
         domProps: { value: _vm.assoc_key },
         on: {
           keyup: [
@@ -64239,7 +64526,11 @@ var render = function() {
           }
         ],
         staticClass: "form-control",
-        attrs: { type: "text", "aria-describedby": "basic-addon3" },
+        attrs: {
+          type: "text",
+          "aria-describedby": "basic-addon3",
+          disabled: !_vm.edit
+        },
         domProps: { value: _vm.obj_value },
         on: {
           keyup: _vm.updateParent,
@@ -64252,23 +64543,25 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "input-group-append", on: { click: _vm.remove } },
-        [
-          _c(
-            "span",
-            { staticClass: "input-group-text" },
+      _vm.edit
+        ? _c(
+            "div",
+            { staticClass: "input-group-append", on: { click: _vm.remove } },
             [
-              _c("trash-2-icon", {
-                staticClass: "custom-class",
-                attrs: { height: "16" }
-              })
-            ],
-            1
+              _c(
+                "span",
+                { staticClass: "input-group-text" },
+                [
+                  _c("trash-2-icon", {
+                    staticClass: "custom-class",
+                    attrs: { height: "16" }
+                  })
+                ],
+                1
+              )
+            ]
           )
-        ]
-      )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _vm.error
