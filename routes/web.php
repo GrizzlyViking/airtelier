@@ -17,6 +17,7 @@ Route::get('/', function() {
 
 Route::resource('events', 'EventController');
 Route::resource('offers', 'OfferController');
+Route::get('oauth2', ['uses' => 'Auth\OauthController@setUpClient', 'as' => 'oauth2']);
 
 Route::resource('articles', 'ArticleController');
 Route::resource('messages', 'MessageController');

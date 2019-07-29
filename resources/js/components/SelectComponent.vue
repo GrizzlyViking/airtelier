@@ -2,9 +2,10 @@
     <div>
         <v-select
                 v-model="selected"
+                style="background-color: white;"
+                @input="handleInput"
                 :label="label"
                 :options="select_options"
-                :reduce="option => option.id"
         ></v-select>
         <input type="hidden" :name="input_name" v-model="selected">
     </div>
@@ -14,6 +15,9 @@
     export default {
         name: "SelectComponent",
         props: {
+            value: {
+                type: Object|Number
+            },
             options: {
                 type: Array,
             },
@@ -28,14 +32,17 @@
                 }
             },
             'initial-value': {
-                type: String|Number
+                type: String|Number|Object
+            }
+        },
+        methods: {
+            handleInput() {
+                this.$emit('input', this.selected);
             }
         },
         data() {
             return {
-                selected: {
-                    _value: this.InitialValue
-                },
+                selected: this.value,
                 select_options: this.options
             }
         }

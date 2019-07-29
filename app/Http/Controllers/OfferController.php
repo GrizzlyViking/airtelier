@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OfferRequest;
+use App\Models\Address;
 use App\Models\Offer;
-use Illuminate\Http\Request;
+use App\Models\OfferType;
+use App\Models\User;
+use http\Client\Response;
+use App\Http\Requests\OfferRequest as Request;
+use Exception;
 use Illuminate\Support\Arr;
 
 class OfferController extends Controller
@@ -26,18 +32,23 @@ class OfferController extends Controller
      */
     public function create()
     {
-        //
+        $options = User::all();
+        $types = OfferType::all()->map(function(OfferType $type){
+            return [
+                'id' => $type->id,
+                'name' => ucwords($type->type),
+            ];
+        });
+        return response()->view('offers.create', compact('options', 'types'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param OfferRequest $request
      */
-    public function store(Request $request)
+    public function store(OfferRequest $request)
     {
-        //
+        $address = Address::create($request->all());
+
     }
 
     /**
@@ -54,34 +65,38 @@ class OfferController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param  Offer  $offer
+     * @return Response
      */
     public function edit(Offer $offer)
     {
-        return view('offers.show', compact('offer'));
+        return view('offers.edit', compact('offer'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Offer  $offer
+     * @return Response
      */
     public function update(Request $request, Offer $offer)
     {
-        //
+        $offer->address()->update(Arr::except($request->get('address'), ['country']));
+        $offer->update($request->except('address', 'owner', 'offer_type'));
+
+        return response($offer->toArray());
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Offer $offer
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @return Response
+     * @throws Exception
      */
-    public function destroy(Offer $offer)
+    public function destroy(Offer $offer): Response
     {
-        //
+        $offer->delete();
+        return response('ok');
     }
 }

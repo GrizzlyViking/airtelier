@@ -16,20 +16,20 @@
     "browser-sync-webpack-plugin": "^2.2.2",
     "cross-env": "^5.1",
     "jquery": "^3.4.1",
-    "laravel-mix": "^4.0.16",
-    "lodash": "^4.17.5",
+    "laravel-mix": "^4.1.2",
+    "lodash": "^4.17.15",
     "popper.js": "^1.12",
     "resolve-url-loader": "^2.3.1",
-    "sass": "^1.22.3",
+    "sass": "^1.22.7",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.35.2"
+    "webpack": "^4.38.0"
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "^2.1.0",
     "vue-feather-icons": "^4.22.0",
     "vue-select": "^3.1.0",
-    "vue-simple-spinner": "^1.2.8"
+    "vue-simple-spinner": "^1.2.8",
+    "vue2-editor": "^2.9.1"
   }
 }

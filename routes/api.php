@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Countries;
+use App\Models\OfferType;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /*
@@ -13,10 +16,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->get('/users', function () {
+    return User::all();
 });
 
-Route::middleware('auth:api')->get('/users', function (Request $request) {
-    return \App\Models\User::all();
+Route::middleware('auth:api')->get('/countries', function () {
+    return Countries::all();
+});
+
+Route::middleware('auth:api')->get('/types', function () {
+    return OfferType::all();
 });
