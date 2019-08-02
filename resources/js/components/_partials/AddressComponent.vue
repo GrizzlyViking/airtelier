@@ -3,22 +3,22 @@
         <div v-if="edit">
             <div class="form-group">
                 <label for="address">Address:</label>
-                <textarea name="address" class="form-control" id="address" rows=3 v-model="address.address"></textarea>
+                <textarea name="address" class="form-control" id="address" rows=3 v-model="address.address" @input="handleInput"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="postcode">Post code</label>
-                <input type="text" class="form-control" placeholder="Enter postcode" v-model="address.post_code">
+                <input type="text" class="form-control" placeholder="Enter postcode" v-model="address.post_code" @input="handleInput">
             </div>
 
             <div class="form-group">
                 <label for="town">Town or City</label>
-                <input type="text" class="form-control" placeholder="Enter town" v-model="address.town">
+                <input type="text" class="form-control" placeholder="Enter town" v-model="address.town" @input="handleInput">
             </div>
 
             <div class="form-group">
                 <label for="type_id">Country</label>
-                <countries-component v-model="address.country"></countries-component>
+                <countries-component v-model="address.country_code" @input="handleInput"></countries-component>
             </div>
         </div>
         <div class="card" v-if="!edit">
@@ -56,10 +56,12 @@
     export default {
         name: "AddressComponent",
         props: {
-            address: {
+            value: {
                 type: Object,
                 default() {
-                    return {};
+                    return {
+                        country_code: 'DK'
+                    };
                 }
             },
             edit: {
@@ -68,6 +70,19 @@
                     return false;
                 }
             }
+        },
+        data() {
+            return {
+                address: this.value
+            }
+        },
+        methods: {
+            handleInput() {
+                this.$emit('input', this.address);
+            }
+        },
+        mounted() {
+            this.$emit('input', this.address)
         }
     }
 </script>

@@ -6,6 +6,7 @@
             :label="label"
             :key="reload"
             :options="options"
+            :reduce="option => option.code"
     ></v-select>
 </template>
 
@@ -14,7 +15,7 @@
         name: "CountriesComponent",
         props: {
             value: {
-                type: Object,
+                type: Object|String,
                 default() {
                     return {'code': 'DK', 'name': 'Denmark'}
                 }
@@ -29,7 +30,7 @@
             }
         },
         methods: {
-            fetchCountries() {
+            fetchTypes() {
                 axios.get('/api/countries').then(response => {
                     this.options = response.data;
                     this.reload = new Date().getTime();
@@ -40,7 +41,7 @@
             }
         },
         mounted() {
-            this.fetchCountries();
+            this.fetchTypes();
         }
     }
 </script>

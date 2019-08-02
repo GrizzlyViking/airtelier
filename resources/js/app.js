@@ -23,7 +23,6 @@ window.Vue = require('vue');
 Vue.component('v-select', require('vue-select').default);
 Vue.component('editor-component', require('./components/EditorComponent.vue').default);
 Vue.component('table-component', require('./components/TableComponent.vue').default);
-Vue.component('select-component', require('./components/SelectComponent.vue').default);
 Vue.component('item-list', require('./components/_partials/KeyArrayComponent.vue').default);
 Vue.component('countries-component', require('./components/_partials/CountriesComponent.vue').default);
 Vue.component('type-component', require('./components/_partials/TypeComponent.vue').default);
@@ -69,8 +68,8 @@ const app = new Vue({
     el: '#app',
     methods: {
         redirectFromClick(event) {
-            console.log('this is reached');
             console.log(event);
+            window.location.href = '/offers/'+event.id + '/edit';
         }
     }
 });

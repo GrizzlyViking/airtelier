@@ -4,8 +4,8 @@
             <input type="text"
                    class="input-group-text rounded-right-0 border-right-0"
                    v-model="assoc_key"
+                   ref="assoc"
                    @keyup="updateParent"
-                   @keyup.tab="setFocus"
                    :disabled="!edit"
             >
             <input type="text"
@@ -53,9 +53,6 @@
                 let obj = {};
                 obj[this.assoc_key] = this.obj_value;
                 this.$emit('newValue', obj);
-            },
-            setFocus() {
-                this.$refs.key_value.$el.focus();
             },
             remove() {
                 this.$emit('remove', this.assoc_key);

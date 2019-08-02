@@ -1,5 +1,5 @@
 <template>
-    <vue-editor v-model="content" @input="handleInput"></vue-editor>
+    <vue-editor v-model="content" @input="handleInput" style="background-color: white;"></vue-editor>
 </template>
 
 <script>

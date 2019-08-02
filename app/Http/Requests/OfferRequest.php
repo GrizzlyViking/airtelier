@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 
@@ -27,21 +28,6 @@ class OfferRequest extends FormRequest
                 'meta' => $meta
             ]);
         }
-
-        if (!$this->has('owner_id') && $this->has('owner')) {
-            $this->merge(['owner_id' => Arr::get($this->get('owner'), 'id', 1)]);
-        }
-
-        if (!$this->has('type_id') && $this->has('offer_type')) {
-            $this->merge(['type_id' => Arr::get($this->get('offer_type'), 'id', 1)]);
-        }
-
-        if ($this->has('address') && $address = collect($this->get('address'))) {
-            if(->has('country'));
-            $this->merge(['country_code' => '']);
-        }
-
-        dd();
     }
 
     /**
@@ -52,13 +38,26 @@ class OfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'owner_id'    => 'required|integer|min:1|exists:users,id',
+            'owner_id'    => 'required_without:owner|integer|min:1|exists:users,id',
+            'owner'       => 'required_without:owner_id|array',
+            'type_id'     => 'required_without:offer_type|integer|min:1|exists:offer_types,id',
+            'offer_type'  => 'required_without:type_id|array',
+            'address_id'  => 'required_without_all:address,post_code,country_code|integer|min:1|exists:addresses,id',
+            'address'     => 'required_without:address_id|array',
             'name'        => 'required|regex:/[\w]+/u',
             'description' => 'sometimes',
-            'address'     => 'sometimes',
-            'post_code'    => 'sometimes',
-            'town'        => 'sometimes',
             'meta'        => 'nullable|array',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required_without' => ':attribute is required!',
+            'owner_id.required_without' => 'You must specify an owner',
+            'owner.required_without' => 'You must specify an owner',
+            'type_id.required_without' => 'You must specify which type of offer this is',
+            'offer_type.required_without' => 'You must specify which type of offer this is',
         ];
     }
 }

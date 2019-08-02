@@ -7,17 +7,17 @@ use App\Models\Address;
 use App\Models\Offer;
 use App\Models\OfferType;
 use App\Models\User;
-use http\Client\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use App\Http\Requests\OfferRequest as Request;
 use Exception;
-use Illuminate\Support\Arr;
 
 class OfferController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -28,14 +28,13 @@ class OfferController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
-        $options = User::all();
-        $types = OfferType::all()->map(function(OfferType $type){
+        $types = OfferType::all()->map(function (OfferType $type) {
             return [
-                'id' => $type->id,
+                'id'   => $type->id,
                 'name' => ucwords($type->type),
             ];
         });
@@ -43,46 +42,63 @@ class OfferController extends Controller
     }
 
     /**
-     * @param OfferRequest $request
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function store(OfferRequest $request)
     {
-        $address = Address::create($request->all());
+        if ($request->has('address')) {
+            /** @var Address $address */
+            $address = Address::create($request->get('address'));
+            $request->merge(['address_id' => $address->id]);
+        }
+        /** @var Offer $offer */
+        $offer = Offer::create($request->all());
 
+        if ($request->ajax()) {
+            return response($offer->toArray());
+        }
+
+        return response()->redirectToRoute('offers.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param Offer $offer
+     *
+     * @return Response
      */
     public function show(Offer $offer)
     {
+        $offer->address->load('country');
         return view('offers.show', compact('offer'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Offer  $offer
+     * @param Offer $offer
+     *
      * @return Response
      */
-    public function edit(Offer $offer)
+    public function edit(Offer $offer): Response
     {
-        return view('offers.edit', compact('offer'));
+        return response()->view('offers.edit', compact('offer'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  Offer  $offer
+     * @param Request $request
+     * @param Offer   $offer
+     *
      * @return Response
      */
     public function update(Request $request, Offer $offer)
     {
-        $offer->address()->update(Arr::except($request->get('address'), ['country']));
+        $offer->address()->update($request->get('address'));
         $offer->update($request->except('address', 'owner', 'offer_type'));
 
         return response($offer->toArray());

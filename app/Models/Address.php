@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  *
- * @property string $name
- * @property string $address
- * @property string $post_code
- * @property string $town
- * @property string $country
- * @property array  $geo_location
- * @property array  $meta
+ * @property integer $id
+ * @property string  $name
+ * @property string  $address
+ * @property string  $post_code
+ * @property string  $town
+ * @property string  $country
+ * @property array   $geo_location
+ * @property array   $meta
  */
 class Address extends Model
 {
@@ -24,7 +25,7 @@ class Address extends Model
         'address',
         'post_code',
         'town',
-        'country',
+        'country_code',
         'geo_location',
         'meta',
     ];
@@ -38,8 +39,6 @@ class Address extends Model
         'created_at',
         'updated_at',
     ];
-
-    protected $with = ['country'];
 
     public function country()
     {

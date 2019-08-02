@@ -1,22 +1,50 @@
 <template>
-    <select-component v-model="selected" :key="reload" :options="options" input_name="type_id" label="type" @input="handleInput"></select-component>
+    <div>
+        <v-select
+            v-model="selected"
+            style="background-color: white;"
+            @input="handleInput"
+            :label="label"
+            :key="reload"
+            :options="options"
+            :reduce="option => option.id"
+            required
+        ></v-select>
+        <span v-if="showErrors" class="is-invalid">{{ errors.message.join(', ') }}.</span>
+    </div>
 </template>
 
 <script>
     export default {
         name: "TypeComponent",
-        props: ['value'],
+        props: {
+            value: {
+                type: Number
+            },
+            errors: {
+                type: Object,
+                default() {
+                    return {}
+                }
+            }
+        },
         data() {
             return {
+                label: 'type',
                 selected: this.value,
-                'options': [],
-                'reload': false
+                options: [],
+                reload: false
             }
         },
         methods: {
-            fetchCountries() {
+            fetchTypes() {
                 axios.get('/api/types').then(response => {
-                    this.options = response.data;
+                    this.$emit('types', response.data);
+                    this.options = response.data.map(option => {
+                        option.type = _.startCase(_.toLower(option.type));
+
+                        return option;
+                    });
                     this.reload = true;
                 });
             },
@@ -24,8 +52,19 @@
                 this.$emit('input', this.selected);
             }
         },
+        computed: {
+            showErrors() {
+                return this.errors.message !== undefined
+            }
+        },
         mounted() {
-            this.fetchCountries();
+            this.fetchTypes();
         }
     }
 </script>
+
+<style>
+    .is-invalid {
+        color: red;
+    }
+</style>

@@ -41,7 +41,7 @@
         },
         data() {
             return {
-                meta_data: this.value
+                meta_data: this.castAsArray(this.value)
             }
         },
         filters: {
@@ -71,7 +71,14 @@
                 this.meta_data.push({});
             },
             changeRow(event, row) {
-                console.log(event, row);
+                this.meta_data[row] = event;
+                this.$emit('input', this.meta_data);
+            },
+            castAsArray(value) {
+                if (! Array.isArray(value)) {
+                    return [value];
+                }
+                return value;
             }
         }
     }
