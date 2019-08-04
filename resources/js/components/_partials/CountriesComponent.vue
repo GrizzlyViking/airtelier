@@ -1,5 +1,7 @@
 <template>
-    <v-select
+    <div>
+        <v-select
+            v-if="edit"
             v-model="selected"
             style="background-color: white;"
             @input="handleInput"
@@ -7,7 +9,9 @@
             :key="reload"
             :options="options"
             :reduce="option => option.code"
-    ></v-select>
+        ></v-select>
+        <input v-if="!edit" readonly class="form-control" v-model="countryName">
+    </div>
 </template>
 
 <script>
@@ -18,6 +22,12 @@
                 type: Object|String,
                 default() {
                     return {'code': 'DK', 'name': 'Denmark'}
+                }
+            },
+            edit: {
+                type: Boolean,
+                default() {
+                    return false;
                 }
             }
         },
@@ -38,6 +48,13 @@
             },
             handleInput() {
                 this.$emit('input', this.selected);
+            }
+        },
+        computed: {
+            countryName() {
+                if (this.selected && this.options.length > 0) {
+                    return _.find(this.options, option => { return this.selected === option.code; }).name;
+                }
             }
         },
         mounted() {

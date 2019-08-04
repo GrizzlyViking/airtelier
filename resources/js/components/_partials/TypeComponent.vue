@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-select
+            v-if="edit"
             v-model="selected"
             style="background-color: white;"
             @input="handleInput"
@@ -10,6 +11,7 @@
             :reduce="option => option.id"
             required
         ></v-select>
+        <input v-if="!edit" readonly v-model="showType" class="form-control">
         <span v-if="showErrors" class="is-invalid">{{ errors.message.join(', ') }}.</span>
     </div>
 </template>
@@ -25,6 +27,12 @@
                 type: Object,
                 default() {
                     return {}
+                }
+            },
+            edit: {
+                type: Boolean,
+                default() {
+                    return false;
                 }
             }
         },
@@ -55,6 +63,15 @@
         computed: {
             showErrors() {
                 return this.errors.message !== undefined
+            },
+            showType() {
+                if (this.selected && this.options.length > 0) {
+                    return _.find(this.options, option => {
+                        return option.id === this.selected;
+                    }).type;
+                }
+
+                return 'Type';
             }
         },
         mounted() {

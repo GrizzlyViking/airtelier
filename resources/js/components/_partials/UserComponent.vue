@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-select
+            v-if="edit"
             v-model="selected"
             style="background-color: white;"
             :class="{'is-invalid': true}"
@@ -10,6 +11,7 @@
             :options="options"
             :reduce="option => option.id"
         ></v-select>
+        <input v-if="!edit" type="text" readonly class="form-control" v-model="ownerFullName">
         <span v-if="showErrors" class="is-invalid">{{ errors.message.join(', ') }}.</span>
     </div>
 </template>
@@ -18,6 +20,10 @@
     export default {
         name: "UserComponent",
         props: {
+            edit: {
+              type: Boolean,
+              default: false
+            },
             value: {
                 type: Number,
                 default: null
@@ -54,8 +60,21 @@
             }
         },
         computed: {
-            showErrors() {
-                return this.errors.message !== undefined
+            showErrors: {
+                get() {
+                    return this.errors.message !== undefined
+                },
+                set(value) {
+                    this.errors.message = value;
+                }
+            },
+            ownerFullName() {
+                if (this.selected && this.options.length > 0) {
+                    return _.find(this.options, option => {
+                        return option.id === this.selected;
+                    }).name;
+                }
+                return '';
             }
         },
         mounted() {
