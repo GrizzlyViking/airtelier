@@ -1952,8 +1952,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'skill',
+  name: 'offer',
   props: {
     initial: {
       type: Object,
@@ -2040,7 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     isValid: function isValid() {
-      return this.offer !== undefined && this.offer.name !== undefined && this.offer.name.length > 2;
+      return this.offer !== undefined && this.offer.title !== undefined && this.offer.title.length > 2;
     },
     type_name: function type_name() {
       if (this.types[this.offer.type_id - 1] === undefined) {
@@ -63927,8 +63931,8 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "name", attrs: { for: "name" } }, [
-            _vm._v("Name")
+          _c("label", { staticClass: "title", attrs: { for: "title" } }, [
+            _vm._v("Title")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -63936,24 +63940,24 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.offer.name,
-                expression: "offer.name"
+                value: _vm.offer.title,
+                expression: "offer.title"
               }
             ],
             class: { "is-invalid": !_vm.isValid, "form-control": true },
             attrs: {
-              id: "name",
+              id: "title",
               type: "text",
               readonly: !_vm.edit,
-              placeholder: "Enter name"
+              placeholder: "Enter title"
             },
-            domProps: { value: _vm.offer.name },
+            domProps: { value: _vm.offer.title },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.offer, "name", $event.target.value)
+                _vm.$set(_vm.offer, "title", $event.target.value)
               }
             }
           }),
@@ -63961,6 +63965,37 @@ var render = function() {
           _c("div", { staticClass: "invalid-feedback" }, [
             _vm._v("You must provide a title.")
           ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "sub_title" } }, [_vm._v("Sub Title")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.offer.sub_title,
+                expression: "offer.sub_title"
+              }
+            ],
+            class: { "form-control": true },
+            attrs: {
+              id: "sub_title",
+              type: "text",
+              readonly: !_vm.edit,
+              placeholder: "Enter sub title"
+            },
+            domProps: { value: _vm.offer.sub_title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.offer, "sub_title", $event.target.value)
+              }
+            }
+          })
         ]),
         _vm._v(" "),
         _c(

@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  *
  * @property integer   $id
  * @property integer   $owner_id
- * @property string    $name
+ * @property string    $title
+ * @property string    $sub_title
  * @property integer   $address_id
  * @property string    $description
  * @property array     $meta
@@ -34,7 +35,8 @@ class Offer extends Model
 
     protected $fillable = [
         'owner_id',
-        'name',
+        'title',
+        'sub_title',
         'address_id',
         'description',
         'geo_location',

@@ -12,15 +12,19 @@
             </div>
 
             <div class="form-group">
-                <label for="name" class="name">Name</label>
-                <input id="name" type="text" :readonly="!edit" :class="{'is-invalid': !isValid, 'form-control': true}" placeholder="Enter name" v-model="offer.name">
+                <label for="title" class="title">Title</label>
+                <input id="title" type="text" :readonly="!edit" :class="{'is-invalid': !isValid, 'form-control': true}" placeholder="Enter title" v-model="offer.title">
                 <div class="invalid-feedback">You must provide a title.</div>
             </div>
 
             <div class="form-group">
+                <label for="sub_title">Sub Title</label>
+                <input id="sub_title" type="text" :readonly="!edit" :class="{'form-control': true}" placeholder="Enter sub title" v-model="offer.sub_title">
+            </div>
+
+            <div class="form-group">
                 <label for="description">Description</label>
-                <editor-component id="description" rows="5"
-                                  v-model="offer.description" :edit="edit"></editor-component>
+                <editor-component id="description" rows="5" v-model="offer.description" :edit="edit"></editor-component>
             </div>
         </div>
 
@@ -39,7 +43,7 @@
 
 <script>
     export default {
-        name: 'skill',
+        name: 'offer',
         props: {
             initial: {
                 type: Object,
@@ -128,7 +132,7 @@
         },
         computed: {
             isValid() {
-                return this.offer !== undefined && this.offer.name !== undefined && this.offer.name.length > 2;
+                return this.offer !== undefined && this.offer.title !== undefined && this.offer.title.length > 2;
             },
             type_name() {
                 if (this.types[this.offer.type_id - 1] === undefined) {
