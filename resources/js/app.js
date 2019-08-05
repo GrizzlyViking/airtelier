@@ -9,6 +9,10 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/index.css';
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -19,6 +23,8 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+Vue.use(require('vue-moment'));
+Vue.use(VueToast);
 
 Vue.component('v-select', require('vue-select').default);
 Vue.component('editor-component', require('./components/EditorComponent.vue').default);
@@ -32,13 +38,12 @@ Vue.component('address-component', require('./components/_partials/AddressCompon
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
 
-Vue.component('skill', require('./components/Offers/SkillComponent.vue').default);
-Vue.component('resource', require('./components/Offers/ResourceComponent.vue').default);
-Vue.component('location', require('./components/Offers/LocationComponent.vue').default);
+Vue.component('offer', require('./components/Offers/OfferComponent.vue').default);
 
 Vue.filter('capitalize', (string) => {
     return _.startCase(_.toLower(string));
 });
+
 
 /**
  * Authentication via Laravel passport

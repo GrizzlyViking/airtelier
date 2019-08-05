@@ -71,7 +71,16 @@
                         window.location.href = '/offers/' + this.offer.id;
                     })
                     .catch(error => {
-                        console.log(error);
+                        if (error.response.status === 403) {
+                            Vue.$toast.open({
+                                message: error.response.data.message,
+                                type: 'error',
+                            });
+
+                            this.offer = this.initial;
+
+                            this.readOnlyMode();
+                        }
                     })
             },
             createOffer(){
@@ -81,7 +90,6 @@
                         this.storage_action = 'update';
                     })
                     .catch(error => {
-                        console.log('error');
                         this.errors = _.map(error.response.data.errors, (value, assoc) => {
                             return {
                                 field: assoc,
@@ -99,9 +107,10 @@
                     this.updateOffer();
                 } else if (this.storage_action === 'create') {
                     this.createOffer();
-                }
+                } else {
 
-                console.log('something weird is going on: ' + this.storage_action );
+                    console.log('something weird is going on: ' + this.storage_action );
+                }
             },
             setTypes(types) {
                 this.types = types;
@@ -109,6 +118,12 @@
             editMode() {
                 this.edit = true;
                 this.storage_action = 'update';
+                window.history.pushState("object or string", "Title", '/offers/'+this.offer.id+'/edit');
+            },
+            readOnlyMode() {
+                this.edit = false;
+                this.storage_action = 'show';
+                window.history.pushState("object or string", "Title", '/offers/'+this.offer.id);
             }
         },
         computed: {
@@ -125,7 +140,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

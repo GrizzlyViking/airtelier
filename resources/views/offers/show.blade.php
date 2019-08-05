@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        <skill :initial="{{ $offer }}" action="show"></skill>
+        <offer :initial="{{ $offer }}" action="show"></offer>
     </div>
 @endsection
