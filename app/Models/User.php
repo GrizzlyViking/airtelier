@@ -23,12 +23,18 @@ use Laravel\Passport\HasApiTokens;
  * @property string $phone
  * @property Address $address
  * @property Offer[] $offers
+ * @property integer $access_level
  * @property Carbon $updated_at
  * @property Carbon $created_at
  */
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
+
+    /** @var int */
+    const ADMIN_LEVEL = 1;
+    /** @var int */
+    const USER_LEVEL = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -65,5 +71,13 @@ class User extends Authenticatable
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class, 'owner_id');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->access_level >= self::ADMIN_LEVEL;
     }
 }

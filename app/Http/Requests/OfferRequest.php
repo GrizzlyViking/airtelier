@@ -44,7 +44,8 @@ class OfferRequest extends FormRequest
             'offer_type'  => 'required_without:type_id|array',
             'address_id'  => 'required_without_all:address,post_code,country_code|integer|min:1|exists:addresses,id',
             'address'     => 'required_without:address_id|array',
-            'name'        => 'required|regex:/[\w]+/u',
+            'title'       => 'required|regex:/[\w]+/u',
+            'sub_title'   => 'nullable|regex:/[\w]+/u',
             'description' => 'sometimes',
             'meta'        => 'nullable|array',
         ];

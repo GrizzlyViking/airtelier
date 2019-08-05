@@ -53,7 +53,7 @@ class OfferPolicy
      */
     public function update(User $user, Offer $offer): bool
     {
-        return $offer->owner->id === $user->id;
+        return $offer->owner->id === $user->id || $user->isAdmin();
     }
 
     /**
@@ -65,7 +65,7 @@ class OfferPolicy
      */
     public function delete(User $user, Offer $offer)
     {
-        return $offer->owner->id === $user->id;
+        return $offer->owner->id === $user->id || $user->isAdmin();
     }
 
     /**
@@ -89,6 +89,6 @@ class OfferPolicy
      */
     public function forceDelete(User $user, Offer $offer)
     {
-        return $offer->owner->id === $user->id;
+        return $offer->owner->id === $user->id || $user->isAdmin();
     }
 }
