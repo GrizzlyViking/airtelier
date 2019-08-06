@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Article
+ *
  * @package App\Models
  *
- * @property int $id
+ * @property int    $id
+ * @property int    $author_id
  * @property string $title
  * @property string $sub_title
  * @property string $resume
@@ -32,6 +34,7 @@ class Article extends Model
     ];
 
     protected $fillable = [
+        'author_id',
         'title',
         'sub_title',
         'resume',

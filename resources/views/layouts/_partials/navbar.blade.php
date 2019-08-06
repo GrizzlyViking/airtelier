@@ -28,15 +28,29 @@
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ __('Offers') }} <span class="caret"></span>
+                            {{ __('Elements') }} <span class="caret"></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('offers.index') }}">
-                                {{ __('List') }}
+                                {{ __('List of offers') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('offers.create') }}">
-                                {{ __('Create') }}
+                                {{ __('Create an offer') }}
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('articles.index') }}">
+                                {{ __('List of articles') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('articles.create') }}">
+                                {{ __('Create an article') }}
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('articles.index') }}">
+                                {{ __('List of messa') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('articles.create') }}">
+                                {{ __('Create an article') }}
                             </a>
                         </div>
                     </li>
