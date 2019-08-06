@@ -38,8 +38,16 @@
                             <a class="dropdown-item" href="{{ route('offers.create') }}">
                                 {{ __('Create an offer') }}
                             </a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('articles.index') }}">
                                 {{ __('List of articles') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('articles.create') }}">
+                                {{ __('Create an article') }}
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('articles.index') }}">
+                                {{ __('List of messa') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('articles.create') }}">
                                 {{ __('Create an article') }}
