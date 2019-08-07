@@ -42,6 +42,7 @@ Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').de
 
 Vue.component('offer', require('./components/Offers/OfferComponent.vue').default);
 Vue.component('article-component', require('./components/elements/ArticleComponent.vue').default);
+Vue.component('message-component', require('./components/elements/MessageComponent.vue').default);
 
 Vue.filter('capitalize', (string) => {
     return _.startCase(_.toLower(string));

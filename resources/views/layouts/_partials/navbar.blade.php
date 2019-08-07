@@ -46,11 +46,11 @@
                                 {{ __('Create an article') }}
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ route('articles.index') }}">
-                                {{ __('List of messa') }}
+                            <a class="dropdown-item" href="{{ route('messages.index') }}">
+                                {{ __('List of messages') }}
                             </a>
-                            <a class="dropdown-item" href="{{ route('articles.create') }}">
-                                {{ __('Create an article') }}
+                            <a class="dropdown-item" href="{{ route('messages.create') }}">
+                                {{ __('Create an messages') }}
                             </a>
                         </div>
                     </li>
