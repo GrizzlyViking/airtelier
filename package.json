@@ -32,6 +32,7 @@
     "vue-moment": "^4.0.0",
     "vue-select": "^3.1.0",
     "vue-simple-spinner": "^1.2.8",
+    "vue-star-rating": "^1.6.1",
     "vue-toast-notification": "0.0.2",
     "vue2-editor": "^2.9.1",
     "vuejs-datepicker": "^1.6.2"

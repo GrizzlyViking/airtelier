@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $author_id
- * @property Location|Resource|Service|Event $reviewed
- * @property float $review
+ * @property Offer $reviewed
+ * @property float $rating
  * @property string $description
  * @property Carbon $updated_at
  * @property Carbon $created_at
@@ -25,9 +25,14 @@ class Review extends Model
 
     protected $fillable = [
         'author_id',
-        'reviewed',
-        'review',
+        'reviewed_type',
+        'reviewed_id',
+        'rating',
         'description'
+    ];
+
+    protected $casts = [
+        'rating' => 'float'
     ];
 
     public function author()

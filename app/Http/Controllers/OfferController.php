@@ -13,10 +13,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use App\Http\Requests\OfferRequest as Request;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller
 {
+    private static $relationships = [
+        'type' => [
+            'relationship' => 'offerType',
+            'column' => 'type'
+        ]
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +31,20 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offers = Offer::with('address')->get();
-        return view('offers.index')->with(compact('offers'));
+        $offers = Offer::with('address');
+        if (count($query = request()->query()) > 0) {
+            foreach ($query as $key => $value) {
+                $offers->whereHas(Arr::get(self::$relationships,"$key.relationship"), function ($query) use ($key, $value) {
+                    $query->where(Arr::get(self::$relationships,"$key.column"), 'like', $value);
+                });
+            }
+        }
+        $offers = $offers->get();
+
+        if (request()->ajax()) {
+            return response($offers);
+        }
+        return response()->view('offers.index')->with(compact('offers'));
     }
 
     /**

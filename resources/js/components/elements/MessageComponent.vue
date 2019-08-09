@@ -78,14 +78,14 @@
 
                 return this.errors.length === 0;
             },
-            updateMessage() {
+            updateReview() {
                 axios.patch('/messages/' + this.message.id, this.message)
                     .then(response => {
                         console.log(response.data);
                     })
                     .catch(error => { console.log(error.response.data)})
             },
-            createMessage() {
+            createReview() {
                 axios.post('/messages', this.message)
                     .then(response => {
                         console.log(response.data);
@@ -101,12 +101,12 @@
                 if (!this.validate()) {
                     return false;
                 } else if (this.storage_action === 'create') {
-                    this.createMessage();
+                    this.createReview();
                     let timer = setTimeout(() => {
                         window.location.href = '/messages'
                     }, 3000);
                 } else if (this.storage_action === 'update') {
-                    this.updateMessage();
+                    this.updateReview();
                 } else if (this.storage_action === 'show') {
                     this.updateMode()
                 }

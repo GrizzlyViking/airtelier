@@ -40,7 +40,7 @@
                 selected: this.value,
                 label: "name",
                 options: [],
-                reload: false
+                reload: false,
             }
         },
         methods: {
