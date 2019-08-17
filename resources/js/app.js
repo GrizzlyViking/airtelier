@@ -32,11 +32,13 @@ Vue.component('v-select', require('vue-select').default);
 Vue.component('editor-component', require('./components/EditorComponent.vue').default);
 Vue.component('table-component', require('./components/TableComponent.vue').default);
 Vue.component('item-list', require('./components/_partials/KeyArrayComponent.vue').default);
+Vue.component('input-group-dropdown', require('./components/_partials/InputGroupDropdownComponent.vue').default);
 Vue.component('countries-component', require('./components/_partials/CountriesComponent.vue').default);
 Vue.component('type-component', require('./components/_partials/TypeComponent.vue').default);
 Vue.component('user-component', require('./components/_partials/UserComponent.vue').default);
 Vue.component('address-component', require('./components/_partials/AddressComponent.vue').default);
 Vue.component('date-time-component', require('./components/_partials/DateTimePickerComponent.vue').default);
+Vue.component('scheduling-component', require('./components/_partials/SchedulingComponent').default);
 
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
@@ -45,6 +47,7 @@ Vue.component('offer', require('./components/Offers/OfferComponent.vue').default
 Vue.component('article-component', require('./components/elements/ArticleComponent.vue').default);
 Vue.component('message-component', require('./components/elements/MessageComponent.vue').default);
 Vue.component('review-component', require('./components/elements/ReviewComponent.vue').default);
+Vue.component('event-component', require('./components/elements/EventComponent.vue').default);
 
 Vue.filter('capitalize', (string) => {
     return _.startCase(_.toLower(string));

@@ -3,83 +3,100 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest as Request;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Exception;
 
 class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-        //
+        $events = Event::all();
+        return response()->view('events.index', compact('events'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        //
+        return response()->view('events.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Request $request
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $event = Event::create($request->validated());
+
+        if ($request->ajax()) {
+            response($event);
+        }
+
+        return response()->redirectToRoute('events.show', $event->id);
     }
 
     /**
-     * Display the specified resource.
+     * @param Event $event
      *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function show(Event $event)
     {
-        //
+        if (request()->ajax()) {
+            return response($event);
+        }
+
+        return response()->view('events.show', compact('event'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * @param Event $event
      *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Event $event)
     {
-        //
+        return response()->view('events.edit', compact('event'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param Request $request
+     * @param Event   $event
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return ResponseFactory|RedirectResponse|Response
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $event->update($request->validated());
+
+        if ($request->ajax()) {
+            return response($event);
+        }
+
+        return response()->redirectToRoute('events.show', $event->id);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Event $event
      *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return response()->redirectToRoute('events.index');
     }
 }

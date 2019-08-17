@@ -59,6 +59,13 @@
                             <a class="dropdown-item" href="{{ route('reviews.create') }}">
                                 {{ __('Create an review') }}
                             </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('events.index') }}">
+                                {{ __('List of events') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('events.create') }}">
+                                {{ __('Create an event') }}
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

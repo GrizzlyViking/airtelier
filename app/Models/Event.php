@@ -9,24 +9,32 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Class Event
+ *
  * @package App\Models
  *
- * @property int $id
- * @property string $name
- * @property Carbon $start
- * @property Carbon $end
+ * @property int    $id
+ * @property string $title
+ * @property string $sub_title
+ * @property array  $frequency
+ * @property string $owner_id
+ * @property string $description
+ * @property array  $meta
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Event extends Model
 {
-    protected $dates = [
-        'start',
-        'end'
+    protected $casts = [
+        'meta'      => 'array',
+        'frequency' => 'array',
     ];
 
     protected $fillable = [
-        'name',
-        'start',
-        'end',
+        'title',
+        'sub_title',
+        'description',
+        'frequency',
+        'meta',
     ];
 
     public function owner(): BelongsTo
