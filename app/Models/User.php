@@ -3,29 +3,32 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
 /**
  * Class User
+ *
  * @package App\Models
  *
- * @property integer $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string $phone
- * @property Address $address
- * @property Offer[] $offers
- * @property integer $access_level
- * @property Carbon $updated_at
- * @property Carbon $created_at
+ * @property integer    $id
+ * @property string     $name
+ * @property string     $email
+ * @property string     $password
+ * @property string     $phone
+ * @property Collection $address
+ * @property Collection $offers
+ * @property integer    $access_level
+ * @property Carbon     $updated_at
+ * @property Carbon     $created_at
  */
 class User extends Authenticatable
 {
@@ -42,7 +45,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -51,7 +56,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -63,14 +69,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function address()
+    public function addresses(): Relation
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsToMany(Address::class);
     }
 
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class, 'owner_id');
+    }
+
+    public function delete()
+    {
+        $this->addresses()->each(function (Address $address) {
+            $address->delete();
+        });
+        return parent::delete();
     }
 
     /**

@@ -25,6 +25,16 @@ import 'vue-toast-notification/dist/index.css';
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.use(require('vue-moment'));
 Vue.use(VueToast);
+Vue.directive('scroll', {
+    inserted: function (el, binding) {
+        let f = function (evt) {
+            if (binding.value(evt, el)) {
+                window.removeEventListener('scroll', f)
+            }
+        };
+        window.addEventListener('scroll', f)
+    }
+});
 
 Vue.component('star-rating', require('vue-star-rating').default);
 Vue.component('v-datepicker', require('vuejs-datepicker').default);
@@ -48,6 +58,10 @@ Vue.component('article-component', require('./components/elements/ArticleCompone
 Vue.component('message-component', require('./components/elements/MessageComponent.vue').default);
 Vue.component('review-component', require('./components/elements/ReviewComponent.vue').default);
 Vue.component('event-component', require('./components/elements/EventComponent.vue').default);
+
+Vue.component('banner-image', require('./components/layout/BannerImageComponent.vue').default);
+Vue.component('header-component', require('./components/bootstrap/HeaderComponent.vue').default);
+Vue.component('footer-component', require('./components/layout/Footer.vue').default);
 
 Vue.filter('capitalize', (string) => {
     return _.startCase(_.toLower(string));

@@ -30,6 +30,7 @@ class Event extends Model
     ];
 
     protected $fillable = [
+        'owner_id',
         'title',
         'sub_title',
         'description',
@@ -45,5 +46,14 @@ class Event extends Model
     public function reviews(): MorphMany
     {
         return $this->morphMany(Review::class, 'reviewed');
+    }
+
+    public function articles()
+    {
+        return $this->morphToMany(
+            Article::class,
+            'element',
+            'articles_elements'
+        );
     }
 }

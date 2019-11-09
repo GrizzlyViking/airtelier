@@ -54,6 +54,8 @@
             countryName() {
                 if (this.selected && this.options.length > 0) {
                     return _.find(this.options, option => { return this.selected === option.code; }).name;
+                } else {
+                    return this.selected.name;
                 }
             }
         },

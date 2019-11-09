@@ -47,6 +47,7 @@
         methods: {
             fetchTypes() {
                 axios.get('/api/types').then(response => {
+                    console.log(response.data);
                     this.$emit('types', response.data);
                     this.options = response.data.map(option => {
                         option.type = _.startCase(_.toLower(option.type));

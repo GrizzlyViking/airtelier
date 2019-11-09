@@ -1,0 +1,57 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,600,800i&display=swap&subset=latin-ext');
+
+// Variables
+@import 'frontend_variables';
+
+.nav {
+    font-size: 1.4em;
+}
+
+.bg-dark-transparent {
+    color: rgba(248, 249, 250, 0.65) !important;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(52, 58, 64, 0.9);
+    h5 {
+        font-weight: 600;
+    }
+    a {
+        color: #00a400;
+    }
+    a:hover {
+        color: green;
+        text-shadow: 2px 2px rgba(0, 0, 0, 0.6);
+        text-decoration: none;
+    }
+}
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.card, .btn, .form-control {
+    border-radius: 0.1rem;
+}
+
+.btn {
+    border-width: 2px;
+}
+
+.card-header {
+    background-color: unset;
+    border-bottom: none;
+    padding-bottom: unset;
+}
+
+label {
+    text-transform: uppercase;
+    margin-bottom: unset;
+}
+
+.btn-outline-grey {
+    color: #ced4da;
+    border-color: #ced4da;
+}
+
+// Vue Select
+@import "~vue-select/src/scss/vue-select";

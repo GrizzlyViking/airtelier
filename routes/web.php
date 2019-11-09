@@ -11,26 +11,38 @@
 |
 */
 
-Route::get('/', function() {
-    return response()->redirectToRoute('home');
+// frontend
+Route::name('frontend.')->group(function () {
+    Route::get('/{offer_type}/{offer}',['uses' => 'OfferController@show','as' => 'offer.show']);
+
+    Route::get('/', ['uses' => 'PagesController@landing', 'as' => 'landing_page']);
+    Route::get('/register', ['uses' => 'PagesController@register', 'as' => 'register']);
 });
 
-Route::resource('events', 'EventController');
-Route::resource('offers', 'OfferController');
-Route::resource('users', 'UserController');
+Route::redirect('/offers', '/admin/offers');
+Route::redirect('/articles', '/admin/articles');
+Route::redirect('/reviews', '/admin/reviews');
+Route::redirect('/events', '/admin/events');
+Route::redirect('/users', '/admin/users');
 
-Route::get('oauth2', ['uses' => 'Auth\OauthController@setUpClient', 'as' => 'oauth2']);
+Route::prefix('admin')->group(function () {
+    Auth::routes();
+    Route::middleware('auth')->group(function () {
+        Route::resource('articles', 'ArticleController');
+        Route::resource('messages', 'MessageController');
+        Route::resource('reviews', 'ReviewController');
 
-Route::resource('articles', 'ArticleController');
-Route::resource('messages', 'MessageController');
-Route::resource('reviews', 'ReviewController');
+        Route::resource('events', 'EventController');
+        Route::resource('offers', 'OfferController');
+        Route::resource('users', 'UserController');
 
-Route::post('images', [
-    'uses' => 'ImageController@upload',
-    'as' => 'image.upload'
-]);
+        Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('oauth2', ['uses' => 'Auth\OauthController@setUpClient', 'as' => 'oauth2']);
 
-
+        Route::post('images', [
+            'uses' => 'ImageController@upload',
+            'as'   => 'image.upload'
+        ]);
+    });
+});

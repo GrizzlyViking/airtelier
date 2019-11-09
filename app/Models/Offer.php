@@ -2,35 +2,41 @@
 
 namespace App\Models;
 
+use App\Traits\SlugTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Offer
  *
  * @package App\Models
  *
- * @property integer   $id
- * @property integer   $owner_id
- * @property string    $title
- * @property string    $sub_title
- * @property integer   $address_id
- * @property string    $description
- * @property array     $meta
- * @property Address   $address
- * @property User      $owner
- * @property Carbon    $created_at
- * @property Carbon    $updated_at
- * @property OfferType $type
+ * @property integer    $id
+ * @property string     $slug
+ * @property integer    $author_id
+ * @property string     $title
+ * @property string     $sub_title
+ * @property string     $description
+ * @property array      $meta
+ * @property Collection $addresses
+ * @property Collection $reviews
+ * @property User       $author
+ * @property Carbon     $created_at
+ * @property Carbon     $updated_at
+ * @property OfferType  $type
  */
 class Offer extends Model
 {
-    protected $with = ['address'];
+    use SlugTrait;
+
+    protected $with = ['addresses'];
 
     protected $casts = [
-        'meta' => 'array',
-        'geo_location',
+        'meta'         => 'array',
+        'geo_location' => 'array',
     ];
 
     protected $fillable = [
@@ -42,10 +48,10 @@ class Offer extends Model
         'geo_location',
         'meta',
         'type_id',
+        'slug',
     ];
 
     protected $hidden = [
-        'address_id',
         'deleted_at',
         'updated_at',
     ];
@@ -60,14 +66,18 @@ class Offer extends Model
         return $this->owner->name;
     }
 
-    public function owner(): Relation
+    public function author(): Relation
     {
         return $this->belongsTo(User::class);
     }
 
-    public function address(): Relation
+    public function addresses(): Relation
     {
-        return $this->belongsTo(Address::class);
+        return $this->morphToMany(
+            Address::class,
+            'addressable',
+            'addressables'
+        );
     }
 
     public function offerType(): Relation
@@ -81,5 +91,19 @@ class Offer extends Model
             return 'unknown';
         }
         return $this->offerType()->first()->type;
+    }
+
+    public function articles()
+    {
+        return $this->morphToMany(
+            Article::class,
+            'element',
+            'articles_elements'
+        );
+    }
+
+    public function reviews(): Relation
+    {
+        return $this->morphMany(Review::class, 'reviewed');
     }
 }

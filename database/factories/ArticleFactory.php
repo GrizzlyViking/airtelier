@@ -8,11 +8,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Article::class, function (Faker $faker) {
     return [
-        'author_id' => factory(User::class),
-        'title' => $faker->title,
-        'sub_title' => $faker->title,
+        'title' => implode(' ', $faker->words),
+        'author_id' => factory(User::class)->create(),
+        'sub_title' => $faker->text,
         'resume' => $faker->text,
-        'content' => $faker->randomHtml(),
+        'content' => implode(PHP_EOL.PHP_EOL, $faker->paragraphs(5)),
         'publish' => $faker->dateTime,
         'un_publish' => $faker->dateTime
     ];

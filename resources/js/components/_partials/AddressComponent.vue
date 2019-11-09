@@ -18,7 +18,7 @@
 
             <div class="form-group">
                 <label for="type_id">Country</label>
-                <countries-component v-model="address.country_code" @input="handleInput" :edit="edit"></countries-component>
+                <countries-component v-model="address.country" @input="handleInput" :edit="edit"></countries-component>
             </div>
         </div>
     </div>
