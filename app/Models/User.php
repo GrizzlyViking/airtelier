@@ -24,74 +24,76 @@ use Laravel\Passport\HasApiTokens;
  * @property string     $email
  * @property string     $password
  * @property string     $phone
- * @property Collection $address
+ * @property Collection $addresses
  * @property Collection $offers
+ * @property Collection $events
  * @property integer    $access_level
  * @property Carbon     $updated_at
  * @property Carbon     $created_at
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+	use Notifiable, HasApiTokens;
 
-    /** @var int */
-    const ADMIN_LEVEL = 1;
-    /** @var int */
-    const USER_LEVEL = 3;
+	/** @var int */
+	const ADMIN_LEVEL = 1;
+	/** @var int */
+	const USER_LEVEL = 3;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'name',
+		'email',
+		'password',
+	];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+	/**
+	 * The attributes that should be hidden for arrays.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'password',
+		'remember_token',
+	];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+	/**
+	 * The attributes that should be cast to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'email_verified_at' => 'datetime',
+	];
 
-    public function addresses(): Relation
-    {
-        return $this->belongsToMany(Address::class);
-    }
+	public function addresses(): Relation
+	{
+		return $this->morphToMany(
+			Address::class,
+			'addressable',
+			'addressables'
+		);
+	}
 
-    public function offers(): HasMany
-    {
-        return $this->hasMany(Offer::class, 'owner_id');
-    }
+	public function offers(): HasMany
+	{
+		return $this->hasMany(Offer::class, 'owner_id');
+	}
 
-    public function delete()
-    {
-        $this->addresses()->each(function (Address $address) {
-            $address->delete();
-        });
-        return parent::delete();
-    }
+	public function events(): Relation
+	{
+		return $this->hasMany(Event::class, 'owner_id');
+	}
 
-    /**
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        return $this->access_level >= self::ADMIN_LEVEL;
-    }
+	/**
+	 * @return bool
+	 */
+	public function isAdmin(): bool
+	{
+		return $this->access_level >= self::ADMIN_LEVEL;
+	}
 }

@@ -37,11 +37,11 @@ class MoveOutAddressesToPivotTables extends Migration
     {
         Schema::dropIfExists('addressables');
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('address_id');
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
         });
         Schema::table('offers', function (Blueprint $table) {
-            $table->unsignedBigInteger('address_id');
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
         });
     }

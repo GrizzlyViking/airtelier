@@ -68,7 +68,7 @@ class Offer extends Model
 
     public function author(): Relation
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function addresses(): Relation
