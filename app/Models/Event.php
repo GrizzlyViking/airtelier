@@ -66,7 +66,7 @@ class Event extends Model
 		return $this->morphToMany(
 			Article::class,
 			'element',
-			'articles_elements'
+			'elements'
 		);
 	}
 }

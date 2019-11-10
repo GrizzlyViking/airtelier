@@ -19,7 +19,7 @@ class CreateAddressesTable extends Migration
 			$table->string('address')->nullable(true);
 			$table->string('post_code', 50)->nullable(true);
 			$table->string('town', 100)->nullable(true);
-			$table->char('country', 2)->default('dk');
+            $table->char('country_code', 2)->default('dk');
 			$table->jsonb('geo_location')->nullable(true);
 			$table->jsonb('meta')->nullable();
 			$table->timestamps();

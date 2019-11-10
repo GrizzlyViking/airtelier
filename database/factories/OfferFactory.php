@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 $factory->define(Offer::class, function (Faker $faker) {
 	return [
 		'title'       => implode(' ', $faker->words),
+		'slug'       => $faker->slug,
 		'description' => $faker->text(),
 		'meta'        => [
 			$faker->word => $faker->text

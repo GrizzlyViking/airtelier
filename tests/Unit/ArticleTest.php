@@ -20,9 +20,11 @@ class ArticleTest extends TestCase
         /** @var Article $article */
         $article = factory(Article::class)->create();
 
-        dd($article->offers);
-
-        $this->assertTrue(true);
+        $this->assertTrue($article instanceof Article);
+        $this->assertDatabaseHas('articles', [
+			'slug' => $article->slug,
+			'title' => $article->title,
+		]);
     }
 
     /**

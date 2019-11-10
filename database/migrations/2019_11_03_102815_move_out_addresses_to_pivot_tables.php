@@ -16,15 +16,8 @@ class MoveOutAddressesToPivotTables extends Migration
         Schema::create('addressables', function (Blueprint $table) {
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->enum('type', ['home', 'work', 'other'])->default('home');
             $table->morphs('addressable');
-        });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('address_id');
-        });
-
-        Schema::table('offers', function (Blueprint $table) {
-            $table->dropColumn('address_id');
         });
     }
 

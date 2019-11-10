@@ -15,14 +15,15 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table): void {
             $table->bigIncrements('id');
+            $table->string('slug')->unique();
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title', 255);
             $table->string('sub_title');
             $table->text('resume');
             $table->text('content');
-            $table->timestamp('publish');
-            $table->timestamp('un_publish');
+            $table->timestamp('publish')->nullable(true);
+            $table->timestamp('un_publish')->nullable(true);
             $table->softDeletes();
             $table->timestamps();
         });

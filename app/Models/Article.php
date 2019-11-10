@@ -57,7 +57,7 @@ class Article extends Model
         return $this->morphedByMany(
             Offer::class,
             'element',
-            'articles_elements');
+            'elements');
     }
 
     public function events(): Relation
@@ -65,7 +65,7 @@ class Article extends Model
         return $this->morphedByMany(
             Event::class,
             'element',
-            'articles_elements'
+            'elements'
         );
     }
 }

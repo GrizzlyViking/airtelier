@@ -13,7 +13,7 @@ class CreateArticleElementsPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles_elements', function (Blueprint $table) {
+        Schema::create('elements', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('article_id');
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
@@ -28,6 +28,6 @@ class CreateArticleElementsPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles_elements');
+        Schema::dropIfExists('elements');
     }
 }

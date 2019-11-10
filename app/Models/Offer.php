@@ -98,7 +98,7 @@ class Offer extends Model
         return $this->morphToMany(
             Article::class,
             'element',
-            'articles_elements'
+            'elements'
         );
     }
 

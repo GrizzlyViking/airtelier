@@ -17,7 +17,11 @@ class CreateEventsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name', 255);
+            $table->string('title');
+            $table->string('sub_title')->nullable();
+            $table->text('description')->nullable();
+            $table->json('frequency')->nullable();
+            $table->json('meta')->nullable();
             $table->timestamp('start')->nullable(true);
             $table->timestamp('end')->nullable(true);
             $table->timestamps();
