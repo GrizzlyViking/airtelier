@@ -9,6 +9,7 @@ use App\Models\OfferType;
 use \Illuminate\Contracts\Routing\ResponseFactory;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use App\Http\Requests\OfferRequest as Request;
@@ -24,6 +25,7 @@ class OfferController extends Controller
             'column' => 'type'
         ]
     ];
+
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +46,8 @@ class OfferController extends Controller
         if (request()->ajax()) {
             return response($offers);
         }
-        return response()->view('offers.index')->with(compact('offers'));
+
+        return response()->view('offers.index', compact('offers'));
     }
 
     /**
@@ -70,13 +73,13 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
+        /** @var Offer $offer */
+        $offer = Offer::create($request->all());
         if ($request->has('address')) {
             /** @var Address $address */
             $address = Address::create($request->get('address'));
-            $request->merge(['address_id' => $address->id]);
+            $offer->addresses()->attach($address);
         }
-        /** @var Offer $offer */
-        $offer = Offer::create($request->all());
 
         if ($request->ajax()) {
             return response($offer->toArray());
@@ -88,13 +91,19 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Offer $offer
-     *
      * @return Response
      */
-    public function show(Offer $offer)
+    public function show()
     {
-        $offer->address->load('country');
+        if (request('offer_type') && ! OfferType::where('type', request('offer_type'))->exists()) {
+            throw new ModelNotFoundException('Offer type does not exist');
+        }
+
+        $offer = Offer::findOrFail(request('offer'));
+
+        if (request('offer_type')) {
+            return view('frontend.offers.show', compact('offer'));
+        }
         return view('offers.show', compact('offer'));
     }
 

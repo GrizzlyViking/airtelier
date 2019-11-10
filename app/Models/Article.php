@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Traits\SlugTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -12,21 +14,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @package App\Models
  *
- * @property int    $id
- * @property int    $author_id
- * @property string $title
- * @property string $sub_title
- * @property string $resume
- * @property string $content
- * @property Carbon $publish
- * @property Carbon $un_publish
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon $deleted_at
+ * @property int        $id
+ * @property int        $author_id
+ * @property string     $title
+ * @property string     $sub_title
+ * @property string     $resume
+ * @property string     $content
+ * @property Carbon     $publish
+ * @property Carbon     $un_publish
+ * @property Collection $offers
+ * @property Collection $events
+ * @property Carbon     $created_at
+ * @property Carbon     $updated_at
+ * @property Carbon     $deleted_at
  */
 class Article extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, SlugTrait;
 
     protected $dates = [
         'publish',
@@ -43,8 +47,25 @@ class Article extends Model
         'un_publish',
     ];
 
-    public function author(): BelongsTo
+    public function author(): Relation
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function offers(): Relation
+    {
+        return $this->morphedByMany(
+            Offer::class,
+            'element',
+            'elements');
+    }
+
+    public function events(): Relation
+    {
+        return $this->morphedByMany(
+            Event::class,
+            'element',
+            'elements'
+        );
     }
 }

@@ -15,15 +15,15 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('slug')->unique();
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name', 255);
-            $table->unsignedBigInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->unsignedSmallInteger('type_id');
             $table->foreign('type_id')->references('id')->on('offer_types')->onDelete('cascade');
+            $table->string('title');
+            $table->string('sub_title')->nullable();
             $table->text('description');
-            $table->jsonb('meta')->nullable(true);
+            $table->jsonb('meta')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

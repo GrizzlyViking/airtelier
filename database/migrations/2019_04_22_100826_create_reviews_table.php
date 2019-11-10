@@ -18,7 +18,7 @@ class CreateReviewsTable extends Migration
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->morphs('reviewed');
-            $table->float('review')->unsigned();
+            $table->float('rating')->unsigned();
             $table->text('description')->nullable(true);
             $table->softDeletes();
             $table->timestamps();

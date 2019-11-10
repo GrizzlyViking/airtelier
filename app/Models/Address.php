@@ -40,8 +40,17 @@ class Address extends Model
         'updated_at',
     ];
 
+    protected $with = [
+        'country'
+    ];
+
     public function country()
     {
         return $this->belongsTo(Countries::class, 'country_code', 'code');
+    }
+
+    public function offers()
+    {
+        return $this->morphedByMany(Offer::class, 'addressables');
     }
 }

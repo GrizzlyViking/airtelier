@@ -14,27 +14,27 @@
     "bootstrap": "^4.0.0",
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.2.2",
-    "cross-env": "^5.1",
+    "cross-env": "^5.2.1",
     "jquery": "^3.4.1",
-    "laravel-mix": "^4.1.2",
+    "laravel-mix": "^4.1.4",
     "lodash": "^4.17.15",
-    "popper.js": "^1.12",
+    "popper.js": "^1.16.0",
     "resolve-url-loader": "^2.3.1",
-    "sass": "^1.22.9",
-    "sass-loader": "^7.1.0",
+    "sass": "^1.23.1",
+    "sass-loader": "^7.3.1",
     "vue": "^2.5.17",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.39.1"
+    "webpack": "^4.41.2"
   },
   "dependencies": {
     "quill-image-resize": "^3.0.9",
     "vue-feather-icons": "^4.22.0",
     "vue-moment": "^4.0.0",
-    "vue-select": "^3.1.0",
+    "vue-select": "^3.2.0",
     "vue-simple-spinner": "^1.2.8",
     "vue-star-rating": "^1.6.1",
     "vue-toast-notification": "0.0.2",
-    "vue2-editor": "^2.9.1",
+    "vue2-editor": "^2.10.2",
     "vuejs-datepicker": "^1.6.2"
   }
 }

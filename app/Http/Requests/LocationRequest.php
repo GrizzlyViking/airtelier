@@ -37,8 +37,8 @@ class LocationRequest extends FormRequest
             'name'        => 'required|regex:/[\w]+/u',
             'description' => 'sometimes',
             'address'     => 'sometimes',
-            'postcode'     => 'sometimes',
-            'town'     => 'sometimes',
+            'postcode'    => 'sometimes',
+            'town'        => 'sometimes',
             'meta'        => 'nullable|array',
         ];
     }
