@@ -24,7 +24,7 @@ class OfferTest extends TestCase
         /** @var Offer $offer */
         $offer = factory(Offer::class)->create();
         $offer->addresses()->attach($address);
-        $offer->author->addresses()->attach($address);
+        $offer->owner->addresses()->attach($address);
 
         $this->assertEquals(1, $offer->addresses->count());
         $this->assertDatabaseHas('addressables', [
@@ -35,7 +35,7 @@ class OfferTest extends TestCase
 
 		$this->assertDatabaseHas('addressables', [
 			'address_id' => $address->id,
-			'addressable_id' => $offer->author->id,
+			'addressable_id' => $offer->owner->id,
 			'addressable_type' => User::class
 		]);
     }

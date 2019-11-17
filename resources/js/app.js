@@ -58,6 +58,8 @@ Vue.component('article-component', require('./components/elements/ArticleCompone
 Vue.component('message-component', require('./components/elements/MessageComponent.vue').default);
 Vue.component('review-component', require('./components/elements/ReviewComponent.vue').default);
 Vue.component('event-component', require('./components/elements/EventComponent.vue').default);
+Vue.component('frontend-event', require('./frontend/EventComponent.vue').default);
+Vue.component('frontend-offer', require('./frontend/OfferComponent.vue').default);
 
 Vue.component('banner-image', require('./components/layout/BannerImageComponent.vue').default);
 Vue.component('header-component', require('./components/bootstrap/HeaderComponent.vue').default);

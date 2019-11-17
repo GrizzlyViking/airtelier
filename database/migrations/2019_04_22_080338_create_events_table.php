@@ -16,6 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('owner_id');
+            $table->string('slug')->unique();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
             $table->string('sub_title')->nullable();

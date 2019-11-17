@@ -13,7 +13,10 @@
 
 // frontend
 Route::name('frontend.')->group(function () {
+    Route::get('/article/{article}',['uses' => 'Frontend\ArticleController@show','as' => 'offer.show']);
     Route::get('/{offer_type}/{offer}',['uses' => 'OfferController@show','as' => 'offer.show']);
+	Route::get('/event', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);
+	Route::get('/{offer_type}', ['uses' =>  'Frontend\OfferController@index', 'as' => 'offer.list']);
 
     Route::get('/', ['uses' => 'PagesController@landing', 'as' => 'landing_page']);
     Route::get('/register', ['uses' => 'PagesController@register', 'as' => 'register']);

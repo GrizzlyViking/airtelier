@@ -1,6 +1,9 @@
 
 // Body
-$body-bg: #bebebe;
+$body-bg: #f4f4f4;
+
+// Nav
+$nav-bg: rgba(56, 77, 88, 0.9);
 
 // Typography
 $font-family-sans-serif: "Raleway", sans-serif;
@@ -8,13 +11,16 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
+$blue-dark: #4f646f;
 $blue: #4f646f;
+$light-blue: #c4dae5;
 $indigo: #6574cd;
 $purple: #b7adcf;
 $pink: #f66D9b;
 $red: #704f4f;
 $orange: #f6993f;
 $yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
+$green: #4fa06f;
+$green-dark: #366c44;
+$teal: #50c290;
 $cyan: #6cb2eb;

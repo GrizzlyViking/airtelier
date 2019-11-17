@@ -9,21 +9,67 @@
     font-size: 1.4em;
 }
 
+.border-3 {
+	border-width:3px !important;
+}
+
+.color-blue {
+	color: $blue;
+}
+
+.artistic-background {
+	background-image: url("/images/pattern74.svg");
+	background-attachment: fixed;
+	background-repeat: repeat;
+}
+
+.icon-porthole {
+	height: 100px;
+	width: 100px;
+	@extend .mx-auto, .text-center, .rounded-circle;
+	border: 4px solid #dee2e6 !important;
+
+	svg {
+		width: 65px;
+		height: 65px;
+		color: $blue;
+		@extend .mx-auto, .h-100, .align-items-center;
+	}
+}
+
+.container.custom {
+	@extend .p-4;
+	background-color: white;
+	p {
+		background-color: white;
+		@extend .p-2;
+	}
+}
+
 .bg-dark-transparent {
     color: rgba(248, 249, 250, 0.65) !important;
     text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
-    background-color: rgba(52, 58, 64, 0.9);
+    background-color: $nav-bg;
     h5 {
         font-weight: 600;
     }
     a {
-        color: #00a400;
+        color: $green;
     }
     a:hover {
-        color: green;
-        text-shadow: 2px 2px rgba(0, 0, 0, 0.6);
+        color: $teal;
+        text-shadow: 2px 2px rgba(0, 0, 100, 0.4);
         text-decoration: none;
     }
+	.dropdown-menu {
+		background-color: $nav-bg;
+	}
+	.dropdown-divider {
+		border-top-color: $green;
+	}
+	.dropdown-item:hover {
+		background-color: $green-dark;
+	}
 }
 
 // Bootstrap

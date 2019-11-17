@@ -17,93 +17,99 @@ use Illuminate\Support\Facades\DB;
  * @property integer    $id
  * @property string     $slug
  * @property integer    $author_id
+ * @property integer    $type_id
  * @property string     $title
  * @property string     $sub_title
  * @property string     $description
  * @property array      $meta
  * @property Collection $addresses
  * @property Collection $reviews
- * @property User       $author
+ * @property User       $owner
  * @property Carbon     $created_at
  * @property Carbon     $updated_at
  * @property OfferType  $type
  */
 class Offer extends Model
 {
-    use SlugTrait;
+	use SlugTrait;
 
-    protected $with = ['addresses'];
+	protected $with = ['addresses'];
 
-    protected $casts = [
-        'meta'         => 'array',
-        'geo_location' => 'array',
-    ];
+	protected $casts = [
+		'meta'         => 'array',
+		'geo_location' => 'array',
+	];
 
-    protected $fillable = [
-        'owner_id',
-        'title',
-        'sub_title',
-        'address_id',
-        'description',
-        'geo_location',
-        'meta',
-        'type_id',
-        'slug',
-    ];
+	protected $fillable = [
+		'owner_id',
+		'title',
+		'sub_title',
+		'address_id',
+		'description',
+		'geo_location',
+		'meta',
+		'type_id',
+		'slug',
+	];
 
-    protected $hidden = [
-        'deleted_at',
-        'updated_at',
-    ];
+	protected $hidden = [
+		'deleted_at',
+		'updated_at',
+	];
 
-    protected $appends = [
-        'creator',
-        'type',
-    ];
+	protected $appends = [
+		'creator',
+		'type',
+	];
 
-    public function getCreatorAttribute(): string
-    {
-        return $this->owner->name;
-    }
+	public function getRouteKeyName()
+	{
+		return 'slug';
+	}
 
-    public function author(): Relation
-    {
-        return $this->belongsTo(User::class, 'owner_id');
-    }
+	public function getCreatorAttribute(): string
+	{
+		return $this->owner->name;
+	}
 
-    public function addresses(): Relation
-    {
-        return $this->morphToMany(
-            Address::class,
-            'addressable',
-            'addressables'
-        );
-    }
+	public function owner(): Relation
+	{
+		return $this->belongsTo(User::class, 'owner_id');
+	}
 
-    public function offerType(): Relation
-    {
-        return $this->belongsTo(OfferType::class, 'type_id');
-    }
+	public function addresses(): Relation
+	{
+		return $this->morphToMany(
+			Address::class,
+			'addressable',
+			'addressables'
+		);
+	}
 
-    public function getTypeAttribute(): string
-    {
-        if (!$this->offerType()->first() instanceof OfferType) {
-            return 'unknown';
-        }
-        return $this->offerType()->first()->type;
-    }
+	public function offerType(): Relation
+	{
+		return $this->belongsTo(OfferType::class, 'type_id');
+	}
 
-    public function articles()
-    {
-        return $this->morphToMany(
-            Article::class,
-            'element',
-            'elements'
-        );
-    }
+	public function getTypeAttribute(): string
+	{
+		if (!$this->offerType()->first() instanceof OfferType) {
+			return 'unknown';
+		}
+		return $this->offerType()->first()->type;
+	}
 
-    public function reviews(): Relation
-    {
-        return $this->morphMany(Review::class, 'reviewed');
-    }
+	public function articles()
+	{
+		return $this->morphToMany(
+			Article::class,
+			'element',
+			'elements'
+		);
+	}
+
+	public function reviews(): Relation
+	{
+		return $this->morphMany(Review::class, 'reviewed');
+	}
 }

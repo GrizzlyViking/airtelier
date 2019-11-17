@@ -10,8 +10,9 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container custom">
         <h1>Star Wars Lorem Ipsum</h1>
+
         <p>
             Lucas ipsum dolor sit amet amidala lobot c-3p0 maul watto mace darth darth luke grievous. Owen moff calamari
             solo

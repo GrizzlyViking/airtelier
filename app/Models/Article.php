@@ -47,7 +47,12 @@ class Article extends Model
         'un_publish',
     ];
 
-    public function author(): Relation
+    public function getRouteKeyName()
+	{
+		return 'slug';
+	}
+
+	public function author(): Relation
     {
         return $this->belongsTo(User::class, 'author_id');
     }

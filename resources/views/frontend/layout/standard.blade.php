@@ -25,7 +25,6 @@
     @yield('banner-image')
     @include('frontend._partials.nav')
     @yield('content')
-    <footer-component></footer-component>
 </div>
 </body>
 </html>
