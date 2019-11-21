@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class Offer
@@ -16,17 +15,21 @@ use Illuminate\Support\Facades\DB;
  *
  * @property integer    $id
  * @property string     $slug
- * @property integer    $author_id
+ * @property integer    $owner_id
  * @property integer    $type_id
  * @property string     $title
  * @property string     $sub_title
  * @property string     $description
  * @property array      $meta
- * @property Collection $addresses
- * @property Collection $reviews
  * @property User       $owner
  * @property Carbon     $created_at
  * @property Carbon     $updated_at
+ *
+ * @property Collection $addresses
+ * @property Collection $reviews
+ * @property Collection $gallery
+ * @property Collection $prices
+ * @property Collection $transactions
  * @property OfferType  $type
  */
 class Offer extends Model
@@ -86,6 +89,15 @@ class Offer extends Model
 		);
 	}
 
+	public function images(): Relation
+	{
+		return $this->morphToMany(
+			Image::class,
+			'relation',
+			'gallery'
+		);
+	}
+
 	public function offerType(): Relation
 	{
 		return $this->belongsTo(OfferType::class, 'type_id');
@@ -110,6 +122,34 @@ class Offer extends Model
 
 	public function reviews(): Relation
 	{
-		return $this->morphMany(Review::class, 'reviewed');
+		return $this->morphMany(
+			Review::class,
+			'reviewed'
+		);
+	}
+
+	public function prices(): Relation
+	{
+		return $this->morphOne(
+			Price::class,
+			'priceable'
+		);
+	}
+
+	public function gallery(): Relation
+	{
+		return $this->morphToMany(
+			Image::class,
+			'relation',
+			'gallery'
+		);
+	}
+
+	public function transactions(): Relation
+	{
+		return $this->morphMany(
+			Transaction::class,
+			'paid_for'
+		);
 	}
 }

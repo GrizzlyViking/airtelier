@@ -103,4 +103,26 @@ class Event extends Model
 			->whereNull('end')
 			->orWhere('end', '>', now());
 	}
+
+	public function prices()
+	{
+		return $this->morphOne(Price::class, 'priceable');
+	}
+
+	public function gallery()
+	{
+		return $this->morphToMany(
+			Image::class,
+			'relation',
+			'gallery'
+		);
+	}
+
+	public function transactions(): Relation
+	{
+		return $this->morphMany(
+			Transaction::class,
+			'paid_for'
+		);
+	}
 }

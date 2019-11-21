@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(StandardValues::class);
         $this->call(ArticlesSeeder::class);
+        $this->call(ImageSeeder::class);
     }
 }

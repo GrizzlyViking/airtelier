@@ -24,12 +24,13 @@ use Laravel\Passport\HasApiTokens;
  * @property string     $email
  * @property string     $password
  * @property string     $phone
- * @property Collection $addresses
- * @property Collection $offers
- * @property Collection $events
  * @property integer    $access_level
  * @property Carbon     $updated_at
  * @property Carbon     $created_at
+ *
+ * @property Collection $addresses
+ * @property Collection $offers
+ * @property Collection $events
  */
 class User extends Authenticatable
 {

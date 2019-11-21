@@ -73,4 +73,13 @@ class Article extends Model
             'elements'
         );
     }
+
+	public function gallery()
+	{
+		return $this->morphToMany(
+			Image::class,
+			'relation',
+			'gallery'
+		);
+	}
 }
