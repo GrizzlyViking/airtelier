@@ -13,9 +13,9 @@
 
 // frontend
 Route::name('frontend.')->group(function () {
+    Route::get('/{offer_type}/{offer}',['uses' => 'Frontend\OfferController@show','as' => 'offer.show']);
     Route::get('/article/{article}',['uses' => 'Frontend\ArticleController@show','as' => 'offer.show']);
-    Route::get('/{offer_type}/{offer}',['uses' => 'OfferController@show','as' => 'offer.show']);
-	Route::get('/event', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);
+	Route::get('/events', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);
 	Route::get('/{offer_type}', ['uses' =>  'Frontend\OfferController@index', 'as' => 'offer.list']);
 
     Route::get('/', ['uses' => 'PagesController@landing', 'as' => 'landing_page']);
@@ -25,7 +25,7 @@ Route::name('frontend.')->group(function () {
 Route::redirect('/offers', '/admin/offers');
 Route::redirect('/articles', '/admin/articles');
 Route::redirect('/reviews', '/admin/reviews');
-Route::redirect('/events', '/admin/events');
+// Route::redirect('/events', '/admin/events');
 Route::redirect('/users', '/admin/users');
 
 Route::prefix('admin')->group(function () {

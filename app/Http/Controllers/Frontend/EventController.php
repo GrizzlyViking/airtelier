@@ -10,7 +10,7 @@ class EventController extends Controller
 {
 	public function index()
 	{
-		$offers = Event::relevant()->orderByDesc('start')->get();
-		return view('frontend.offers.list', compact('offers'));
+		$items = Event::relevant()->with('gallery')->orderByDesc('start')->get();
+		return view('frontend.offers.list', compact('items'));
     }
 }

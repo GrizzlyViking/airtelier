@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Offer;
 use App\Models\OfferType;
-use Illuminate\Http\Request;
 
 class OfferController extends Controller
 {
 	public function index(OfferType $offer_type)
 	{
-		$offers = $offer_type->offers;
-		return view('frontend.offers.list', compact('offers'));
+		$items = $offer_type->offers()->with('gallery')->get();
+		return view('frontend.offers.list', compact('items'));
+    }
+
+	public function show($offer_type, Offer $offer)
+	{
+		$offer->load('gallery');
+		return view('frontend.offers.show', compact('offer'));
     }
 }

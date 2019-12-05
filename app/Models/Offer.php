@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Traits\SlugTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -25,14 +23,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property Carbon     $created_at
  * @property Carbon     $updated_at
  *
- * @property Collection $addresses
- * @property Collection $reviews
- * @property Collection $gallery
- * @property Collection $prices
- * @property Collection $transactions
- * @property OfferType  $type
+ * @property OfferType  $offerType
  */
-class Offer extends Model
+class Offer extends Resourcable
 {
 	use SlugTrait;
 
@@ -63,6 +56,7 @@ class Offer extends Model
 	protected $appends = [
 		'creator',
 		'type',
+		'component_type',
 	];
 
 	public function getRouteKeyName()
@@ -75,29 +69,6 @@ class Offer extends Model
 		return $this->owner->name;
 	}
 
-	public function owner(): Relation
-	{
-		return $this->belongsTo(User::class, 'owner_id');
-	}
-
-	public function addresses(): Relation
-	{
-		return $this->morphToMany(
-			Address::class,
-			'addressable',
-			'addressables'
-		);
-	}
-
-	public function images(): Relation
-	{
-		return $this->morphToMany(
-			Image::class,
-			'relation',
-			'gallery'
-		);
-	}
-
 	public function offerType(): Relation
 	{
 		return $this->belongsTo(OfferType::class, 'type_id');
@@ -105,10 +76,7 @@ class Offer extends Model
 
 	public function getTypeAttribute(): string
 	{
-		if (!$this->offerType()->first() instanceof OfferType) {
-			return 'unknown';
-		}
-		return $this->offerType()->first()->type;
+		return $this->offerType->type;
 	}
 
 	public function articles()
@@ -117,39 +85,6 @@ class Offer extends Model
 			Article::class,
 			'element',
 			'elements'
-		);
-	}
-
-	public function reviews(): Relation
-	{
-		return $this->morphMany(
-			Review::class,
-			'reviewed'
-		);
-	}
-
-	public function prices(): Relation
-	{
-		return $this->morphOne(
-			Price::class,
-			'priceable'
-		);
-	}
-
-	public function gallery(): Relation
-	{
-		return $this->morphToMany(
-			Image::class,
-			'relation',
-			'gallery'
-		);
-	}
-
-	public function transactions(): Relation
-	{
-		return $this->morphMany(
-			Transaction::class,
-			'paid_for'
 		);
 	}
 }

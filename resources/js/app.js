@@ -49,6 +49,7 @@ Vue.component('user-component', require('./components/_partials/UserComponent.vu
 Vue.component('address-component', require('./components/_partials/AddressComponent.vue').default);
 Vue.component('date-time-component', require('./components/_partials/DateTimePickerComponent.vue').default);
 Vue.component('scheduling-component', require('./components/_partials/SchedulingComponent').default);
+Vue.component('modal-component', require('./components/bootstrap/ModalComponent.vue').default);
 
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
@@ -58,8 +59,10 @@ Vue.component('article-component', require('./components/elements/ArticleCompone
 Vue.component('message-component', require('./components/elements/MessageComponent.vue').default);
 Vue.component('review-component', require('./components/elements/ReviewComponent.vue').default);
 Vue.component('event-component', require('./components/elements/EventComponent.vue').default);
+
 Vue.component('frontend-event', require('./frontend/EventComponent.vue').default);
 Vue.component('frontend-offer', require('./frontend/OfferComponent.vue').default);
+Vue.component('frontend-list', require('./frontend/ListComponent.vue').default);
 
 Vue.component('banner-image', require('./components/layout/BannerImageComponent.vue').default);
 Vue.component('header-component', require('./components/bootstrap/HeaderComponent.vue').default);

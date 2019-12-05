@@ -12,10 +12,9 @@
   color: #4f646f;
 }
 
-.artistic-background {
-  background-image: url("/images/pattern74.svg");
-  background-attachment: fixed;
-  background-repeat: repeat;
+.card-footer {
+  border-top: none !important;
+  background-color: inherit !important;
 }
 
 .icon-porthole {
@@ -6324,8 +6323,8 @@ a.close.disabled {
   transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
   transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
-  -webkit-transform: translate(0, -50px);
-          transform: translate(0, -50px);
+  -webkit-transform: fadeIn;
+          transform: fadeIn;
 }
 
 @media (prefers-reduced-motion: reduce) {

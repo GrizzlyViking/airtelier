@@ -1,28 +1,23 @@
 <template>
-	<div class="card shadow mt-2">
+	<div class="card shadow mt-2" @click="displayModal(item)">
+		<img class="card-img-top" :src="compactFunction">
 		<div class="row align-items-center" v-if="compact === false">
-			<div class="col-2 pl-5">
-				<div class="icon-porthole bg-light">
-					<calendar-icon></calendar-icon>
-				</div>
-			</div>
 			<div class="col-10">
 				<div class="card-header pt-3">
-					<div class="h4 font-weight-bold color-blue">{{ event.title }}</div>
-					<div class="card-subtitle text-muted">{{ event.sub_title }}</div>
+					<div class="h4 font-weight-bold color-blue">{{ item.title }}</div>
+					<div class="card-subtitle text-muted">{{ item.sub_title }}</div>
 				</div>
-				<div class="card-body" v-html="event.description"></div>
+				<div class="card-body" v-html="item.description"></div>
 			</div>
 		</div>
-		<img class="card-img-top" src="/storage/images/ameE4uuhtWMxodBofdsVMwF7DehZ0pIxRR1stpiQ.png">
 		<div class="card-header" v-if="compact">
-			<div class="h5">{{ event.title }}</div>
+			<div class="h5">{{ item.title }}</div>
 		</div>
-		<div v-if="compact" class="card-body text-truncate">{{ event.description | removeHTMLTags }}</div>
+		<div v-if="compact" class="card-body text-truncate">{{ item.description | removeHTMLTags }}</div>
 		<div class="card-footer d-flex justify-content-around">
-			<div v-if="event.start && !compact" class="text-muted">Starts on {{ event.start }}</div>
-			<div class="text-muted">{{ event.frequency | frequency }}</div>
-			<div v-if="event.end && !compact" class="text-muted">Ends on {{ event.end }}</div>
+			<div v-if="item.start && !compact" class="text-muted">Starts on {{ item.start }}</div>
+			<div class="text-muted"></div>
+			<div v-if="item.end && !compact" class="text-muted">Ends on {{ item.end }}</div>
 		</div>
 	</div>
 </template>
@@ -33,7 +28,7 @@
     export default {
         name: "EventComponent",
         props: {
-            event: {
+            item: {
                 type: Object,
                 default() {
                     return {}
@@ -49,6 +44,16 @@
         components: {
             CalendarIcon
         },
+		data() {
+            return {
+                src: ''
+			}
+		},
+		methods: {
+            displayModal(item) {
+            	this.$emit('modal', item);
+			}
+		},
 		filters: {
             frequency(frq) {
                 let unit = _.keys(frq)[0];
@@ -64,7 +69,22 @@
 			},
             removeHTMLTags(string) {
                 return string.replace(/<.+?>/g, '');
+			},
+			compactImage(gallery) {
+                return gallery[0].file
 			}
+		},
+		computed: {
+            compactFunction() {
+            	if (!this.item.gallery) {
+            		return '';
+				}
+                let images = this.item.gallery.filter(image => {
+                    return image.pivot.purpose === 'compact';
+				});
+
+				return _.head(images).file;
+            }
 		}
     }
 </script>

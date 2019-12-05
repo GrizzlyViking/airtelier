@@ -2,14 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Scope\EndScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class Event
@@ -26,14 +20,14 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property array      $meta
  * @property Carbon     $start
  * @property Carbon     $end
- * @property Collection $addresses
  * @property User       $owner
  * @property Carbon     $created_at
  * @property Carbon     $updated_at
+ *
  * @method static Builder relevant()
  * @method static Builder active()
  */
-class Event extends Model
+class Event extends Resourcable
 {
 	protected $casts = [
 		'meta'      => 'array',
@@ -64,25 +58,6 @@ class Event extends Model
 		return 'slug';
 	}
 
-	public function owner(): BelongsTo
-	{
-		return $this->belongsTo(User::class, 'owner_id');
-	}
-
-	public function reviews(): MorphMany
-	{
-		return $this->morphMany(Review::class, 'reviewed');
-	}
-
-	public function addresses(): Relation
-	{
-		return $this->morphToMany(
-			Address::class,
-			'addressable',
-			'addressables'
-		);
-	}
-
 	public function articles()
 	{
 		return $this->morphToMany(
@@ -102,27 +77,5 @@ class Event extends Model
 		$query
 			->whereNull('end')
 			->orWhere('end', '>', now());
-	}
-
-	public function prices()
-	{
-		return $this->morphOne(Price::class, 'priceable');
-	}
-
-	public function gallery()
-	{
-		return $this->morphToMany(
-			Image::class,
-			'relation',
-			'gallery'
-		);
-	}
-
-	public function transactions(): Relation
-	{
-		return $this->morphMany(
-			Transaction::class,
-			'paid_for'
-		);
 	}
 }

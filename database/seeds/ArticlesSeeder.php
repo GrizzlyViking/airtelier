@@ -3,6 +3,7 @@
 use App\Models\Address;
 use App\Models\Article;
 use App\Models\Event;
+use App\Models\Image;
 use App\Models\Offer;
 use App\Models\Price;
 use App\Models\Review;
@@ -60,13 +61,15 @@ class ArticlesSeeder extends Seeder
 	{
 		$this->addAddress($element, $address);
 
-		$element->prices()->save(factory(Price::class)->make());
+		$element->price()->save(factory(Price::class)->make());
 
 		$element->transactions()->saveMany(
 			factory(Transaction::class, rand(10, 100))->make([
 				'currency'      => $address->country->currency_code,
 			])->sortBy('created_at')
 		);
+
+		$element->gallery()->save(factory(Image::class)->make(), ['purpose' => 'compact']);
 
 		$element->reviews()->saveMany(factory(Review::class, rand(0,15))->make());
 	}
