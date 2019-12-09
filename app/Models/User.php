@@ -31,6 +31,7 @@ use Laravel\Passport\HasApiTokens;
  * @property Collection $addresses
  * @property Collection $offers
  * @property Collection $events
+ * @property Cart $cart
  */
 class User extends Authenticatable
 {
@@ -96,5 +97,10 @@ class User extends Authenticatable
 	public function isAdmin(): bool
 	{
 		return $this->access_level >= self::ADMIN_LEVEL;
+	}
+
+	public function cart(): Relation
+	{
+		return $this->hasMany(Cart::class);
 	}
 }

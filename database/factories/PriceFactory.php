@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define(Price::class, function (Faker $faker) {
 	return [
 		'amount'   => $faker->randomFloat(2, 0, 300),
+		'tax_rate' => 0.25,
 		'currency' => $faker->randomElement(
 			['DKK', 'SEK', 'GBP', 'USD']
 		)

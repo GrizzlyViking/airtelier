@@ -4,7 +4,8 @@
 namespace App\Models;
 
 
-use App\Models\_interfaces\ResourceInterface;
+use App\Interfaces\Resource;
+use App\Interfaces\Sellable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -17,14 +18,15 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property Collection $addresses
  * @property Collection $reviews
  * @property Collection $gallery
- * @property Collection $prices
+ * @property Price      $price
  * @property Collection $transactions
  */
-class Resourcable extends Model implements ResourceInterface
+class Resourcable extends Model implements Resource, Sellable
 {
 	protected $appends = [
 		'component_type',
 	];
+
 	public function addresses(): Relation
 	{
 		return $this->morphToMany(
@@ -47,14 +49,6 @@ class Resourcable extends Model implements ResourceInterface
 		return $this->belongsTo(User::class, 'owner_id');
 	}
 
-	public function price(): Relation
-	{
-		return $this->morphOne(
-			Price::class,
-			'priceable'
-		);
-	}
-
 	public function gallery(): Relation
 	{
 		return $this->morphToMany(
@@ -62,6 +56,14 @@ class Resourcable extends Model implements ResourceInterface
 			'relation',
 			'gallery'
 		)->withPivot('purpose');
+	}
+
+	public function price(): Relation
+	{
+		return $this->morphOne(
+			Price::class,
+			'priceable'
+		);
 	}
 
 	public function transactions(): Relation
@@ -72,8 +74,14 @@ class Resourcable extends Model implements ResourceInterface
 		);
 	}
 
+	public function cart(): Relation
+	{
+		return $this->morphToMany(CartItem::class, 'item');
+	}
+
+
 	public function getComponentTypeAttribute(): string
 	{
-		return preg_replace('/^.*\\\(\w+)$/','$1',static::class);
+		return preg_replace('/^.*\\\(\w+)$/', '$1', static::class);
 	}
 }

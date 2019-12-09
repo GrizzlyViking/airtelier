@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\SlugTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\_interfaces;
+namespace App\Interfaces;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -8,20 +8,16 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 /**
  * Interface ResourceInterface
  *
- * @package App\Models\_interfaces
+ * @package App\Interfaces
  * @property Collection $addresses
  * @property Collection $reviews
  * @property Collection $gallery
  * @property Collection $prices
  * @property Collection $transactions
  */
-interface ResourceInterface
+interface Resource
 {
-	public function transactions(): Relation;
-
 	public function gallery(): Relation;
-
-	public function price(): Relation;
 
  	public function addresses(): Relation;
 
