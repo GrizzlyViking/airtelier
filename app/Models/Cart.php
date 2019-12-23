@@ -49,7 +49,8 @@ class Cart extends Model
 			if (class_exists($item->item_type)) {
 				/** @var Model $model */
 				$model = app($item->item_type)->findOrFail($item->item_id);
-				return $model->setAttribute('quantity', $item->quantity);
+				$model->setAttribute('quantity', $item->quantity);
+				return $model;
 			}
 
 			return $item;
@@ -73,10 +74,11 @@ class Cart extends Model
 	public function add($item, $quantity = 1): void
 	{
 		if (!$this->id) {
-			if (!$this->user_id) {
-				$this->user_id = Auth::user()->id;
-			}
 			$this->save();
+		}
+
+		if (!Auth::guest() && !$this->user_id) {
+			$this->user_id = Auth::user()->id;
 		}
 
 		if (is_array($item)) {

@@ -12,7 +12,7 @@
 					<div is="frontend-event" :item="item"></div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">Book</button>
+					<buy-item-button v-model="item">Buy</buy-item-button>
 					<button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
 				</div>
 			</div>

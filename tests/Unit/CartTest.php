@@ -2,20 +2,37 @@
 
 namespace Tests\Unit;
 
+use App\Interfaces\Sellable;
 use App\Models\Cart;
 use App\Models\Event;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Price;
-use App\Models\Review;
 use App\Models\User;
+use Facades\App\Models\Cart as FacadeCart;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CartTest extends TestCase
 {
 	use RefreshDatabase;
+
+	/** @test */
+	public function guest_adds_items_to_cart()
+	{
+		collect([
+			Offer::class,
+			Event::class,
+		])->each(function ($class) {
+			$item = factory($class)->create();
+			FacadeCart::add($item, 7);
+
+			$this->assertDatabaseHas('cart_items', [
+				'item_type' => $class,
+				'item_id' => $item->id
+			]);
+		});
+	}
 
     /**
      * A basic unit test example.
@@ -63,12 +80,15 @@ class CartTest extends TestCase
 	/** @test */
 	public function get_the_basket_content()
 	{
+		/** @var Event $event */
 		$event = factory(Event::class)->create();
 		$user = factory(User::class)->create();
 		$this->be($user);
 
 		$cart = new Cart();
 		$cart->add($event, 3);
+
+		$event->setAttribute('quantity', 3);
 
 		$this->assertEquals($event->toArray(), $cart->basket()->first()->toArray());
 	}
@@ -291,5 +311,34 @@ class CartTest extends TestCase
 			'item_type' => Offer::class,
 			'item_id' => $offer->id
 		]);
+	}
+
+
+
+	/** @test */
+	public function retrieve_more_items_from_basket()
+	{
+		/** @var Cart $cart */
+		$cart = new Cart();
+		collect($classes = [
+			Offer::class,
+			Offer::class,
+			Event::class,
+			Offer::class,
+			Event::class,
+		])->each(function ($class) use (&$cart) {
+			/** @var Sellable $model */
+			$model = factory($class)->create();
+			$cart->add($model, $quantity = rand(1, 7));
+
+			$this->assertDatabaseHas('cart_items', [
+				'cart_id' => $cart->id,
+				'item_type' => $class,
+				'item_id' => $model->id,
+				'quantity' => $quantity
+			]);
+		});
+
+		$this->assertEquals(count($classes),$cart->basket()->count());
 	}
 }

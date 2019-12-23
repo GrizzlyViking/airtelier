@@ -63,6 +63,8 @@ Vue.component('event-component', require('./components/elements/EventComponent.v
 Vue.component('frontend-event', require('./frontend/EventComponent.vue').default);
 Vue.component('frontend-offer', require('./frontend/OfferComponent.vue').default);
 Vue.component('frontend-list', require('./frontend/ListComponent.vue').default);
+Vue.component('shopping-cart', require('./frontend/ShoppingCart.vue').default);
+Vue.component('buy-item-button', require('./components/bootstrap/BuyButton').default);
 
 Vue.component('banner-image', require('./components/layout/BannerImageComponent.vue').default);
 Vue.component('header-component', require('./components/bootstrap/HeaderComponent.vue').default);

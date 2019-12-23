@@ -13,6 +13,9 @@
 
 // frontend
 Route::name('frontend.')->group(function () {
+	Route::get('/cart/basket', ['uses' => 'CartController@get', 'as' => 'cart.get']);
+	Route::post('/cart/add', ['uses' => 'CartController@add', 'as' => 'cart.add']);
+
     Route::get('/{offer_type}/{offer}',['uses' => 'Frontend\OfferController@show','as' => 'offer.show']);
     Route::get('/article/{article}',['uses' => 'Frontend\ArticleController@show','as' => 'offer.show']);
 	Route::get('/events', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);

@@ -25,6 +25,7 @@ class Resourcable extends Model implements Resource, Sellable
 {
 	protected $appends = [
 		'component_type',
+		'class',
 	];
 
 	public function addresses(): Relation
@@ -83,5 +84,10 @@ class Resourcable extends Model implements Resource, Sellable
 	public function getComponentTypeAttribute(): string
 	{
 		return preg_replace('/^.*\\\(\w+)$/', '$1', static::class);
+	}
+
+	public function getClassAttribute()
+	{
+		return static::class;
 	}
 }
