@@ -93,6 +93,12 @@ class Cart extends Model
 		if (!is_int($quantity)) return;
 
 		if ($item instanceof Sellable) {
+			/** @var CartItem $found */
+			if ($found = $this->items()->where('item_type',get_class($item))->where('item_id',$item->id)->first()) {
+				$found->quantity += $quantity;
+				$found->save();
+				return;
+			}
 			switch (get_class($item)) {
 				case Event::class:
 					$this->events()->attach($item, ['quantity' => $quantity]);

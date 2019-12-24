@@ -19,7 +19,7 @@ class CartController extends Controller
 	public function get()
 	{
 		/** @var Cart $cart */
-		$cart = session()->get('cart');
+		$cart = session()->get('cart', new Cart());
 		$cart->load('items');
 		return response($cart->basket());
 	}

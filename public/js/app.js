@@ -2919,12 +2919,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "HeaderComponent",
-  methods: {
-    refreshCart: function refreshCart() {
-      this.$refs.cart.fetchCart();
-    }
-  }
+  name: "HeaderComponent"
 });
 
 /***/ }),
@@ -4815,7 +4810,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
-//
 //
 //
 //
@@ -69216,33 +69210,30 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._m(0)
+      _c(
+        "div",
+        {
+          staticClass: "dropdown-menu",
+          attrs: { "aria-labelledby": "navbarDropdown" }
+        },
+        _vm._l(_vm.cart, function(item) {
+          return _c(
+            "a",
+            { staticClass: "dropdown-item", attrs: { href: "#" } },
+            [
+              _vm._v(_vm._s(item.slug) + " "),
+              _c("span", { staticClass: "badge badge-secondary" }, [
+                _vm._v(_vm._s(item.quantity))
+              ])
+            ]
+          )
+        }),
+        0
+      )
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "dropdown-menu",
-        attrs: { "aria-labelledby": "navbarDropdown" }
-      },
-      [
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _vm._v("Action")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _vm._v("Another action")
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -89669,6 +89660,10 @@ var app = new Vue({
     redirectFromClick: function redirectFromClick(event) {
       console.log(event);
       window.location.href = '/offers/' + event.id + '/edit';
+    },
+    refreshCart: function refreshCart() {
+      console.log('app level clicked');
+      this.$refs.cart.fetchCart();
     }
   }
 });

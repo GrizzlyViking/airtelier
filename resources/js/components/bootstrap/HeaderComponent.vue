@@ -40,12 +40,7 @@
 
 <script>
     export default {
-        name: "HeaderComponent",
-		methods: {
-        	refreshCart () {
-        		this.$refs.cart.fetchCart();
-			}
-		}
+        name: "HeaderComponent"
     }
 </script>
 

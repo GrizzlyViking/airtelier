@@ -313,8 +313,6 @@ class CartTest extends TestCase
 		]);
 	}
 
-
-
 	/** @test */
 	public function retrieve_more_items_from_basket()
 	{
@@ -340,5 +338,17 @@ class CartTest extends TestCase
 		});
 
 		$this->assertEquals(count($classes),$cart->basket()->count());
+	}
+
+	/** @test */
+	public function adding_an_additional_of_same_item_adds_quantity()
+	{
+		$offer = factory(Offer::class)->create();
+		$cart = new Cart();
+		$cart->add($offer, 4);
+		$cart->add($offer, 14);
+
+		$this->assertEquals($cart->items()->count(), 1, 'An identical item is added twice, but it should only be the quantity sum\'ed');
+		$this->assertEquals($cart->count(), 18, 'The item quantities where not summed.');
 	}
 }
