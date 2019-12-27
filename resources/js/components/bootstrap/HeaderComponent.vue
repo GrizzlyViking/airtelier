@@ -11,9 +11,7 @@
 							<a class="dropdown-item" href="#">Articles</a>
 							<a class="dropdown-item" href="/events">Events</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/location">Spaces</a>
-							<a class="dropdown-item" href="/skill">Classes</a>
-							<a class="dropdown-item" href="/resource">Tools</a>
+							<a class="dropdown-item" v-for="offer in offers" :href="offer.type">{{ offer.type | capitalize}}</a>
 						</div>
 					</li>
                     <li class="nav-item">
@@ -40,7 +38,21 @@
 
 <script>
     export default {
-        name: "HeaderComponent"
+        name: "HeaderComponent",
+		props: {
+        	offers: {
+        		type: Array,
+				default() {
+        			return [];
+				}
+			}
+		},
+		methods: {
+			refreshCart() {
+				console.log('header component level clicked');
+				this.$refs.cart.fetchCart();
+			}
+		}
     }
 </script>
 

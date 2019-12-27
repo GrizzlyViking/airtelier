@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @package App\Models\_interfaces
  * @property Cart $cart
  * @property Transaction $transactions
+ * @property int $quantity
  */
 interface Sellable
 {

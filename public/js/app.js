@@ -2916,10 +2916,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "HeaderComponent"
+  name: "HeaderComponent",
+  props: {
+    offers: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    }
+  },
+  methods: {
+    refreshCart: function refreshCart() {
+      console.log('header component level clicked');
+      this.$refs.cart.fetchCart();
+    }
+  }
 });
 
 /***/ }),
@@ -4836,7 +4848,6 @@ __webpack_require__.r(__webpack_exports__);
     fetchCart: function fetchCart() {
       var _this = this;
 
-      console.log('clicked');
       axios.get('/cart/basket').then(function (response) {
         _this.cart = response.data;
       })["catch"](function (error) {
@@ -66701,13 +66712,67 @@ var render = function() {
             "ul",
             { staticClass: "nav" },
             [
+              _c("li", { staticClass: "nav-item dropdown" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav-link dropdown-toggle active",
+                    attrs: {
+                      href: "#",
+                      id: "offerDropdown",
+                      role: "button",
+                      "data-toggle": "dropdown",
+                      "aria-haspopup": "true",
+                      "aria-expanded": "false"
+                    }
+                  },
+                  [_vm._v("\n\t\t\t\t\t\t\tExplore\n\t\t\t\t\t\t")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "dropdown-menu",
+                    attrs: { "aria-labelledby": "navbarDropdown" }
+                  },
+                  [
+                    _c(
+                      "a",
+                      { staticClass: "dropdown-item", attrs: { href: "#" } },
+                      [_vm._v("Articles")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "dropdown-item",
+                        attrs: { href: "/events" }
+                      },
+                      [_vm._v("Events")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "dropdown-divider" }),
+                    _vm._v(" "),
+                    _vm._l(_vm.offers, function(offer) {
+                      return _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: offer.type }
+                        },
+                        [_vm._v(_vm._s(_vm._f("capitalize")(offer.type)))]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
               _vm._m(0),
               _vm._v(" "),
               _vm._m(1),
               _vm._v(" "),
               _vm._m(2),
-              _vm._v(" "),
-              _vm._m(3),
               _vm._v(" "),
               _c("shopping-cart", {
                 ref: "cart",
@@ -66722,65 +66787,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item dropdown" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link dropdown-toggle active",
-          attrs: {
-            href: "#",
-            id: "offerDropdown",
-            role: "button",
-            "data-toggle": "dropdown",
-            "aria-haspopup": "true",
-            "aria-expanded": "false"
-          }
-        },
-        [_vm._v("\n\t\t\t\t\t\t\tExplore\n\t\t\t\t\t\t")]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "navbarDropdown" }
-        },
-        [
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("Articles")
-          ]),
-          _vm._v(" "),
-          _c(
-            "a",
-            { staticClass: "dropdown-item", attrs: { href: "/events" } },
-            [_vm._v("Events")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            { staticClass: "dropdown-item", attrs: { href: "/location" } },
-            [_vm._v("Spaces")]
-          ),
-          _vm._v(" "),
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "/skill" } }, [
-            _vm._v("Classes")
-          ]),
-          _vm._v(" "),
-          _c(
-            "a",
-            { staticClass: "dropdown-item", attrs: { href: "/resource" } },
-            [_vm._v("Tools")]
-          )
-        ]
-      )
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -69107,7 +69113,7 @@ var render = function() {
     [
       _vm._l(_vm.items, function(item) {
         return _c(_vm.componentType(item), {
-          key: item.id + item.updated_at,
+          key: item.id + item.created_at,
           tag: "div",
           attrs: { item: item, compact: true },
           on: {

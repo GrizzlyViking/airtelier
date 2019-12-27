@@ -23,7 +23,6 @@
 		},
 		methods: {
         	fetchCart() {
-        		console.log('clicked');
         		axios.get('/cart/basket')
 					.then(response => {
 						this.cart = response.data;
