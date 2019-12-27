@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Interfaces\Sellable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
  * @property int        $id
  * @property int        $user_id
  * @property array      $parameters
+ * @property Carbon		$updated_at
+ * @property Carbon		$created_at
  *
  * @property User       $user
  * @property Collection $items
@@ -38,12 +42,15 @@ class Cart extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function items()
+	public function items(): Relation
 	{
 		return $this->hasMany(CartItem::class);
 	}
 
-	public function basket()
+	/**
+	 * @return Collection|CartItem[]
+	 */
+	public function basket(): Collection
 	{
 		return $this->items->map(function (CartItem $item) {
 			if (class_exists($item->item_type)) {
@@ -73,14 +80,6 @@ class Cart extends Model
 	 */
 	public function add($item, $quantity = 1): void
 	{
-		if (!$this->id) {
-			$this->save();
-		}
-
-		if (!Auth::guest() && !$this->user_id) {
-			$this->user_id = Auth::user()->id;
-		}
-
 		if (is_array($item)) {
 			foreach ($item as $value) {
 				if (Arr::has($value, ['item', 'quantity'])) {
@@ -93,6 +92,12 @@ class Cart extends Model
 		if (!is_int($quantity)) return;
 
 		if ($item instanceof Sellable) {
+			/** @var CartItem $found */
+			if ($found = $this->items()->where('item_type',get_class($item))->where('item_id',$item->id)->first()) {
+				$found->quantity += $quantity;
+				$found->save();
+				return;
+			}
 			switch (get_class($item)) {
 				case Event::class:
 					$this->events()->attach($item, ['quantity' => $quantity]);

@@ -16,14 +16,23 @@ Route::name('frontend.')->group(function () {
 	Route::get('/cart/basket', ['uses' => 'CartController@get', 'as' => 'cart.get']);
 	Route::post('/cart/add', ['uses' => 'CartController@add', 'as' => 'cart.add']);
 
-    Route::get('/{offer_type}/{offer}',['uses' => 'Frontend\OfferController@show','as' => 'offer.show']);
-    Route::get('/article/{article}',['uses' => 'Frontend\ArticleController@show','as' => 'offer.show']);
+	Route::get('/article/{article}', ['uses' => 'Frontend\ArticleController@show', 'as' => 'offer.show']);
 	Route::get('/events', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);
-	Route::get('/{offer_type}', ['uses' =>  'Frontend\OfferController@index', 'as' => 'offer.list']);
 
-    Route::get('/', ['uses' => 'PagesController@landing', 'as' => 'landing_page']);
-    Route::get('/register', ['uses' => 'PagesController@register', 'as' => 'register']);
+	Route::get('/', ['uses' => 'PagesController@landing', 'as' => 'landing_page']);
+
+	Route::get('/register', ['uses' => 'PagesController@register', 'as' => 'register']);
+
+	Route::get('/{offer_type}/{offer}',
+		['uses' => 'Frontend\OfferController@show','as' => 'offer.show']
+	)->where('offer_type', implode('|', config('airtelier.offer_types')));
+
+	Route::get('/{offer_type}',
+		['uses' => 'Frontend\OfferController@index','as' => 'offer.list']
+	)->where('offer_type', implode('|', config('airtelier.offer_types')));
 });
+
+Auth::routes();
 
 Route::redirect('/offers', '/admin/offers');
 Route::redirect('/articles', '/admin/articles');
@@ -32,23 +41,22 @@ Route::redirect('/reviews', '/admin/reviews');
 Route::redirect('/users', '/admin/users');
 
 Route::prefix('admin')->group(function () {
-    Auth::routes();
-    Route::middleware('auth')->group(function () {
-        Route::resource('articles', 'ArticleController');
-        Route::resource('messages', 'MessageController');
-        Route::resource('reviews', 'ReviewController');
+	Route::middleware('auth')->group(function () {
+		Route::resource('articles', 'ArticleController');
+		Route::resource('messages', 'MessageController');
+		Route::resource('reviews', 'ReviewController');
 
-        Route::resource('events', 'EventController');
-        Route::resource('offers', 'OfferController');
-        Route::resource('users', 'UserController');
+		Route::resource('events', 'EventController');
+		Route::resource('offers', 'OfferController');
+		Route::resource('users', 'UserController');
 
-        Route::get('/home', 'HomeController@index')->name('home');
+		Route::get('/home', 'HomeController@index')->name('home');
 
-        Route::get('oauth2', ['uses' => 'Auth\OauthController@setUpClient', 'as' => 'oauth2']);
+		Route::get('oauth2', ['uses' => 'Auth\OauthController@setUpClient', 'as' => 'oauth2']);
 
-        Route::post('images', [
-            'uses' => 'ImageController@upload',
-            'as'   => 'image.upload'
-        ]);
-    });
+		Route::post('images', [
+			'uses' => 'ImageController@upload',
+			'as'   => 'image.upload'
+		]);
+	});
 });

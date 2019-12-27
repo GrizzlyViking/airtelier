@@ -21,7 +21,7 @@
 </head>
 <body>
 <div id="app">
-    <header-component></header-component>
+    <header-component :offers="{{ \App\Models\OfferType::all() }}"></header-component>
     @yield('banner-image')
     @include('frontend._partials.nav')
     @yield('content')

@@ -105,6 +105,10 @@ const app = new Vue({
         redirectFromClick(event) {
             console.log(event);
             window.location.href = '/offers/'+event.id + '/edit';
-        }
+        },
+		refreshCart() {
+        	console.log('app level clicked');
+			this.$refs.cart.fetchCart();
+		}
     }
 });

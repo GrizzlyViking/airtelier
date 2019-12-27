@@ -15,13 +15,12 @@ class StandardValues extends Seeder
     public function run()
     {
         try {
-            factory(User::class, 1)->create()->each(function (User $user) {
-                $user->name = 'Sebastian Scheel Edelmann';
-                $user->email = 'sebastian@edelmann.co.uk';
-                $user->password = Hash::make('V1k1ng053c0');
-                $user->address()->associate(factory(Address::class)->make());
-                $user->save();
-            });
+            $user = factory(User::class)->create([
+            	'name' => 'Sebastian Scheel Edelmann',
+				'email' => 'sebastian@edelmann.co.uk',
+				'password' => Hash::make('V1k1ng053c0')
+			]);
+			$user->address()->attach(factory(Address::class)->make());
         } catch (Exception $e) {
             echo 'admin already imported.';
         }

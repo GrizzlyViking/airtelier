@@ -4,8 +4,7 @@
 			<shopping-cart-icon></shopping-cart-icon>
 		</a>
 		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			<a class="dropdown-item" href="#">Action</a>
-			<a class="dropdown-item" href="#">Another action</a>
+			<a class="dropdown-item" href="#" v-for="item in cart">{{ item.slug }} <span class="badge badge-secondary">{{ item.quantity }}</span></a>
 		</div>
 	</li>
 </template>
@@ -24,7 +23,6 @@
 		},
 		methods: {
         	fetchCart() {
-        		console.log('clicked');
         		axios.get('/cart/basket')
 					.then(response => {
 						this.cart = response.data;
