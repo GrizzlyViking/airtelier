@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Collection $users
  * @property Collection $events
- * @property Collection $offers
+ * @property Collection $resources
  */
 class Address extends Model
 {
@@ -59,8 +59,8 @@ class Address extends Model
 		return $this->belongsTo(Countries::class, 'country_code', 'country_code');
 	}
 
-	public function offers()
+	public function resources()
 	{
-		return $this->morphedByMany(Offer::class, 'addressables');
+		return $this->morphedByMany(Resource::class, 'addressables');
 	}
 }

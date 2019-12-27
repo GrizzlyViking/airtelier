@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Article;
 use App\Models\Image;
-use App\Models\Offer;
+use App\Models\Resource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -42,15 +42,15 @@ class ImageTest extends TestCase
 	 * @test
 	 * @return void
 	 */
-	public function attach_image_to_offer()
+	public function attach_image_to_resource()
 	{
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
 		$image = factory(Image::class)->create([
-			'owner_id' => $offer->owner_id
+			'owner_id' => $resource->owner_id
 		]);
 
-		$offer->gallery()->attach($image, ['purpose' => 'compact']);
+		$resource->gallery()->attach($image, ['purpose' => 'compact']);
 
 		$this->assertTrue(true);
 	}

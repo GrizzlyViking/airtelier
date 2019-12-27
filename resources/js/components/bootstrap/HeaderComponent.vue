@@ -4,14 +4,14 @@
             <div class="row justify-content-center">
                 <ul class="nav">
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle active" href="#" id="offerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<a class="nav-link dropdown-toggle active" href="#" id="resourceDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Explore
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="#">Articles</a>
 							<a class="dropdown-item" href="/events">Events</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" v-for="offer in offers" :href="offer.type">{{ offer.type | capitalize}}</a>
+							<a class="dropdown-item" v-for="resource in resources" :href="resource.type">{{ resource.type | capitalize}}</a>
 						</div>
 					</li>
                     <li class="nav-item">
@@ -40,7 +40,7 @@
     export default {
         name: "HeaderComponent",
 		props: {
-        	offers: {
+        	resources: {
         		type: Array,
 				default() {
         			return [];

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\Review;
 use App\Http\Requests\ReviewRequest as Request;
 use Exception;

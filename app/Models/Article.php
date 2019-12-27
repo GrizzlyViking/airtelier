@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string     $content
  * @property Carbon     $publish
  * @property Carbon     $un_publish
- * @property Collection $offers
+ * @property Collection $resources
  * @property Collection $events
  * @property Carbon     $created_at
  * @property Carbon     $updated_at
@@ -57,10 +57,10 @@ class Article extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function offers(): Relation
+    public function resources(): Relation
     {
         return $this->morphedByMany(
-            Offer::class,
+            Resource::class,
             'element',
             'elements');
     }

@@ -4,7 +4,7 @@ use App\Models\Address;
 use App\Models\Article;
 use App\Models\Event;
 use App\Models\Image;
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\Price;
 use App\Models\Review;
 use App\Models\Transaction;
@@ -22,11 +22,11 @@ class ArticlesSeeder extends Seeder
         factory(Article::class, 20)->create()->each(function (Article $article) {
         	/** @var Address $address */
 			$address = factory(Address::class)->create();
-			$article->offers()
-				->saveMany(factory(Offer::class, rand(1, 3))
+			$article->resources()
+				->saveMany(factory(Resource::class, rand(1, 3))
 					->create()
-					->each(function (Offer $offer) use ($address) {
-						$this->addSharedModels($offer, $address);
+					->each(function (Resource $resource) use ($address) {
+						$this->addSharedModels($resource, $address);
 					}));
             $article->events()->attach(
                 factory(Event::class, rand(0, 3))
@@ -40,8 +40,8 @@ class ArticlesSeeder extends Seeder
     }
 
 	/**
-	 * @param Offer|Event $element
-	 * @param Address $address
+	 * @param Resource|Event $element
+	 * @param Address        $address
 	 */
 	protected function addAddress($element, $address): void
 	{
@@ -54,8 +54,8 @@ class ArticlesSeeder extends Seeder
 	}
 
 	/**
-	 * @param Offer|Event   $element
-	 * @param Address $address
+	 * @param Resource|Event $element
+	 * @param Address        $address
 	 */
 	protected function addSharedModels($element, Address $address)
 	{

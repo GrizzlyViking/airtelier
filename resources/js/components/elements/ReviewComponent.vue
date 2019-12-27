@@ -71,10 +71,10 @@
                 storage_action: this.action,
                 reviewed_type: this.reviewedType(),
                 reviewed_types: [
-                    { id: 'skill', name: 'Skill', label: 'title', type: 'offers', 'model': 'App\\Models\\Offer'},
-                    { id: 'resource', name: 'Resource', label: 'title', type: 'offers', 'model': 'App\\Models\\Offer'},
-                    { id: 'location', name: 'Location', label: 'title', type: 'offers', 'model': 'App\\Models\\Offer'},
-                    { id: 'offer', name: 'Offer', label: 'title', type: 'offers', 'model': 'App\\Models\\Offer'},
+                    { id: 'skill', name: 'Skill', label: 'title', type: 'resources', 'model': 'App\\Models\\Resource'},
+                    { id: 'resource', name: 'Resource', label: 'title', type: 'resources', 'model': 'App\\Models\\Resource'},
+                    { id: 'location', name: 'Location', label: 'title', type: 'resources', 'model': 'App\\Models\\Resource'},
+                    { id: 'resource', name: 'Resource', label: 'title', type: 'resources', 'model': 'App\\Models\\Resource'},
                     { id: 'events', name: 'Event', label: 'name', type: 'events', 'model': 'App\\Models\\Event'}
                 ],
                 review: this.value,

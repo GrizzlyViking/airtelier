@@ -3,7 +3,7 @@
 use App\Models\Article;
 use App\Models\Event;
 use App\Models\Image;
-use App\Models\Offer;
+use App\Models\Resource;
 use Illuminate\Database\Seeder;
 
 class ImageSeeder extends Seeder
@@ -23,9 +23,9 @@ class ImageSeeder extends Seeder
 					$article->gallery()->attach($image, ['purpose' => 'compact']);
 				case 2:
 				case 3:
-					/** @var Offer $offer */
-					$offer = Offer::all()->random();
-					$offer->gallery()->attach($image, ['purpose' => 'compact']);
+					/** @var Resource $resource */
+					$resource = Resource::all()->random();
+					$resource->gallery()->attach($image, ['purpose' => 'compact']);
 					break;
 				case 4:
 					/** @var Event $event */

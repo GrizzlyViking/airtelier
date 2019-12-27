@@ -15,7 +15,7 @@
 	import { CodepenIcon, PenToolIcon, MapIcon } from 'vue-feather-icons';
 
     export default {
-        name: "OfferComponent",
+        name: "ResourceComponent",
 		components: {
             CodepenIcon,
             PenToolIcon,
@@ -36,7 +36,7 @@
             }
 		},
 		methods: {
-            redirectToOffer() {
+            redirectToresource() {
                 console.log('/' + this.item.type + '/' + this.item.slug);
                 window.location.href = '/' + this.item.type + '/' + this.item.slug;
 			}

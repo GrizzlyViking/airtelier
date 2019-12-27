@@ -6,7 +6,7 @@ use App\Interfaces\Sellable;
 use App\Models\Cart;
 use App\Models\Event;
 use App\Models\Message;
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\Price;
 use App\Models\User;
 use Facades\App\Models\Cart as FacadeCart;
@@ -21,7 +21,7 @@ class CartTest extends TestCase
 	public function guest_adds_items_to_cart()
 	{
 		collect([
-			Offer::class,
+			Resource::class,
 			Event::class,
 		])->each(function ($class) {
 			$item = factory($class)->create();
@@ -39,18 +39,18 @@ class CartTest extends TestCase
      * @test
      * @return void
      */
-    public function add_offer_to_cart()
+    public function add_resource_to_cart()
     {
-    	$offer = factory(Offer::class)->create();
+    	$resource = factory(Resource::class)->create();
     	$user = factory(User::class)->create();
     	$this->be($user);
 
     	$cart = new Cart();
-    	$cart->add($offer);
+    	$cart->add($resource);
 
     	$this->assertDatabaseHas('cart_items', [
-    		'item_type' => Offer::class,
-			'item_id' => $offer->id
+    		'item_type' => Resource::class,
+			'item_id' => $resource->id
 		]);
     }
 
@@ -98,8 +98,8 @@ class CartTest extends TestCase
 	{
 		/** @var Event $event */
 		$event = factory(Event::class)->create();
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
 		/** @var User $user */
 		$user = factory(User::class)->create();
 		$this->be($user);
@@ -107,7 +107,7 @@ class CartTest extends TestCase
 		$cart = new Cart();
 		$cart->add([
 			['item' => $event, 'quantity' => 3],
-			['item' => $offer, 'quantity' => 4]
+			['item' => $resource, 'quantity' => 4]
 		]);
 
 		$this->assertDatabaseHas('cart_items', [
@@ -119,8 +119,8 @@ class CartTest extends TestCase
 
 		$this->assertDatabaseHas('cart_items', [
 			'cart_id' => $cart->id,
-			'item_type' => Offer::class,
-			'item_id' => $offer->id,
+			'item_type' => Resource::class,
+			'item_id' => $resource->id,
 			'quantity' => 4
 		]);
 	}
@@ -130,8 +130,8 @@ class CartTest extends TestCase
 	{
 		/** @var Event $event */
 		$event = factory(Event::class)->create();
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
 		/** @var Message $message */
 		$message = factory(Message::class)->create();
 		/** @var User $user */
@@ -143,7 +143,7 @@ class CartTest extends TestCase
 		$cart->add([
 			['item' => $event, 'quantity' => 3],
 			['item' => $message, 'quantity' => 4],
-			['item' => $offer, 'quantity' => 'not integer']
+			['item' => $resource, 'quantity' => 'not integer']
 		]);
 
 		$this->assertDatabaseHas('cart_items', [
@@ -162,8 +162,8 @@ class CartTest extends TestCase
 
 		$this->assertDatabaseMissing('cart_items', [
 			'cart_id' => $cart->id,
-			'item_type' => Offer::class,
-			'item_id' => $offer->id,
+			'item_type' => Resource::class,
+			'item_id' => $resource->id,
 		]);
 	}
 
@@ -194,11 +194,11 @@ class CartTest extends TestCase
 		$event_price = factory(Price::class)->make();
 		$event->price()->save($event_price);
 
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
-		/** @var Price $offer_price */
-		$offer_price = factory(Price::class)->make();
-		$offer->price()->save($offer_price);
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
+		/** @var Price $resource_price */
+		$resource_price = factory(Price::class)->make();
+		$resource->price()->save($resource_price);
 
 		/** @var User $user */
 		$user = factory(User::class)->create();
@@ -207,11 +207,11 @@ class CartTest extends TestCase
 		$cart = new Cart();
 		$cart->add([
 			['item' => $event, 'quantity' => 3],
-			['item' => $offer, 'quantity' => 4]
+			['item' => $resource, 'quantity' => 4]
 		]);
 
 		$this->assertIsFloat($cart->total());
-		$expected = 3 * $event_price->amount + 4 * $offer_price->amount;
+		$expected = 3 * $event_price->amount + 4 * $resource_price->amount;
 		$this->assertEquals($expected, $cart->total());
 	}
 
@@ -221,8 +221,8 @@ class CartTest extends TestCase
 		/** @var Event $event */
 		$event = factory(Event::class)->create();
 
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
 
 		/** @var User $user */
 		$user = factory(User::class)->create();
@@ -231,7 +231,7 @@ class CartTest extends TestCase
 		$cart = new Cart();
 		$cart->add([
 			['item' => $event, 'quantity' => 9],
-			['item' => $offer, 'quantity' => 11]
+			['item' => $resource, 'quantity' => 11]
 		]);
 
 		$this->assertEquals($cart->count(), 20);
@@ -246,11 +246,11 @@ class CartTest extends TestCase
 		$event_price = factory(Price::class)->make();
 		$event->price()->save($event_price);
 
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
-		/** @var Price $offer_price */
-		$offer_price = factory(Price::class)->make();
-		$offer->price()->save($offer_price);
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
+		/** @var Price $resource_price */
+		$resource_price = factory(Price::class)->make();
+		$resource->price()->save($resource_price);
 
 		/** @var User $user */
 		$user = factory(User::class)->create();
@@ -258,16 +258,16 @@ class CartTest extends TestCase
 
 		$cart = new Cart();
 		$event_quantity = 9;
-		$offer_quantity = 11;
+		$resource_quantity = 11;
 		$cart->add([
 			['item' => $event, 'quantity' => $event_quantity],
-			['item' => $offer, 'quantity' => $offer_quantity]
+			['item' => $resource, 'quantity' => $resource_quantity]
 		]);
 
 		$this->assertIsFloat($cart->tax());
 
 		$total_should_be = round($event_quantity * $event_price->amount * $event_price->tax_rate, 2) +
-			round($offer_quantity * $offer_price->amount * $offer_price->tax_rate, 2);
+			round($resource_quantity * $resource_price->amount * $resource_price->tax_rate, 2);
 
 		$this->assertEquals($total_should_be, $cart->tax());
 	}
@@ -278,8 +278,8 @@ class CartTest extends TestCase
 		/** @var Event $event */
 		$event = factory(Event::class)->create();
 
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
 
 		/** @var User $user */
 		$user = factory(User::class)->create();
@@ -288,7 +288,7 @@ class CartTest extends TestCase
 		$cart = new Cart();
 		$cart->add([
 			['item' => $event, 'quantity' => 9],
-			['item' => $offer, 'quantity' => 11],
+			['item' => $resource, 'quantity' => 11],
 		]);
 
 		$this->assertDatabaseHas('cart_items', [
@@ -308,8 +308,8 @@ class CartTest extends TestCase
 
 		$this->assertDatabaseMissing('cart_items', [
 			'cart_id' => $cart->id,
-			'item_type' => Offer::class,
-			'item_id' => $offer->id
+			'item_type' => Resource::class,
+			'item_id' => $resource->id
 		]);
 	}
 
@@ -319,10 +319,10 @@ class CartTest extends TestCase
 		/** @var Cart $cart */
 		$cart = new Cart();
 		collect($classes = [
-			Offer::class,
-			Offer::class,
+			Resource::class,
+			Resource::class,
 			Event::class,
-			Offer::class,
+			Resource::class,
 			Event::class,
 		])->each(function ($class) use (&$cart) {
 			/** @var Sellable $model */
@@ -343,10 +343,10 @@ class CartTest extends TestCase
 	/** @test */
 	public function adding_an_additional_of_same_item_adds_quantity()
 	{
-		$offer = factory(Offer::class)->create();
+		$resource = factory(Resource::class)->create();
 		$cart = new Cart();
-		$cart->add($offer, 4);
-		$cart->add($offer, 14);
+		$cart->add($resource, 4);
+		$cart->add($resource, 14);
 
 		$this->assertEquals($cart->items()->count(), 1, 'An identical item is added twice, but it should only be the quantity sum\'ed');
 		$this->assertEquals($cart->count(), 18, 'The item quantities where not summed.');

@@ -29,7 +29,7 @@ use Laravel\Passport\HasApiTokens;
  * @property Carbon     $created_at
  *
  * @property Collection $addresses
- * @property Collection $offers
+ * @property Collection $resources
  * @property Collection $events
  * @property Cart $cart
  */
@@ -81,9 +81,9 @@ class User extends Authenticatable
 		);
 	}
 
-	public function offers(): HasMany
+	public function resources(): HasMany
 	{
-		return $this->hasMany(Offer::class, 'owner_id');
+		return $this->hasMany(Resource::class, 'owner_id');
 	}
 
 	public function events(): Relation

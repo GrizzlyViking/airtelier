@@ -54,14 +54,14 @@ Vue.component('modal-component', require('./components/bootstrap/ModalComponent.
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/bootstrap/InputGroup.vue').default);
 
-Vue.component('offer', require('./components/Offers/OfferComponent.vue').default);
+Vue.component('resource', require('./components/resources/ResourceComponent.vue').default);
 Vue.component('article-component', require('./components/elements/ArticleComponent.vue').default);
 Vue.component('message-component', require('./components/elements/MessageComponent.vue').default);
 Vue.component('review-component', require('./components/elements/ReviewComponent.vue').default);
 Vue.component('event-component', require('./components/elements/EventComponent.vue').default);
 
 Vue.component('frontend-event', require('./frontend/EventComponent.vue').default);
-Vue.component('frontend-offer', require('./frontend/OfferComponent.vue').default);
+Vue.component('frontend-resource', require('./frontend/ResourceComponent.vue').default);
 Vue.component('frontend-list', require('./frontend/ListComponent.vue').default);
 Vue.component('shopping-cart', require('./frontend/ShoppingCart.vue').default);
 Vue.component('buy-item-button', require('./components/bootstrap/BuyButton').default);
@@ -104,7 +104,7 @@ const app = new Vue({
     methods: {
         redirectFromClick(event) {
             console.log(event);
-            window.location.href = '/offers/'+event.id + '/edit';
+            window.location.href = '/resources/'+event.id + '/edit';
         },
 		refreshCart() {
         	console.log('app level clicked');

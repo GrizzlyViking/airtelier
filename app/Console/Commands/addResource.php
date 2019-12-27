@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\OfferType;
+use App\Models\ResourceType;
 use Illuminate\Console\Command;
 
 class addResource extends Command
@@ -38,8 +38,8 @@ class addResource extends Command
      */
     public function handle()
     {
-    	// OfferType::create(['type' => $this->argument('newResource')]);
+    	// ResourceType::create(['type' => $this->argument('newResource')]);
 
-    	config(['airtelier.offer_types' => OfferType::pluck('type')]);
+    	config(['airtelier.resource_types' => ResourceType::pluck('type')]);
     }
 }

@@ -24,10 +24,10 @@ class Image extends Model
 		);
 	}
 
-	public function offers()
+	public function resources()
 	{
 		return $this->morphToMany(
-			Offer::class,
+			Resource::class,
 			'relation',
 			'gallery'
 		);

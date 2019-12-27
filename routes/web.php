@@ -16,25 +16,25 @@ Route::name('frontend.')->group(function () {
 	Route::get('/cart/basket', ['uses' => 'CartController@get', 'as' => 'cart.get']);
 	Route::post('/cart/add', ['uses' => 'CartController@add', 'as' => 'cart.add']);
 
-	Route::get('/article/{article}', ['uses' => 'Frontend\ArticleController@show', 'as' => 'offer.show']);
+	Route::get('/article/{article}', ['uses' => 'Frontend\ArticleController@show', 'as' => 'resource.show']);
 	Route::get('/events', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);
 
 	Route::get('/', ['uses' => 'PagesController@landing', 'as' => 'landing_page']);
 
 	Route::get('/register', ['uses' => 'PagesController@register', 'as' => 'register']);
 
-	Route::get('/{offer_type}/{offer}',
-		['uses' => 'Frontend\OfferController@show','as' => 'offer.show']
-	)->where('offer_type', implode('|', config('airtelier.offer_types')));
+	Route::get('/{resource_type}/{resource}',
+		['uses' => 'Frontend\ResourceController@show','as' => 'resource.show']
+	)->where('resource_type', implode('|', config('airtelier.resource_types')));
 
-	Route::get('/{offer_type}',
-		['uses' => 'Frontend\OfferController@index','as' => 'offer.list']
-	)->where('offer_type', implode('|', config('airtelier.offer_types')));
+	Route::get('/{resource_type}',
+		['uses' => 'Frontend\ResourceController@index','as' => 'resource.list']
+	)->where('resource_type', implode('|', config('airtelier.resource_types')));
 });
 
 Auth::routes();
 
-Route::redirect('/offers', '/admin/offers');
+Route::redirect('/resources', '/admin/resources');
 Route::redirect('/articles', '/admin/articles');
 Route::redirect('/reviews', '/admin/reviews');
 // Route::redirect('/events', '/admin/events');
@@ -47,7 +47,7 @@ Route::prefix('admin')->group(function () {
 		Route::resource('reviews', 'ReviewController');
 
 		Route::resource('events', 'EventController');
-		Route::resource('offers', 'OfferController');
+		Route::resource('resources', 'ResourceController');
 		Route::resource('users', 'UserController');
 
 		Route::get('/home', 'HomeController@index')->name('home');

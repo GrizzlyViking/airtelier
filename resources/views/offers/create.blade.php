@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <offer action="create"></offer>
+    <resource action="create"></resource>
 @endsection

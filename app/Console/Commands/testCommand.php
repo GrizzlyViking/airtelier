@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Offer;
+use App\Models\Resource;
 use Illuminate\Console\Command;
 
 class testCommand extends Command
@@ -38,8 +38,8 @@ class testCommand extends Command
      */
     public function handle()
     {
-        Offer::all()->each(function(Offer $offer) {
-            $offer->update(['slug' => $offer->generateSlug($offer->title)]);
+        Resource::all()->each(function(Resource $resource) {
+            $resource->update(['slug' => $resource->generateSlug($resource->title)]);
         });
     }
 }

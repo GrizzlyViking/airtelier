@@ -1,9 +1,9 @@
 <?php
 return [
-	'offer_types' => [
+	'resource_types' => [
 		'classes',
 		'locations',
-		'resources',
+		'tools',
 		'skills'
 	],
 ];

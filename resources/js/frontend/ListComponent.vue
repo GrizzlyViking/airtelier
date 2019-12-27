@@ -38,7 +38,7 @@
 					return 'frontend-event';
 				}
 
-				return 'frontend-offer';
+				return 'frontend-resource';
 			},
 			closeModal() {
 				this.showModal = false;

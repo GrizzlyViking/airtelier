@@ -10,7 +10,7 @@ class ArticleController extends Controller
 {
 	public function show(Article $article)
 	{
-		$article->load('offers', 'events');
+		$article->load('resources', 'events');
 		return view('frontend.article', compact('article'));
     }
 }

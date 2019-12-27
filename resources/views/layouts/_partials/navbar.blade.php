@@ -32,11 +32,11 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('offers.index') }}">
-                                {{ __('List of offers') }}
+                            <a class="dropdown-item" href="{{ route('resources.index') }}">
+                                {{ __('List of resources') }}
                             </a>
-                            <a class="dropdown-item" href="{{ route('offers.create') }}">
-                                {{ __('Create an offer') }}
+                            <a class="dropdown-item" href="{{ route('resources.create') }}">
+                                {{ __('Create an resource') }}
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('articles.index') }}">
@@ -74,10 +74,10 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('offers.index') }}">
+                            <a class="dropdown-item" href="{{ route('resources.index') }}">
                                 {{ __('List') }}
                             </a>
-                            <a class="dropdown-item" href="{{ route('offers.create') }}">
+                            <a class="dropdown-item" href="{{ route('resources.create') }}">
                                 {{ __('Create') }}
                             </a>
                         </div>

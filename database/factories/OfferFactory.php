@@ -1,14 +1,14 @@
 <?php
 
 
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Arr;
 
 /* @var $factory Factory */
-$factory->define(Offer::class, function (Faker $faker) {
+$factory->define(Resource::class, function (Faker $faker) {
 	return [
 		'title'       => implode(' ', $faker->words),
 		'sub_title'   => $faker->text(40),
