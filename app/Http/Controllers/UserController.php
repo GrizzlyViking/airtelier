@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,6 +17,19 @@ class UserController extends Controller
     public function store(User $user)
     {
         dd($user);
+    }
+
+	public function account()
+	{
+		if (Auth::guest()) {
+			return redirect()->back()->with(['errors' => ['not logged in']]);
+		}
+
+		/** @var User $user */
+		$user = Auth::user();
+		$user->load('addresses');
+
+		return view('frontend.account', compact('user'));
     }
 
     public function show(Request $request)

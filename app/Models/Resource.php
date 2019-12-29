@@ -4,29 +4,28 @@ namespace App\Models;
 
 use App\Traits\SlugTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class Offer
+ * Class Resource
  *
  * @package App\Models
  *
  * @property integer    $id
  * @property string     $slug
- * @property integer    $owner_id
- * @property integer    $type_id
- * @property string     $title
- * @property string     $sub_title
- * @property string     $description
- * @property array      $meta
- * @property User       $owner
- * @property Carbon     $created_at
- * @property Carbon     $updated_at
+ * @property integer      $owner_id
+ * @property integer      $type_id
+ * @property string       $title
+ * @property string       $sub_title
+ * @property string       $description
+ * @property array        $meta
+ * @property User         $owner
+ * @property Carbon       $created_at
+ * @property Carbon       $updated_at
  *
- * @property OfferType  $offerType
+ * @property ResourceType $resourceType
  */
-class Offer extends Resourcable
+class Resource extends Resourcable
 {
 	use SlugTrait;
 
@@ -58,6 +57,7 @@ class Offer extends Resourcable
 		'creator',
 		'type',
 		'component_type',
+		'class',
 	];
 
 	public function getRouteKeyName()
@@ -70,14 +70,14 @@ class Offer extends Resourcable
 		return $this->owner->name;
 	}
 
-	public function offerType(): Relation
+	public function resourceType(): Relation
 	{
-		return $this->belongsTo(OfferType::class, 'type_id');
+		return $this->belongsTo(ResourceType::class, 'type_id');
 	}
 
 	public function getTypeAttribute(): string
 	{
-		return $this->offerType->type;
+		return $this->resourceType->type;
 	}
 
 	public function articles()

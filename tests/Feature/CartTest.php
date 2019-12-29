@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Interfaces\Sellable;
 use App\Models\Cart;
 use App\Models\Event;
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\Price;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -51,9 +51,9 @@ class CartTest extends TestCase
      * @test
      * @return void
      */
-    public function add_offer_to_cart()
+    public function add_resource_to_cart()
     {
-    	$class = Offer::class;
+    	$class = Resource::class;
 		$item = factory($class)->create();
 		$item->price()->save(factory(Price::class)->make());
 		$response = $this->post('/cart/add', [
@@ -71,7 +71,7 @@ class CartTest extends TestCase
 		/** @var Cart $cart */
 		$cart = session()->get('cart');
 		$event = $cart->basket()->first();
-		$this->assertTrue($event instanceof Offer);
+		$this->assertTrue($event instanceof Resource);
 		$this->assertIsFloat($cart->total());
 
 		$response->assertStatus(200);
@@ -82,22 +82,22 @@ class CartTest extends TestCase
      * @test
      * @return void
      */
-    public function add_offer_and_event_to_cart()
+    public function add_resource_and_event_to_cart()
     {
-		$offer = factory(Offer::class)->create();
-		$offer->price()->save(factory(Price::class)->make());
+		$resource = factory(Resource::class)->create();
+		$resource->price()->save(factory(Price::class)->make());
 
 		$response = $this->post('/cart/add', [
-			'item_type' => Offer::class,
-			'item_id' => $offer->id,
+			'item_type' => Resource::class,
+			'item_id' => $resource->id,
 			'quantity' => 4,
 		]);
 
 		$response->assertStatus(200);
 
 		$this->assertDatabaseHas('cart_items', [
-			'item_type' => Offer::class,
-			'item_id' => $offer->id,
+			'item_type' => Resource::class,
+			'item_id' => $resource->id,
 			'quantity' => 4,
 		]);
 
@@ -128,10 +128,10 @@ class CartTest extends TestCase
 	public function retrieve_more_items_from_basket()
 	{
 		collect($classes = [
-			Offer::class,
-			Offer::class,
+			Resource::class,
+			Resource::class,
 			Event::class,
-			Offer::class,
+			Resource::class,
 			Event::class,
 		])->each(function ($class) {
 			$model = factory($class)->create();

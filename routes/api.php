@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Countries;
-use App\Models\OfferType;
+use App\Models\ResourceType;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,5 +25,5 @@ Route::middleware('auth:api')->get('/countries', function () {
 });
 
 Route::middleware('auth:api')->get('/types', function () {
-    return OfferType::all();
+    return ResourceType::all();
 });

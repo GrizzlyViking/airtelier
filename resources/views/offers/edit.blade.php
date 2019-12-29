@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <offer :initial="{{ $offer }}" action="update"></offer>
+    <resource :initial="{{ $resource }}" action="update"></resource>
 @endsection

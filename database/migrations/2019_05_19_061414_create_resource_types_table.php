@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\OfferType;
+use App\Models\ResourceType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOfferTypesTable extends Migration
+class CreateResourceTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,16 @@ class CreateOfferTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('offer_types', function (Blueprint $table) {
+        Schema::create('resource_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type', 20)->unique();
+            $table->string('display', 20)->nullable(true);
         });
 
-        OfferType::insert([
-            ['type' => 'skill'],
-            ['type' => 'location'],
-            ['type' => 'resource'],
+        ResourceType::insert([
+            ['type' => 'skills', 'display' => 'Skills'],
+            ['type' => 'locations', 'display' => 'Locations'],
+            ['type' => 'tools', 'display' => 'Tools'],
         ]);
     }
 
@@ -33,6 +34,6 @@ class CreateOfferTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('offer_types');
+        Schema::dropIfExists('resource_types');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\Review;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -16,18 +16,18 @@ class ReviewTest extends TestCase
      * @test
      * @return void
      */
-    public function create_review_and_attach_it_to_offer()
+    public function create_review_and_attach_it_to_resource()
     {
         $review = factory(Review::class)->make();
-        $offer = factory(Offer::class)->create();
-        $offer->reviews()->save($review);
+        $resource = factory(Resource::class)->create();
+        $resource->reviews()->save($review);
 
         $this->assertDatabaseHas('reviews', [
             'id' => $review->id,
             'author_id' => $review->author_id,
         ]);
         /** @var Review $review */
-        $review = $offer->reviews->first();
+        $review = $resource->reviews->first();
         $this->assertDatabaseHas('reviews', ['description' => $review->description]);
     }
 }

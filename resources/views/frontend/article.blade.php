@@ -17,11 +17,11 @@
 			</div>
 		</div>
 
-		@if($article->offers->count() > 0)
+		@if($article->resources->count() > 0)
 			<div class="h4 mt-3">Resources:</div>
 		@endif
-		@foreach($article->offers as $offer)
-			<frontend-offer :offer="{{ $offer }}"></frontend-offer>
+		@foreach($article->resources as $resource)
+			<frontend-resource :resource="{{ $resource }}"></frontend-resource>
 		@endforeach
 
 		@if($article->events->count() > 0)

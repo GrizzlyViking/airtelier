@@ -7,36 +7,42 @@
                 <h3>Register</h3>
             </div>
             <div class="card-body p-6">
-                <form>
+                <form action="/register" method="post">
+					@csrf
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="text" class="form-control" id="email" name="email">
+                        <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
                     </div>
 
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="text" class="form-control" id="password" name="password">
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
 
                     <div class="form-group">
-                        <label for="password_confirm">Confirm password</label>
-                        <input type="text" class="form-control" id="password_confirm" name="password_confirm">
-                    </div>
-
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                        <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                        <label for="password_confirmation">Confirm password</label>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                     </div>
 
                     <button class="btn btn-outline-grey w-100 mt-5">
                         Register
                     </button>
                 </form>
+				<div>
+					@if (session('errors'))
+						<div class="alert alert-danger">
+							@foreach(json_decode(session('errors'), true) as $key => $error)
+							{{ $error }}
+							@endforeach
+							{{ session('errors') }}
+						</div>
+					@endif
+				</div>
             </div>
         </div>
     </div>

@@ -39,7 +39,6 @@
 
 .bg-dark-transparent {
   color: rgba(248, 249, 250, 0.65) !important;
-  text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
   background-color: rgba(56, 77, 88, 0.9);
 }
 

@@ -3,38 +3,38 @@
         <div>
             <div class="form-group">
                 <label for="owner_id">Owner</label>
-                <user-component id="owner_id" v-model="offer.owner_id" :errors="errors.owner_id" :edit="edit"></user-component>
+                <user-component id="owner_id" v-model="resource.owner_id" :errors="errors.owner_id" :edit="edit"></user-component>
             </div>
 
             <div class="form-group">
                 <label>Type</label>
-                <type-component v-model="offer.type_id" @types="setTypes" :errors="errors.type_id" :edit="edit"></type-component>
+                <type-component v-model="resource.type_id" @types="setTypes" :errors="errors.type_id" :edit="edit"></type-component>
             </div>
 
             <div class="form-group">
                 <label for="title" class="title">Title</label>
-                <input id="title" type="text" :readonly="!edit" :class="{'is-invalid': !isValid, 'form-control': true}" placeholder="Enter title" v-model="offer.title">
+                <input id="title" type="text" :readonly="!edit" :class="{'is-invalid': !isValid, 'form-control': true}" placeholder="Enter title" v-model="resource.title">
                 <div class="invalid-feedback">You must provide a title.</div>
             </div>
 
             <div class="form-group">
                 <label for="sub_title">Sub Title</label>
-                <input id="sub_title" type="text" :readonly="!edit" :class="{'form-control': true}" placeholder="Enter sub title" v-model="offer.sub_title">
+                <input id="sub_title" type="text" :readonly="!edit" :class="{'form-control': true}" placeholder="Enter sub title" v-model="resource.sub_title">
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <editor-component id="description" rows="5" v-model="offer.description" :edit="edit"></editor-component>
+                <editor-component id="description" rows="5" v-model="resource.description" :edit="edit"></editor-component>
             </div>
         </div>
 
         <hr>
 
-        <address-component v-model="offer.address" :edit="edit"></address-component>
+        <address-component v-model="resource.address" :edit="edit"></address-component>
 
         <hr>
 
-        <meta-component name="meta" id="meta" v-model="offer.meta" :edit="edit"></meta-component>
+        <meta-component name="meta" id="meta" v-model="resource.meta" :edit="edit"></meta-component>
 
         <button v-if="edit" type="submit" class="btn btn-outline-primary" :disabled="!isValid">Save</button>
         <button v-if="!edit" type="button" class="btn btn-outline-primary" @click.prevent="editMode">Edit</button>
@@ -43,7 +43,7 @@
 
 <script>
     export default {
-        name: 'offer',
+        name: 'resource',
         props: {
             initial: {
                 type: Object,
@@ -60,7 +60,7 @@
         },
         data() {
             return {
-                offer: this.initial,
+                resource: this.initial,
                 edit: this.action !== 'show',
                 storage_action: this.action,
                 types: [],
@@ -68,11 +68,11 @@
             }
         },
         methods: {
-            updateOffer() {
+            updateresource() {
                 axios
-                    .patch('/offers/' + this.offer.id, this.offer, ['country'])
+                    .patch('/resources/' + this.resource.id, this.resource, ['country'])
                     .then(response => {
-                        window.location.href = '/offers/' + this.offer.id;
+                        window.location.href = '/resources/' + this.resource.id;
                     })
                     .catch(error => {
                         if (error.response.status === 403) {
@@ -81,16 +81,16 @@
                                 type: 'error',
                             });
 
-                            this.offer = this.initial;
+                            this.resource = this.initial;
 
                             this.readOnlyMode();
                         }
                     })
             },
-            createOffer(){
-                axios.post('/offers', this.offer)
+            createresource(){
+                axios.post('/resources', this.resource)
                     .then(response => {
-                        this.offer = response.data;
+                        this.resource = response.data;
                         this.storage_action = 'update';
                     })
                     .catch(error => {
@@ -108,9 +108,9 @@
             },
             saveForm() {
                 if (this.storage_action === 'update') {
-                    this.updateOffer();
+                    this.updateresource();
                 } else if (this.storage_action === 'create') {
-                    this.createOffer();
+                    this.createresource();
                 } else {
 
                     console.log('something weird is going on: ' + this.storage_action );
@@ -122,24 +122,24 @@
             editMode() {
                 this.edit = true;
                 this.storage_action = 'update';
-                window.history.pushState("object or string", "Title", '/offers/'+this.offer.id+'/edit');
+                window.history.pushState("object or string", "Title", '/resources/'+this.resource.id+'/edit');
             },
             readOnlyMode() {
                 this.edit = false;
                 this.storage_action = 'show';
-                window.history.pushState("object or string", "Title", '/offers/'+this.offer.id);
+                window.history.pushState("object or string", "Title", '/resources/'+this.resource.id);
             }
         },
         computed: {
             isValid() {
-                return this.offer !== undefined && this.offer.title !== undefined && this.offer.title.length > 2;
+                return this.resource !== undefined && this.resource.title !== undefined && this.resource.title.length > 2;
             },
             type_name() {
-                if (this.types[this.offer.type_id - 1] === undefined) {
-                    return this.offer.type;
+                if (this.types[this.resource.type_id - 1] === undefined) {
+                    return this.resource.type;
                 }
 
-                return this.types[this.offer.type_id - 1].type;
+                return this.types[this.resource.type_id - 1].type;
             }
         }
     }

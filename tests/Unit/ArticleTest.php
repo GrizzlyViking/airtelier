@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Article;
 use App\Models\Event;
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,17 +39,17 @@ class ArticleTest extends TestCase
         $article = factory(Article::class)->create([
             'author_id' => $user->id
         ]);
-        /** @var Offer $offer */
-        $offer = factory(Offer::class)->create([
+        /** @var Resource $resource */
+        $resource = factory(Resource::class)->create([
             'owner_id' => $user->id
         ]);
 
-        $article->offers()->attach($offer);
+        $article->resources()->attach($resource);
 
-        $offer = factory(Offer::class)->create([
+        $resource = factory(Resource::class)->create([
             'owner_id' => $user->id
         ]);
-        $article->offers()->attach($offer);
+        $article->resources()->attach($resource);
 
         /** @var Event $event */
         $event = factory(Event::class)->create([
@@ -61,11 +61,11 @@ class ArticleTest extends TestCase
         ]);
         $article->events()->attach($event);
 
-        $this->assertEquals(2,$article->offers->count());
-        $this->assertDatabaseHas('offers', ['title' => $offer->title]);
+        $this->assertEquals(2,$article->resources->count());
+        $this->assertDatabaseHas('resources', ['title' => $resource->title]);
         $this->assertEquals(2,$article->events->count());
         $this->assertDatabaseHas('events', ['title' => $event->title]);
         $this->assertContainsOnly(Event::class, $article->events);
-        $this->assertContainsOnly(Offer::class, $article->offers);
+        $this->assertContainsOnly(Resource::class, $article->resources);
     }
 }

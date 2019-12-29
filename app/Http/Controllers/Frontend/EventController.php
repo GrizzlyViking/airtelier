@@ -11,6 +11,6 @@ class EventController extends Controller
 	public function index()
 	{
 		$items = Event::relevant()->with('gallery')->orderByDesc('start')->get();
-		return view('frontend.offers.list', compact('items'));
+		return view('frontend.resources.list', compact('items'));
     }
 }

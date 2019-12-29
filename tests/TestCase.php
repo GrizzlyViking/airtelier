@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

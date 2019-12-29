@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Event;
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\Price;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,13 +18,13 @@ class PriceTest extends TestCase
      * @test
      * @return void
      */
-    public function attach_a_price_to_an_offer()
+    public function attach_a_price_to_an_resource()
     {
-    	$offer = factory(Offer::class)->create();
+    	$resource = factory(Resource::class)->create();
 
     	$price = factory(Price::class)->make();
 
-    	$offer->price()->save($price);
+    	$resource->price()->save($price);
 
     	$this->assertDatabaseHas('prices', $price->toArray());
     }
@@ -45,29 +45,29 @@ class PriceTest extends TestCase
     }
 
     /** @test */
-	public function get_value_of_offer()
+	public function get_value_of_resource()
 	{
-		$offer = factory(Offer::class)->create();
+		$resource = factory(Resource::class)->create();
 
 		$price = factory(Price::class)->make();
 
-		$offer->price()->save($price);
+		$resource->price()->save($price);
 
-		$this->assertIsFloat($offer->price->amount);
+		$this->assertIsFloat($resource->price->amount);
     }
 
     /** @test */
-	public function get_tax_offer()
+	public function get_tax_resource()
 	{
-		/** @var Offer $offer */
-		$offer = factory(Offer::class)->create();
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
 
 		/** @var Price $price */
 		$price = factory(Price::class)->make();
 
-		$offer->price()->save($price);
+		$resource->price()->save($price);
 
-		$this->assertIsFloat($offer->price->tax);
-		$this->assertEquals($offer->price->amount * $offer->price->tax_rate, $offer->price->tax);
+		$this->assertIsFloat($resource->price->tax);
+		$this->assertEquals($resource->price->amount * $resource->price->tax_rate, $resource->price->tax);
     }
 }

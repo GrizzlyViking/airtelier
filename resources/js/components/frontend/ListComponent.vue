@@ -3,7 +3,7 @@
 		<div v-for="item in items"
 			 :is="componentType(item)"
 			 @modal="displayItem(item)"
-			 :key="item.id + item.updated_at"
+			 :key="item.id + item.created_at"
 			 :item="item"
 			 :compact="true"
 		></div>
@@ -38,7 +38,7 @@
 					return 'frontend-event';
 				}
 
-				return 'frontend-offer';
+				return 'frontend-resource';
 			},
 			closeModal() {
 				this.showModal = false;

@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Resource;
+use App\Models\ResourceType;
 use Illuminate\Console\Command;
 
-class testCommand extends Command
+class addResource extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:populate';
+    protected $signature = 'airtelier:resource:add {newResource}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Adds a new resource, and updates config.';
 
     /**
      * Create a new command instance.
@@ -38,8 +38,8 @@ class testCommand extends Command
      */
     public function handle()
     {
-        Resource::all()->each(function(Resource $resource) {
-            $resource->update(['slug' => $resource->generateSlug($resource->title)]);
-        });
+    	// ResourceType::create(['type' => $this->argument('newResource')]);
+
+    	config(['airtelier.resource_types' => ResourceType::pluck('type')]);
     }
 }

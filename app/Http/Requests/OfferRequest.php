@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 
-class OfferRequest extends FormRequest
+class resourceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -40,8 +40,8 @@ class OfferRequest extends FormRequest
         return [
             'owner_id'    => 'required_without:owner|integer|min:1|exists:users,id',
             'owner'       => 'required_without:owner_id|array',
-            'type_id'     => 'required_without:offer_type|integer|min:1|exists:offer_types,id',
-            'offer_type'  => 'required_without:type_id|array',
+            'type_id'     => 'required_without:resource_type|integer|min:1|exists:resource_types,id',
+            'resource_type'  => 'required_without:type_id|array',
             'address_id'  => 'required_without_all:address,post_code,country_code|integer|min:1|exists:addresses,id',
             'address'     => 'required_without:address_id|array',
             'title'       => 'required|regex:/[\w]+/u',
@@ -57,8 +57,8 @@ class OfferRequest extends FormRequest
             'required_without' => ':attribute is required!',
             'owner_id.required_without' => 'You must specify an owner',
             'owner.required_without' => 'You must specify an owner',
-            'type_id.required_without' => 'You must specify which type of offer this is',
-            'offer_type.required_without' => 'You must specify which type of offer this is',
+            'type_id.required_without' => 'You must specify which type of resource this is',
+            'resource_type.required_without' => 'You must specify which type of resource this is',
         ];
     }
 }

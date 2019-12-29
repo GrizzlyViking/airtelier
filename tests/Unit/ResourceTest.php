@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\Address;
-use App\Models\Offer;
+use App\Models\Resource;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class OfferTest extends TestCase
+class resourceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,24 +18,24 @@ class OfferTest extends TestCase
      * @test
      * @return void
      */
-    public function attach_address_to_offer()
+    public function attach_address_to_resource()
     {
         $address = factory(Address::class)->create();
-        /** @var Offer $offer */
-        $offer = factory(Offer::class)->create();
-        $offer->addresses()->attach($address);
-        $offer->owner->addresses()->attach($address);
+        /** @var Resource $resource */
+        $resource = factory(Resource::class)->create();
+        $resource->addresses()->attach($address);
+        $resource->owner->addresses()->attach($address);
 
-        $this->assertEquals(1, $offer->addresses->count());
+        $this->assertEquals(1, $resource->addresses->count());
         $this->assertDatabaseHas('addressables', [
         	'address_id' => $address->id,
-        	'addressable_id' => $offer->id,
-			'addressable_type' => Offer::class
+        	'addressable_id' => $resource->id,
+			'addressable_type' => Resource::class
 		]);
 
 		$this->assertDatabaseHas('addressables', [
 			'address_id' => $address->id,
-			'addressable_id' => $offer->owner->id,
+			'addressable_id' => $resource->owner->id,
 			'addressable_type' => User::class
 		]);
     }

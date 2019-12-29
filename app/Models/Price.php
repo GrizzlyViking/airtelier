@@ -23,9 +23,9 @@ class Price extends Model
 		'amount' => 'float'
 	];
 
-	public function offer()
+	public function resource()
 	{
-		return $this->morphTo(Offer::class);
+		return $this->morphTo(Resource::class);
     }
 
 	public function event()

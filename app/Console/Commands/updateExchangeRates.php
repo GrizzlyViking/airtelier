@@ -14,7 +14,7 @@ class updateExchangeRates extends Command
      *
      * @var string
      */
-    protected $signature = 'update:exchange-rate';
+    protected $signature = 'airtelier:exchange-rate:update';
 
     /**
      * The console command description.

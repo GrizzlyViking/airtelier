@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Interfaces\Sellable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
  * @property int        $id
  * @property int        $user_id
  * @property array      $parameters
+ * @property Carbon		$updated_at
+ * @property Carbon		$created_at
  *
  * @property User       $user
  * @property Collection $items
@@ -38,14 +42,17 @@ class Cart extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function items()
+	public function items(): Relation
 	{
 		return $this->hasMany(CartItem::class);
 	}
 
-	public function basket()
+	/**
+	 * @return Collection|CartItem[]
+	 */
+	public function basket(): Collection
 	{
-		return $this->items->map(function (CartItem $item) {
+		return $this->items()->get()->map(function (CartItem $item) {
 			if (class_exists($item->item_type)) {
 				/** @var Model $model */
 				$model = app($item->item_type)->findOrFail($item->item_id);
@@ -57,9 +64,9 @@ class Cart extends Model
 		});
 	}
 
-	public function offers()
+	public function resources()
 	{
-		return $this->morphedByMany(Offer::class, 'item', 'cart_items');
+		return $this->morphedByMany(Resource::class, 'item', 'cart_items');
 	}
 
 	public function events()
@@ -78,7 +85,7 @@ class Cart extends Model
 		}
 
 		if (!Auth::guest() && !$this->user_id) {
-			$this->user_id = Auth::user()->id;
+			$this->update(['user_id' => Auth::user()->id]);
 		}
 
 		if (is_array($item)) {
@@ -93,12 +100,18 @@ class Cart extends Model
 		if (!is_int($quantity)) return;
 
 		if ($item instanceof Sellable) {
+			/** @var CartItem $found */
+			if ($found = $this->items()->where('item_type',get_class($item))->where('item_id',$item->id)->first()) {
+				$found->quantity += $quantity;
+				$found->save();
+				return;
+			}
 			switch (get_class($item)) {
 				case Event::class:
 					$this->events()->attach($item, ['quantity' => $quantity]);
 					break;
-				case Offer::class:
-					$this->offers()->attach($item, ['quantity' => $quantity]);
+				case Resource::class:
+					$this->resources()->attach($item, ['quantity' => $quantity]);
 					break;
 			}
 		}
@@ -119,7 +132,7 @@ class Cart extends Model
 	 */
 	public function count(): int
 	{
-		return $this->items->sum('quantity');
+		return $this->items()->get()->sum('quantity');
 	}
 
 	/**

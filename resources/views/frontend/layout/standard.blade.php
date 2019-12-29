@@ -21,7 +21,7 @@
 </head>
 <body>
 <div id="app">
-    <header-component></header-component>
+    <header-component :resources="{{ \App\Models\ResourceType::all() }}" :logged-in="{{ !\Illuminate\Support\Facades\Auth::guest() ? 'true' : 'false' }}"></header-component>
     @yield('banner-image')
     @include('frontend._partials.nav')
     @yield('content')

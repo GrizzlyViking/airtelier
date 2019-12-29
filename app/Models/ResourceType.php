@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class OfferType
+ * Class ResourceType
  *
  * @package App\Models
  *
  * @property int $id
  * @property string $type
- * @property Collection $offers
+ * @property Collection $resources
  */
-class OfferType extends Model
+class ResourceType extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'offer_types';
+    protected $table = 'resource_types';
 
     protected $fillable = ['type'];
 
@@ -28,10 +28,10 @@ class OfferType extends Model
 		return 'type';
 	}
 
-	public function offers(): Relation
+	public function resources(): Relation
     {
         return $this->hasMany(
-        	Offer::class,
+        	Resource::class,
 			'type_id'
 		);
     }

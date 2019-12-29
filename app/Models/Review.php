@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Review
  * @package App\Models
  *
- * @property int $id
- * @property int $author_id
- * @property Offer $reviewed
- * @property float $rating
- * @property string $description
- * @property Carbon $updated_at
- * @property Carbon $created_at
- * @property Carbon $deleted_at
+ * @property int      $id
+ * @property int      $author_id
+ * @property Resource $reviewed
+ * @property float    $rating
+ * @property string   $description
+ * @property Carbon   $updated_at
+ * @property Carbon   $created_at
+ * @property Carbon   $deleted_at
  */
 class Review extends Model
 {

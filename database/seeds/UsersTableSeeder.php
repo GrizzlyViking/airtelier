@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\User,
     App\Models\Address,
-    App\Models\Offer;
+    App\Models\Resource;
 use Illuminate\Support\Arr;
 
 class UsersTableSeeder extends Seeder
