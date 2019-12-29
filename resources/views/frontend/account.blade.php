@@ -1,7 +1,10 @@
 @extends('frontend.layout.standard')
 
 @section('content')
-	<pre>
-		@json($user, JSON_PRETTY_PRINT)
-	</pre>
+<div class="container mt-3">
+		<pre>
+			@json($user, JSON_PRETTY_PRINT)
+		</pre>
+
+</div>
 @endsection
