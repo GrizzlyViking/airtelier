@@ -57,6 +57,7 @@ class Resource extends Resourcable
 		'creator',
 		'type',
 		'component_type',
+		'class',
 	];
 
 	public function getRouteKeyName()

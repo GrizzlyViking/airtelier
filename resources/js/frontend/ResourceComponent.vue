@@ -1,5 +1,5 @@
 <template>
-	<div class="card shadow mt-2">
+	<div class="card shadow mt-2" @click="displayModal(item)">
 		<img class="card-img-top" :src="compactFunction">
 		<div class="card-header">
 			<h3>{{ item.title }}</h3>
@@ -36,7 +36,10 @@
             }
 		},
 		methods: {
-            redirectToresource() {
+			displayModal(item) {
+				this.$emit('modal', item);
+			},
+            redirectToResource() {
                 console.log('/' + this.item.type + '/' + this.item.slug);
                 window.location.href = '/' + this.item.type + '/' + this.item.slug;
 			}

@@ -2765,6 +2765,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HeaderComponent",
   props: {
+    loggedIn: {
+      type: Boolean,
+      "default": 0
+    },
     resources: {
       type: Array,
       "default": function _default() {
@@ -2776,6 +2780,15 @@ __webpack_require__.r(__webpack_exports__);
     refreshCart: function refreshCart() {
       console.log('header component level clicked');
       this.$refs.cart.fetchCart();
+    },
+    logout: function logout() {
+      axios.post('/logout', {}).then(function (response) {
+        console.log(response.data);
+        window.location.href = '/login';
+      })["catch"](function (error) {
+        console.log('error');
+        console.log(error);
+      });
     }
   }
 });
@@ -4795,7 +4808,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    redirectToresource: function redirectToresource() {
+    displayModal: function displayModal(item) {
+      this.$emit('modal', item);
+    },
+    redirectToResource: function redirectToResource() {
       console.log('/' + this.item.type + '/' + this.item.slug);
       window.location.href = '/' + this.item.type + '/' + this.item.slug;
     }
@@ -4848,6 +4864,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchCart: function fetchCart() {
       var _this = this;
 
+      console.log('cart level is clicked');
       axios.get('/cart/basket').then(function (response) {
         _this.cart = response.data;
       })["catch"](function (error) {
@@ -66540,11 +66557,73 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(0),
+              _c("li", { staticClass: "nav-item" }, [
+                !_vm.loggedIn
+                  ? _c(
+                      "a",
+                      { staticClass: "nav-link", attrs: { href: "/register" } },
+                      [_vm._v("Register")]
+                    )
+                  : _vm._e()
+              ]),
               _vm._v(" "),
-              _vm._m(1),
+              _c("li", { staticClass: "nav-item" }, [
+                !_vm.loggedIn
+                  ? _c(
+                      "a",
+                      { staticClass: "nav-link", attrs: { href: "/login" } },
+                      [_vm._v("Log In")]
+                    )
+                  : _vm._e()
+              ]),
               _vm._v(" "),
-              _vm._m(2),
+              _vm.loggedIn
+                ? _c("li", { staticClass: "nav-item dropdown" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link dropdown-toggle",
+                        class: { disabled: !_vm.loggedIn },
+                        attrs: {
+                          href: "#",
+                          id: "accountDropdown",
+                          role: "button",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [_vm._v("\n\t\t\t\t\t\t\tAccount\n\t\t\t\t\t\t")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "navbarDropdown" }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" }
+                          },
+                          [_vm._v("Account")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            on: { click: _vm.logout }
+                          },
+                          [_vm._v("Logout")]
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("shopping-cart", {
                 ref: "cart",
@@ -66558,67 +66637,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _vm._v("Link")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _vm._v("Link")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item dropdown" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link dropdown-toggle disabled",
-          attrs: {
-            href: "#",
-            id: "accountDropdown",
-            role: "button",
-            "data-toggle": "dropdown",
-            "aria-haspopup": "true",
-            "aria-expanded": "false"
-          }
-        },
-        [_vm._v("\n\t\t\t\t\t\t\tAccount\n\t\t\t\t\t\t")]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "navbarDropdown" }
-        },
-        [
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("Action")
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("Another action")
-          ])
-        ]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -69154,24 +69173,35 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card shadow mt-2" }, [
-    _c("img", {
-      staticClass: "card-img-top",
-      attrs: { src: _vm.compactFunction }
-    }),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-header" }, [
-      _c("h3", [_vm._v(_vm._s(_vm.item.title))]),
+  return _c(
+    "div",
+    {
+      staticClass: "card shadow mt-2",
+      on: {
+        click: function($event) {
+          return _vm.displayModal(_vm.item)
+        }
+      }
+    },
+    [
+      _c("img", {
+        staticClass: "card-img-top",
+        attrs: { src: _vm.compactFunction }
+      }),
       _vm._v(" "),
-      _c("div", { staticClass: "card-subtitle pb-3" }, [
-        _vm._v(_vm._s(_vm.item.sub_title))
+      _c("div", { staticClass: "card-header" }, [
+        _c("h3", [_vm._v(_vm._s(_vm.item.title))]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-subtitle pb-3" }, [
+          _vm._v(_vm._s(_vm.item.sub_title))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer d-flex justify-content-around" }, [
+        _vm._v("\n\t\tFooter\n\t")
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-footer d-flex justify-content-around" }, [
-      _vm._v("\n\t\tFooter\n\t")
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

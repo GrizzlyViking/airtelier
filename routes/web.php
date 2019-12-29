@@ -13,6 +13,8 @@
 
 // frontend
 Route::name('frontend.')->group(function () {
+	Route::get('/account', ['uses' => 'UserController@account', 'as' => 'account.show']);
+
 	Route::get('/cart/basket', ['uses' => 'CartController@get', 'as' => 'cart.get']);
 	Route::post('/cart/add', ['uses' => 'CartController@add', 'as' => 'cart.add']);
 
