@@ -12,8 +12,11 @@
 */
 
 // frontend
+use Illuminate\Support\Facades\Auth;
+
 Route::name('frontend.')->group(function () {
-	Route::get('/account', ['uses' => 'UserController@account', 'as' => 'account.show']);
+	Route::get('/account', ['uses' => 'UserController@show', 'as' => 'account.show'])->middleware('auth');
+	Route::put('/account', ['uses' => 'UserController@update', 'as' => 'account.update']);
 
 	Route::get('/cart/basket', ['uses' => 'CartController@get', 'as' => 'cart.get']);
 	Route::post('/cart/add', ['uses' => 'CartController@add', 'as' => 'cart.add']);
@@ -35,12 +38,6 @@ Route::name('frontend.')->group(function () {
 });
 
 Auth::routes();
-
-Route::redirect('/resources', '/admin/resources');
-Route::redirect('/articles', '/admin/articles');
-Route::redirect('/reviews', '/admin/reviews');
-// Route::redirect('/events', '/admin/events');
-Route::redirect('/users', '/admin/users');
 
 Route::prefix('admin')->group(function () {
 	Route::middleware('auth')->group(function () {

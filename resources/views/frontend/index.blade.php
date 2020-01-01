@@ -2,7 +2,7 @@
 
 @section('banner-image')
     <banner-image
-        img="{{ asset('img/DSC_0011.jpg') }}"
+        img="{{ asset('/storage/images/DSC_0011.jpg') }}"
         title="Star Wars Lorem Ipsum"
         sub-title="Lucas ipsum dolor sit amet amidala lobot c-3p0 maul watto mace darth darth luke grievous. Owen moff calamari solo"
         style="color: white;"

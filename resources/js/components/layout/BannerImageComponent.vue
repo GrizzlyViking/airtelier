@@ -20,7 +20,7 @@
             img: {
                 type: String,
                 default() {
-                    return 'img/DSC_0011.jpg';
+                    return '/storage/images/DSC_0011.jpg';
                 }
             },
             title: {

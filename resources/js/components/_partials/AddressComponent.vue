@@ -8,17 +8,18 @@
 
             <div class="form-group">
                 <label for="postcode">Post code</label>
-                <input type="text" :readonly="!edit" class="form-control" placeholder="Enter postcode" v-model="address.post_code" @input="handleInput">
+                <input type="text" name="post_code" :readonly="!edit" class="form-control" placeholder="Enter postcode" v-model="address.post_code" @input="handleInput">
             </div>
 
             <div class="form-group">
                 <label for="town">Town or City</label>
-                <input type="text" :readonly="!edit" class="form-control" placeholder="Enter town" v-model="address.town" @input="handleInput">
+                <input type="text" name="town" :readonly="!edit" class="form-control" placeholder="Enter town" v-model="address.town" @input="handleInput">
             </div>
 
             <div class="form-group">
                 <label for="type_id">Country</label>
                 <countries-component v-model="address.country" @input="handleInput" :edit="edit"></countries-component>
+				<input type="hidden" name="country_code" v-model="address.country.country_code">
             </div>
         </div>
     </div>
@@ -50,6 +51,7 @@
         },
         methods: {
             handleInput() {
+            	console.log('test');
                 this.$emit('input', this.address);
             }
         },

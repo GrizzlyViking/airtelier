@@ -8,9 +8,8 @@
             :label="label"
             :key="reload"
             :options="options"
-            :reduce="option => option.code"
         ></v-select>
-        <input v-if="!edit" readonly class="form-control" v-model="countryName">
+		<input v-if="!edit" readonly class="form-control" v-model="countryName">
     </div>
 </template>
 
@@ -47,13 +46,14 @@
                 });
             },
             handleInput() {
+            	console.log('emit should take place');
                 this.$emit('input', this.selected);
             }
         },
         computed: {
             countryName() {
                 if (this.selected && this.options.length > 0) {
-                    return _.find(this.options, option => { return this.selected === option.code; }).name;
+                    return _.find(this.options, option => { return this.selected.country_code === option.country_code; }).name;
                 } else {
                     return this.selected.name;
                 }

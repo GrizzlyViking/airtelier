@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
 {
@@ -19,12 +21,8 @@ class UserController extends Controller
         dd($user);
     }
 
-	public function account()
+	public function account(Request $user)
 	{
-		if (Auth::guest()) {
-			return redirect()->back()->with(['errors' => ['not logged in']]);
-		}
-
 		/** @var User $user */
 		$user = Auth::user();
 		$user->load('addresses');
@@ -32,19 +30,31 @@ class UserController extends Controller
 		return view('frontend.account', compact('user'));
     }
 
-    public function show(Request $request)
+	public function update(Request $request)
+	{
+		/** @var User $user */
+		$user = Auth::user();
+		$user->update($request->all());
+
+		if ($address = $user->addresses->first()) {
+			$address->update($request->all());
+		} else {
+			$address = Address::create($request->all());
+			$user->addresses()->attach($address);
+		}
+
+		return redirect()->back()->with(['success' => ['account updated.']]);
+    }
+
+    public function show(User $user)
     {
-        $request->validate([
-            'email' => 'required_without:id|email|exist:users,email',
-            'id' => 'required_without:email|integer|exist:users,id'
-        ]);
+    	if (request()->route()->named('frontend.account.show')) {
+			$user = Auth::user();
+			$user->load('addresses');
 
-        if ($request->has('email')) {
-            return User::where('email', $request->get('email'));
-        } elseif ($request->has('id')) {
-            return User::where('id', $request->get('id'));
-        }
+			return view('frontend.account', compact('user'));
+		}
 
-        throw new ModelNotFoundException('User not found');
+    	return $user;
     }
 }

@@ -25,7 +25,7 @@
 							Account
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Account</a>
+							<a class="dropdown-item" href="/account">Account</a>
 							<a class="dropdown-item" @click="logout">Logout</a>
 						</div>
 					</li>
