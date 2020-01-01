@@ -51,6 +51,7 @@ class User extends Authenticatable
 		'name',
 		'email',
 		'password',
+		'phone',
 	];
 
 	/**
@@ -102,5 +103,22 @@ class User extends Authenticatable
 	public function cart(): Relation
 	{
 		return $this->hasMany(Cart::class);
+	}
+
+	public function role(): string
+	{
+		switch ($this->access_level) {
+			case 1:
+				return 'Admin';
+			case 3:
+				if (
+					$this->resources->isNotEmpty() ||
+					$this->events->isNotEmpty()
+				) {
+					return 'Contributor';
+				}
+
+				return 'Member';
+		}
 	}
 }

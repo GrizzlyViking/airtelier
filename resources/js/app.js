@@ -67,7 +67,7 @@ Vue.component('shopping-cart', require('./components/frontend/ShoppingCart.vue')
 Vue.component('buy-item-button', require('./components/_partials/BuyButton').default);
 
 Vue.component('banner-image', require('./components/layout/BannerImageComponent.vue').default);
-Vue.component('header-component', require('./components/layout/HeaderComponent.vue').default);
+Vue.component('header-component', require('./components/layout/Header.vue').default);
 Vue.component('footer-component', require('./components/layout/Footer.vue').default);
 
 Vue.filter('capitalize', (string) => {
