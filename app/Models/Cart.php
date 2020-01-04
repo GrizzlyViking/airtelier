@@ -37,6 +37,13 @@ class Cart extends Model
 		'parameters' => 'array'
 	];
 
+	protected $appends = [
+		'total',
+		'count',
+		'tax',
+		'basket',
+	];
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
@@ -62,6 +69,11 @@ class Cart extends Model
 
 			return $item;
 		});
+	}
+
+	public function getBasketAttribute()
+	{
+		return $this->basket();
 	}
 
 	public function resources()
@@ -118,30 +130,59 @@ class Cart extends Model
 	}
 
 	/**
+	 * @param string|null $currency
 	 * @return float
 	 */
-	public function total(): float
+	public function total(string $currency = null): float
 	{
-		return $this->basket()->sum(function (Sellable $item) {
-			return round($item->price->amount * $item->quantity, 2);
-		});
+		return round($this->basket()->sum(function (Sellable $item) use ($currency) {
+			if ($item->price->currency !== $currency) {
+
+			}
+			return $item->price->amount * $item->quantity;
+		}), 2);
 	}
 
 	/**
-	 * @return int
+	 * @return float
 	 */
-	public function count(): int
+	public function getTotalAttribute(): float
+	{
+		return $this->total();
+	}
+
+	public function numberOfItems()
 	{
 		return $this->items()->get()->sum('quantity');
 	}
 
 	/**
-	 * @return float
+	 * @return int
 	 */
-	public function tax(): float
+	public function getCountAttribute(): int
+	{
+		return $this->numberOfItems();
+	}
+
+	public function tax()
 	{
 		return $this->basket()->sum(function (Sellable $item) {
 			return round($item->price->tax * $item->quantity, 2);
 		});
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getTaxAttribute(): float
+	{
+		return $this->tax();
+	}
+
+	public function getCurrencies()
+	{
+		return $this->basket()->map(function (Sellable $item) {
+			return $item->price->currency;
+		})->unique();
 	}
 }

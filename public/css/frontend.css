@@ -2178,7 +2178,9 @@ pre code {
   border: 0;
 }
 
-.form-control {
+.form-control,
+input,
+.StripeElement {
   display: block;
   width: 100%;
   height: calc(1.6em + 0.75rem + 2px);
@@ -2196,18 +2198,24 @@ pre code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .form-control {
+  .form-control,
+  input,
+  .StripeElement {
     -webkit-transition: none;
     transition: none;
   }
 }
 
-.form-control::-ms-expand {
+.form-control::-ms-expand,
+input::-ms-expand,
+.StripeElement::-ms-expand {
   background-color: transparent;
   border: 0;
 }
 
-.form-control:focus {
+.form-control:focus,
+input:focus,
+.StripeElement:focus {
   color: #495057;
   background-color: #fff;
   border-color: #8fa4af;
@@ -2215,38 +2223,45 @@ pre code {
   box-shadow: 0 0 0 0.2rem rgba(79, 100, 111, 0.25);
 }
 
-.form-control::-webkit-input-placeholder {
+.form-control::-webkit-input-placeholder, input::-webkit-input-placeholder, .StripeElement::-webkit-input-placeholder {
   color: #6c757d;
   opacity: 1;
 }
 
-.form-control::-moz-placeholder {
+.form-control::-moz-placeholder, input::-moz-placeholder, .StripeElement::-moz-placeholder {
   color: #6c757d;
   opacity: 1;
 }
 
-.form-control:-ms-input-placeholder {
+.form-control:-ms-input-placeholder, input:-ms-input-placeholder, .StripeElement:-ms-input-placeholder {
   color: #6c757d;
   opacity: 1;
 }
 
-.form-control::-ms-input-placeholder {
+.form-control::-ms-input-placeholder, input::-ms-input-placeholder, .StripeElement::-ms-input-placeholder {
   color: #6c757d;
   opacity: 1;
 }
 
-.form-control::placeholder {
+.form-control::placeholder,
+input::placeholder,
+.StripeElement::placeholder {
   color: #6c757d;
   opacity: 1;
 }
 
 .form-control:disabled,
-.form-control[readonly] {
+input:disabled,
+.StripeElement:disabled,
+.form-control[readonly],
+input[readonly],
+[readonly].StripeElement {
   background-color: #e9ecef;
   opacity: 1;
 }
 
-select.form-control:focus::-ms-value {
+select.form-control:focus::-ms-value,
+select.StripeElement:focus::-ms-value {
   color: #495057;
   background-color: #fff;
 }
@@ -2315,11 +2330,14 @@ select.form-control:focus::-ms-value {
 }
 
 select.form-control[size],
-select.form-control[multiple] {
+select[size].StripeElement,
+select.form-control[multiple],
+select[multiple].StripeElement {
   height: auto;
 }
 
-textarea.form-control {
+textarea.form-control,
+textarea.StripeElement {
   height: auto;
 }
 
@@ -2406,7 +2424,11 @@ textarea.form-control {
 }
 
 .was-validated .form-control:valid,
-.form-control.is-valid {
+.was-validated input:valid,
+.was-validated .StripeElement:valid,
+.form-control.is-valid,
+input.is-valid,
+.is-valid.StripeElement {
   border-color: #4fa06f;
   padding-right: calc(1.6em + 0.75rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%234fa06f' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
@@ -2416,20 +2438,34 @@ textarea.form-control {
 }
 
 .was-validated .form-control:valid:focus,
-.form-control.is-valid:focus {
+.was-validated input:valid:focus,
+.was-validated .StripeElement:valid:focus,
+.form-control.is-valid:focus,
+input.is-valid:focus,
+.is-valid.StripeElement:focus {
   border-color: #4fa06f;
   box-shadow: 0 0 0 0.2rem rgba(79, 160, 111, 0.25);
 }
 
 .was-validated .form-control:valid ~ .valid-feedback,
+.was-validated input:valid ~ .valid-feedback,
+.was-validated .StripeElement:valid ~ .valid-feedback,
 .was-validated .form-control:valid ~ .valid-tooltip,
+.was-validated input:valid ~ .valid-tooltip,
+.was-validated .StripeElement:valid ~ .valid-tooltip,
 .form-control.is-valid ~ .valid-feedback,
-.form-control.is-valid ~ .valid-tooltip {
+input.is-valid ~ .valid-feedback,
+.is-valid.StripeElement ~ .valid-feedback,
+.form-control.is-valid ~ .valid-tooltip,
+input.is-valid ~ .valid-tooltip,
+.is-valid.StripeElement ~ .valid-tooltip {
   display: block;
 }
 
 .was-validated textarea.form-control:valid,
-textarea.form-control.is-valid {
+.was-validated textarea.StripeElement:valid,
+textarea.form-control.is-valid,
+textarea.is-valid.StripeElement {
   padding-right: calc(1.6em + 0.75rem);
   background-position: top calc(0.4em + 0.1875rem) right calc(0.4em + 0.1875rem);
 }
@@ -2548,7 +2584,11 @@ textarea.form-control.is-valid {
 }
 
 .was-validated .form-control:invalid,
-.form-control.is-invalid {
+.was-validated input:invalid,
+.was-validated .StripeElement:invalid,
+.form-control.is-invalid,
+input.is-invalid,
+.is-invalid.StripeElement {
   border-color: #704f4f;
   padding-right: calc(1.6em + 0.75rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23704f4f' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23704f4f' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
@@ -2558,20 +2598,34 @@ textarea.form-control.is-valid {
 }
 
 .was-validated .form-control:invalid:focus,
-.form-control.is-invalid:focus {
+.was-validated input:invalid:focus,
+.was-validated .StripeElement:invalid:focus,
+.form-control.is-invalid:focus,
+input.is-invalid:focus,
+.is-invalid.StripeElement:focus {
   border-color: #704f4f;
   box-shadow: 0 0 0 0.2rem rgba(112, 79, 79, 0.25);
 }
 
 .was-validated .form-control:invalid ~ .invalid-feedback,
+.was-validated input:invalid ~ .invalid-feedback,
+.was-validated .StripeElement:invalid ~ .invalid-feedback,
 .was-validated .form-control:invalid ~ .invalid-tooltip,
+.was-validated input:invalid ~ .invalid-tooltip,
+.was-validated .StripeElement:invalid ~ .invalid-tooltip,
 .form-control.is-invalid ~ .invalid-feedback,
-.form-control.is-invalid ~ .invalid-tooltip {
+input.is-invalid ~ .invalid-feedback,
+.is-invalid.StripeElement ~ .invalid-feedback,
+.form-control.is-invalid ~ .invalid-tooltip,
+input.is-invalid ~ .invalid-tooltip,
+.is-invalid.StripeElement ~ .invalid-tooltip {
   display: block;
 }
 
 .was-validated textarea.form-control:invalid,
-textarea.form-control.is-invalid {
+.was-validated textarea.StripeElement:invalid,
+textarea.form-control.is-invalid,
+textarea.is-invalid.StripeElement {
   padding-right: calc(1.6em + 0.75rem);
   background-position: top calc(0.4em + 0.1875rem) right calc(0.4em + 0.1875rem);
 }
@@ -2704,7 +2758,9 @@ textarea.form-control.is-invalid {
     margin-bottom: 0;
   }
 
-  .form-inline .form-control {
+  .form-inline .form-control,
+  .form-inline input,
+  .form-inline .StripeElement {
     display: inline-block;
     width: auto;
     vertical-align: middle;
@@ -3879,6 +3935,8 @@ input[type=button].btn-block {
 }
 
 .input-group > .form-control,
+.input-group > input,
+.input-group > .StripeElement,
 .input-group > .form-control-plaintext,
 .input-group > .custom-select,
 .input-group > .custom-file {
@@ -3890,21 +3948,41 @@ input[type=button].btn-block {
 }
 
 .input-group > .form-control + .form-control,
+.input-group > input + .form-control,
+.input-group > .StripeElement + .form-control,
+.input-group > .form-control + input,
+.input-group > input + input,
+.input-group > .StripeElement + input,
+.input-group > .form-control + .StripeElement,
+.input-group > input + .StripeElement,
+.input-group > .StripeElement + .StripeElement,
 .input-group > .form-control + .custom-select,
+.input-group > input + .custom-select,
+.input-group > .StripeElement + .custom-select,
 .input-group > .form-control + .custom-file,
+.input-group > input + .custom-file,
+.input-group > .StripeElement + .custom-file,
 .input-group > .form-control-plaintext + .form-control,
+.input-group > .form-control-plaintext + input,
+.input-group > .form-control-plaintext + .StripeElement,
 .input-group > .form-control-plaintext + .custom-select,
 .input-group > .form-control-plaintext + .custom-file,
 .input-group > .custom-select + .form-control,
+.input-group > .custom-select + input,
+.input-group > .custom-select + .StripeElement,
 .input-group > .custom-select + .custom-select,
 .input-group > .custom-select + .custom-file,
 .input-group > .custom-file + .form-control,
+.input-group > .custom-file + input,
+.input-group > .custom-file + .StripeElement,
 .input-group > .custom-file + .custom-select,
 .input-group > .custom-file + .custom-file {
   margin-left: -1px;
 }
 
 .input-group > .form-control:focus,
+.input-group > input:focus,
+.input-group > .StripeElement:focus,
 .input-group > .custom-select:focus,
 .input-group > .custom-file .custom-file-input:focus ~ .custom-file-label {
   z-index: 3;
@@ -3915,12 +3993,16 @@ input[type=button].btn-block {
 }
 
 .input-group > .form-control:not(:last-child),
+.input-group > input:not(:last-child),
+.input-group > .StripeElement:not(:last-child),
 .input-group > .custom-select:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
 .input-group > .form-control:not(:first-child),
+.input-group > input:not(:first-child),
+.input-group > .StripeElement:not(:first-child),
 .input-group > .custom-select:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -4004,11 +4086,15 @@ input[type=button].btn-block {
 }
 
 .input-group-lg > .form-control:not(textarea),
+.input-group-lg > input:not(textarea),
+.input-group-lg > .StripeElement:not(textarea),
 .input-group-lg > .custom-select {
   height: calc(1.5em + 1rem + 2px);
 }
 
 .input-group-lg > .form-control,
+.input-group-lg > input,
+.input-group-lg > .StripeElement,
 .input-group-lg > .custom-select,
 .input-group-lg > .input-group-prepend > .input-group-text,
 .input-group-lg > .input-group-append > .input-group-text,
@@ -4021,11 +4107,15 @@ input[type=button].btn-block {
 }
 
 .input-group-sm > .form-control:not(textarea),
+.input-group-sm > input:not(textarea),
+.input-group-sm > .StripeElement:not(textarea),
 .input-group-sm > .custom-select {
   height: calc(1.5em + 0.5rem + 2px);
 }
 
 .input-group-sm > .form-control,
+.input-group-sm > input,
+.input-group-sm > .StripeElement,
 .input-group-sm > .custom-select,
 .input-group-sm > .input-group-prepend > .input-group-text,
 .input-group-sm > .input-group-append > .input-group-text,
@@ -11180,7 +11270,9 @@ a.text-dark:focus {
 
 .card,
 .btn,
-.form-control {
+.form-control,
+input,
+.StripeElement {
   border-radius: 0.1rem;
 }
 

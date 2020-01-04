@@ -4,11 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CartItemRequest as Request;
 use App\Models\Cart;
+use App\Models\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Stripe\Exception\ApiErrorException;
+use Stripe\SetupIntent;
 
 class CartController extends Controller
 {
+	public function checkout()
+	{
+		$cart = $this->getCart();
+		return view('frontend.checkout', compact('cart'));
+	}
+
+	/**
+	 * @return Factory|View
+	 * @throws ApiErrorException
+	 */
+	public function payment()
+	{
+		$cart = $this->getCart();
+		/** @var User $user */
+		$user = Auth::user();
+		$intent = $user->createPaymentIntent([
+			'amount' => $cart->getTotalAttribute() * 100,
+			'currency' => 'dkk'
+		]);
+
+		return view('frontend.payment', compact('intent', 'cart', 'user'));
+	}
+
 	public function add(Request $request): Response
 	{
 		$cart = $this->getCart();
@@ -21,7 +49,7 @@ class CartController extends Controller
 	{
 		$cart = $this->getCart();
 		$cart->load('items');
-		return response($cart->basket());
+		return response($cart);
 	}
 
 	/**

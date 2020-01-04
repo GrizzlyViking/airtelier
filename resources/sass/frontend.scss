@@ -97,5 +97,10 @@ label {
     border-color: #ced4da;
 }
 
+// Stripe
+input, .StripeElement {
+	@extend .form-control
+}
+
 // Vue Select
 @import "~vue-select/src/scss/vue-select";

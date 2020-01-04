@@ -26,5 +26,6 @@
     @include('frontend._partials.nav')
     @yield('content')
 </div>
+	@yield('scripts')
 </body>
 </html>

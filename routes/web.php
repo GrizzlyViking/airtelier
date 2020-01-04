@@ -20,6 +20,8 @@ Route::name('frontend.')->group(function () {
 
 	Route::get('/cart/basket', ['uses' => 'CartController@get', 'as' => 'cart.get']);
 	Route::post('/cart/add', ['uses' => 'CartController@add', 'as' => 'cart.add']);
+	Route::get('checkout', ['uses' => 'CartController@checkout', 'as' => 'cart.checkout']);
+	Route::get('payment', ['uses' => 'CartController@payment', 'as' => 'cart.payment']);
 
 	Route::get('/article/{article}', ['uses' => 'Frontend\ArticleController@show', 'as' => 'resource.show']);
 	Route::get('/events', ['uses' => 'Frontend\EventController@index', 'as' => 'event.list']);

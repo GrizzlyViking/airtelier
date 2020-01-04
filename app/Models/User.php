@@ -12,7 +12,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentIntent;
 
 /**
  * Class User
@@ -35,7 +38,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-	use Notifiable, HasApiTokens;
+	use Notifiable, HasApiTokens, Billable;
 
 	/** @var int */
 	const ADMIN_LEVEL = 1;
@@ -103,6 +106,19 @@ class User extends Authenticatable
 	public function cart(): Relation
 	{
 		return $this->hasMany(Cart::class);
+	}
+
+	/**
+	 * @param array $options
+	 *
+	 * @return PaymentIntent
+	 * @throws ApiErrorException
+	 */
+	public function createPaymentIntent(array $options = [])
+	{
+		return PaymentIntent::create(
+			$options, $this->stripeOptions()
+		);
 	}
 
 	public function role(): string

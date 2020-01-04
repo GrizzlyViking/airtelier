@@ -210,9 +210,9 @@ class CartTest extends TestCase
 			['item' => $resource, 'quantity' => 4]
 		]);
 
-		$this->assertIsFloat($cart->total());
+		$this->assertIsFloat($cart->getTotalAttribute());
 		$expected = 3 * $event_price->amount + 4 * $resource_price->amount;
-		$this->assertEquals($expected, $cart->total());
+		$this->assertEquals($expected, $cart->getTotalAttribute());
 	}
 
 	/** @test */
@@ -234,7 +234,7 @@ class CartTest extends TestCase
 			['item' => $resource, 'quantity' => 11]
 		]);
 
-		$this->assertEquals($cart->count(), 20);
+		$this->assertEquals($cart->numberOfItems(), 20);
 	}
 
 	/** @test */
@@ -349,6 +349,44 @@ class CartTest extends TestCase
 		$cart->add($resource, 14);
 
 		$this->assertEquals($cart->items()->count(), 1, 'An identical item is added twice, but it should only be the quantity sum\'ed');
-		$this->assertEquals($cart->count(), 18, 'The item quantities where not summed.');
+		$this->assertEquals($cart->numberOfItems(), 18, 'The item quantities where not summed.');
+	}
+
+	/** @test */
+	public function get_the_currency()
+	{
+		/** @var Cart $cart */
+		$cart = new Cart();
+		collect($classes = [
+			Resource::class,
+			Resource::class,
+			Event::class,
+			Resource::class,
+			Event::class,
+		])->each(function ($class) use (&$cart) {
+			/** @var Sellable $model */
+			$model = factory($class)->create();
+			/** @var Price $price */
+			$price = factory(Price::class)->make();
+			dump($price->currency);
+			$model->price()->save($price);
+
+			$cart->add($model, $quantity = rand(1, 7));
+
+			$this->assertDatabaseHas('cart_items', [
+				'cart_id' => $cart->id,
+				'item_type' => $class,
+				'item_id' => $model->id,
+				'quantity' => $quantity
+			]);
+
+			$this->assertDatabaseHas('prices', [
+				'priceable_type' => $class,
+				'priceable_id' => $model->id
+			]);
+		});
+
+		$response = $cart->getCurrencies();
+		dd($response);
 	}
 }

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $amount
  * @property float $tax_rate
  * @property int $price_id
+ * @property string $currency
  * @property string $description
  * @property string $element_type
  * @property int $element_id
@@ -36,5 +37,10 @@ class Price extends Model
 	public function getTaxAttribute()
 	{
 		return $this->amount * $this->tax_rate;
+    }
+
+	public function currencyElement()
+	{
+		return $this;
     }
 }
