@@ -19,10 +19,12 @@ use Illuminate\Support\Facades\Auth;
  * @property array      $parameters
  * @property Carbon		$updated_at
  * @property Carbon		$created_at
+ * @property string		$currency_code
  *
  * @property User       $user
  * @property Collection $items
- *
+ * @property Currency	$currency
+ * @property Collection $basket
  */
 class Cart extends Model
 {
@@ -31,6 +33,7 @@ class Cart extends Model
 		'item_type',
 		'item_id',
 		'quantity',
+		'currency_code'
 	];
 
 	protected $casts = [
@@ -43,6 +46,9 @@ class Cart extends Model
 		'tax',
 		'basket',
 	];
+	protected $attributes = [
+		'currency_code' => 'DKK'
+	];
 
 	public function user()
 	{
@@ -54,6 +60,15 @@ class Cart extends Model
 		return $this->hasMany(CartItem::class);
 	}
 
+	public function currency(): Relation
+	{
+		return $this->belongsTo(
+			Currency::class,
+			'currency_code',
+			'code'
+		);
+	}
+
 	/**
 	 * @return Collection|CartItem[]
 	 */
@@ -63,7 +78,11 @@ class Cart extends Model
 			if (class_exists($item->item_type)) {
 				/** @var Model $model */
 				$model = app($item->item_type)->findOrFail($item->item_id);
-				$model->setAttribute('quantity', $item->quantity);
+				if ($model->price instanceof Price) {
+					$model->setAttribute('quantity', $item->quantity);
+					$model->setAttribute('currency_code', $this->currency->code);
+					$model->setAttribute('amount', $model->price->convertTo($this->currency));
+				}
 				return $model;
 			}
 
@@ -130,16 +149,15 @@ class Cart extends Model
 	}
 
 	/**
-	 * @param string|null $currency
 	 * @return float
 	 */
-	public function total(string $currency = null): float
+	public function total(): float
 	{
-		return round($this->basket()->sum(function (Sellable $item) use ($currency) {
-			if ($item->price->currency !== $currency) {
-
+		return round($this->basket()->sum(function (Sellable $item) {
+			if ($item->price instanceof Price) {
+				return $item->price->convertTo($this->currency) * $item->quantity;
 			}
-			return $item->price->amount * $item->quantity;
+			return 0;
 		}), 2);
 	}
 
@@ -166,9 +184,15 @@ class Cart extends Model
 
 	public function tax()
 	{
-		return $this->basket()->sum(function (Sellable $item) {
-			return round($item->price->tax * $item->quantity, 2);
-		});
+		return round($this->basket()->sum(function (Sellable $item) {
+			if ($item->price instanceof Price) {
+				return
+					$item->price->convertTo($this->currency) *
+					$item->price->tax_rate *
+					$item->quantity;
+			}
+			return 0;
+		}), 2);
 	}
 
 	/**

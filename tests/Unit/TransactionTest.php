@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Address;
 use App\Models\Countries;
+use App\Models\Currency;
 use App\Models\Event;
 use App\Models\Resource;
 use App\Models\Transaction;
@@ -24,7 +25,7 @@ class TransactionTest extends TestCase
         $event = factory(Event::class)->create();
         /** @var Address $address */
         $currency = 'DKK';
-        $exchange_rate = Countries::where('currency_code', $currency)->first()->exchange_rate;
+        $exchange_rate = Currency::findOrFail($currency)->exchange_rate;
 
         factory(Transaction::class, rand(100,500))->create([
         	'paid_for_type' => Event::class,
@@ -47,7 +48,7 @@ class TransactionTest extends TestCase
         $resource = factory(Resource::class)->create();
         /** @var Address $address */
         $currency = 'DKK';
-        $exchange_rate = Countries::where('currency_code', $currency)->first()->exchange_rate;
+        $exchange_rate = Currency::findOrFail( $currency)->exchange_rate;
 
         factory(Transaction::class, rand(100,500))->create([
         	'paid_for_type' => Resource::class,

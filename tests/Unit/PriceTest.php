@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Currency;
 use App\Models\Event;
 use App\Models\Resource;
 use App\Models\Price;
@@ -70,4 +71,41 @@ class PriceTest extends TestCase
 		$this->assertIsFloat($resource->price->tax);
 		$this->assertEquals($resource->price->amount * $resource->price->tax_rate, $resource->price->tax);
     }
+
+    /** @test */
+	public function get_currency()
+	{
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
+
+		/** @var Price $price */
+		$price = factory(Price::class)->make();
+
+		$resource->price()->save($price);
+
+		$this->assertIsFloat($resource->price->currency->exchange_rate);
+	}
+
+    /** @test */
+	public function convert_currency()
+	{
+		/** @var Resource $resource */
+		$resource = factory(Resource::class)->create();
+
+		/** @var Price $price */
+		$price = factory(Price::class)->make([
+			'currency_code' => 'USD'
+		]);
+
+		$resource->price()->save($price);
+		/** @var Currency $currency */
+		$currency = Currency::findOrFail('DKK');
+
+		$usd_exchange_rate = $resource->price->currency->exchange_rate;
+		$dkk_exchange_rate = $currency->exchange_rate;
+		$expected = round($resource->price->amount * $dkk_exchange_rate/$usd_exchange_rate, 2);
+
+		$dkk = $resource->price->convertTo($currency);
+		$this->assertEquals($expected, $dkk);
+	}
 }

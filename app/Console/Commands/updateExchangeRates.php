@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Countries;
+use App\Models\Currency;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Stream;
 use Illuminate\Console\Command;
@@ -43,13 +44,16 @@ class updateExchangeRates extends Command
 		$client = new Client();
 		$request = $client->get('https://api.exchangeratesapi.io/latest');
 		$response = \GuzzleHttp\json_decode($request->getBody()->getContents());
+		$count = 0;
 
 		foreach ($response->rates as $currency_code => $rate) {
-			Countries::where('currency_code', $currency_code)->update([
+			$count++;
+			$this->info($currency_code . ' updated');
+			Currency::where('code', $currency_code)->update([
 				'exchange_rate' => $rate
 			]);
 		}
 
-		dd();
+		$this->info($count . ' currencies where updated.');
     }
 }

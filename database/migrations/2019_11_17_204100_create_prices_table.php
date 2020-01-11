@@ -17,7 +17,8 @@ class CreatePricesTable extends Migration
             $table->bigIncrements('id');
             $table->float('amount', 10, 2);
             $table->float('tax_rate', 3, 2)->default(0.25);
-            $table->char('currency', 3)->default('DKK');
+            $table->char('currency_code', 3)->default('DKK');
+            $table->foreign('currency_code')->references('code')->on('currencies')->onDelete('cascade');
             $table->char('country', 2)->default('DK');
             $table->json('meta')->nullable(true);
             $table->text('terms')->nullable(true);

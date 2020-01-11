@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property Collection $gallery
  * @property Price      $price
  * @property Collection $transactions
+ * @property Currency	$currency
  */
 class Resourcable extends Model implements Resource, Sellable
 {
