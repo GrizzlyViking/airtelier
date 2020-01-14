@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Interfaces\Sellable;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Currency;
 use App\Models\Event;
 use App\Models\Message;
@@ -273,8 +274,6 @@ class CartTest extends TestCase
 
 
 		$this->assertIsFloat($cart->tax());
-		;
-		;
 
 		$total_should_be = round($event_quantity * $event_price->convertTo($cart->currency) * $event_price->tax_rate +
 			$resource_quantity * $resource_price->convertTo($cart->currency) * $resource_price->tax_rate, 2);
@@ -394,5 +393,48 @@ class CartTest extends TestCase
 				'priceable_id' => $model->id
 			]);
 		});
+	}
+
+	/** @test */
+	public function get_the_unit_price()
+	{
+		/** @var Event $event */
+		$event = factory(Event::class)->create();
+		$event->price()->save(factory(Price::class)->make([
+			'currency_code' => 'USD'
+		]));
+		/** @var User $user */
+		$user = factory(User::class)->create();
+		$this->be($user);
+		/** @var Cart $cart */
+		$cart = new Cart();
+
+		$cart->add($event, 4);
+
+		$unitPrice = $cart->items->first()->unitPrice();
+
+		$currency = Currency::findOrFail('DKK');
+		$this->assertEquals($unitPrice, $event->price->convertTo($currency));
+	}
+
+	/** @test */
+	public function get_the_total_cart_item_price()
+	{
+		/** @var Event $event */
+		$event = factory(Event::class)->create();
+		$event->price()->save(factory(Price::class)->make([
+			'currency_code' => 'USD'
+		]));
+		/** @var User $user */
+		$user = factory(User::class)->create();
+		$this->be($user);
+		/** @var Cart $cart */
+		$cart = new Cart();
+
+		$cart->add($event, $quantity = 4);
+		$currency = Currency::findOrFail('DKK');
+
+		$total_price = $cart->items->first()->total();
+		$this->assertEquals($total_price, $event->price->convertTo($currency) * $quantity);
 	}
 }
