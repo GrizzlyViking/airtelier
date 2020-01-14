@@ -20,6 +20,8 @@ class CreateCartsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->char('currency_code')->default('DKK');
+            $table->foreign('currency_code')->references('code')->on('currencies')->onDelete('set default');
             $table->json('parameters')->nullable(true);
             $table->timestamps();
         });

@@ -120,7 +120,7 @@ class CartTest extends TestCase
 
 		/** @var Cart $cart */
 		$cart = session()->get('cart');
-		$this->assertEquals(9+4, $cart->count());
+		$this->assertEquals(9+4, $cart->numberOfItems());
 		$this->assertEquals(2,  $cart->basket()->count());
     }
 

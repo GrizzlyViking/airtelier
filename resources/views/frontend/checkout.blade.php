@@ -11,32 +11,30 @@
 						<th scope="col">Title</th>
 						<th scope="col" class="text-center">Date</th>
 						<th scope="col">#</th>
+						<th scope="col" class="text-right">Currency</th>
 						<th scope="col" class="text-right">Unit Price</th>
 						<th scope="col" class="text-right">Price</th>
 					</tr>
 					</thead>
 					<tbody>
-					<?php
-					/** @var \App\Models\Cart $cart */
-					/** @var \App\Models\Resource $item */
-					?>
-					@foreach($cart->basket as $item)
+					@foreach($cart->items as $item)
 						<tr>
-							<td scope="row">{{ $item->title }}</td>
-							<td class="text-center">{{ $item->created_at }}</td>
+							<td scope="row">{{ $item->item->title }}</td>
+							<td class="text-center">{{ $item->item->created_at->format('jS F') }}</td>
 							<td>{{ $item->quantity }}</td>
-							<td class="text-right">{{ $item->price->amount }}</td>
-							<td class="text-right">{{ $item->price->amount * $item->quantity }}</td>
+							<td class="text-right">{{ $cart->currency->code }}</td>
+							<td class="text-right">{{ $item->unitPrice() }}</td>
+							<td class="text-right">{{ $item->total }}</td>
 						</tr>
 					@endforeach
 					</tbody>
 					<tfoot>
-					<th colspan="4">&nbsp;</th>
+					<th colspan="5">&nbsp;</th>
 					<th class="text-right">{{ $cart->total }}</th>
 					</tfoot>
 				</table>
 			</div>
-			<a class="card-footer text-right">
+			<div class="card-footer text-right">
 				<a href="/payment"><button class="btn btn-success">Proceed</button></a>
 			</div>
 		</div>
