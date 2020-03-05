@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Schedule;
+use App\Observers\ScheduleObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -46,5 +48,7 @@ class AppServiceProvider extends ServiceProvider
                 return $return;
             });
         });
+
+        Schedule::observe(ScheduleObserver::class);
     }
 }

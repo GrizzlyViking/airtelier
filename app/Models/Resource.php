@@ -88,4 +88,13 @@ class Resource extends Resourcable
 			'elements'
 		);
 	}
+
+	public function schedules()
+	{
+		return $this->morphToMany(
+			Schedule::class,
+			'item',
+			'schedules'
+		);
+	}
 }
