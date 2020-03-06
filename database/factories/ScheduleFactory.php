@@ -20,8 +20,8 @@ $factory->define(Schedule::class, function (Faker $faker) {
 	return [
 		'name'      => $faker->word,
 		'user_id'   => factory(User::class)->create(),
-		'item_id'   => $item->id,
-		'item_type' => $item_type,
+		'schedulable_id'   => $item->id,
+		'schedulable_type' => $item_type,
 		/** \Illuminate\Support\Carbon $starts_at */
 		'starts_at' => $starts_at = now(),
 		'ends_at'   => (clone $starts_at)->addDays(rand(1,7))->addWeeks(rand(1,5)),

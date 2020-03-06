@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int      $id
  * @property string   $name
  * @property int      $user_id
- * @property int      $item_id
- * @property string   $item_type
+ * @property int      $schedulable_id
+ * @property string   $schedulable_type
  * @property Carbon   $starts_at
  * @property Carbon   $ends_at
  * @property string   $status
@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon   $deleted_at
  *
  * @property User     $owner
- * @property Sellable $item
+ * @property Sellable $schedulable
  */
 class Schedule extends Model
 {
@@ -41,8 +41,8 @@ class Schedule extends Model
 	protected $fillable = [
 		'name',
 		'user_id',
-		'item_id',
-		'item_type',
+		'schedulable_id',
+		'schedulable_type',
 		'starts_at',
 		'ends_at',
 		'status',
@@ -60,8 +60,8 @@ class Schedule extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function item(): Sellable
+	public function schedulable()
 	{
-		return app($this->item_type)->findOrFail($this->item_id);
+		return $this->morphTo();
 	}
 }

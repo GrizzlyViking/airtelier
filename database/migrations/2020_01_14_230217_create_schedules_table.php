@@ -18,7 +18,7 @@ class CreateSchedulesTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->morphs('item');
+            $table->morphs('schedulable');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();
             $table->enum('status', ['completed', 'requested', 'booked', 'cancelled'])->default('requested');
