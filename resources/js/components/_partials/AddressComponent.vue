@@ -33,7 +33,9 @@
                 type: Object,
                 default() {
                     return {
-                        country_code: 'DK'
+                    	country: {
+							country_code: 'DK'
+						}
                     };
                 }
             },
@@ -46,14 +48,25 @@
         },
         data() {
             return {
-                address: this.value
+                address: this.parseAddress(this.value)
             }
         },
         methods: {
             handleInput() {
             	console.log('test');
                 this.$emit('input', this.address);
-            }
+            },
+			parseAddress (value) {
+            	if (!value) {
+            		return {
+            			country: {
+            				country_code: 'DK'
+						}
+					}
+				}
+
+            	return value;
+			}
         },
         mounted() {
             this.$emit('input', this.address)
