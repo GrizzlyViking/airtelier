@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\SlugTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property Carbon       $updated_at
  *
  * @property ResourceType $resourceType
+ * @property Collection $availability
  */
 class Resource extends Resourcable
 {
@@ -87,5 +89,21 @@ class Resource extends Resourcable
 			'element',
 			'elements'
 		);
+	}
+
+	public function availability()
+	{
+		return $this->morphMany(
+			Schedule::class,
+			'schedulable'
+		);
+	}
+
+	public function isAvailable(Schedule $purchasable_period): bool
+	{
+		return $this->availability->filter(function (Schedule $schedule) use ($purchasable_period) {
+			return $purchasable_period->starts_at->between($schedule->starts_at, $schedule->ends_at) &&
+				$purchasable_period->ends_at->isBefore($schedule->ends_at);
+		})->count() > 0;
 	}
 }

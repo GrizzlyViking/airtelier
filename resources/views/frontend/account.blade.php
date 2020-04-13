@@ -51,7 +51,7 @@
 							   disabled>
 					</div>
 
-					<address-component :edit="true" :value="{{ $user->addresses->first() }}"></address-component>
+					<address-component :edit="true" :value="{{ json_encode($user->addresses->first()) }}"></address-component>
 
 					<button type="submit" class="btn btn-dark">Update</button>
 				</form>

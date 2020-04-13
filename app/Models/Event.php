@@ -78,4 +78,12 @@ class Event extends Resourcable
 			->whereNull('end')
 			->orWhere('end', '>', now());
 	}
+
+	public function availability()
+	{
+		return $this->morphMany(
+			Schedule::class,
+			'item'
+		);
+	}
 }
