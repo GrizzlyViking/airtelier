@@ -14,6 +14,10 @@
 // frontend
 use Illuminate\Support\Facades\Auth;
 
+Route::get('frontend', function () {
+	return view('mango.index');
+});
+
 Route::name('frontend.')->group(function () {
 	Route::get('/account', ['uses' => 'UserController@show', 'as' => 'account.show'])->middleware('auth');
 	Route::put('/account', ['uses' => 'UserController@update', 'as' => 'account.update']);
