@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Interfaces\Resource;
 use App\Interfaces\Sellable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -24,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  */
 class Resourcable extends Model implements Resource, Sellable
 {
+	protected const AVAILABLE = 'available';
+
 	protected $appends = [
 		'component_type',
 		'class',

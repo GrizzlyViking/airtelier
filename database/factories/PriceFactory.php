@@ -11,6 +11,10 @@ $factory->define(Price::class, function (Faker $faker) {
 	return [
 		'amount'   => $faker->randomFloat(2, 0, 300),
 		'tax_rate' => 0.25,
+		'unit_size' => rand(1,10),
+		'unit_type' => $faker->randomElement(
+			[null, 'hour', 'day', 'week', 'month', 'year', 'kg', 'pounds']
+		),
 		'currency_code' => $faker->randomElement(
 			['DKK', 'DKK', 'DKK', 'SEK', 'GBP', 'USD']
 		)

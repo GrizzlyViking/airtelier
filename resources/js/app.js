@@ -24,6 +24,7 @@ import 'vue-toast-notification/dist/index.css';
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.use(require('vue-moment'));
+
 Vue.use(VueToast);
 Vue.directive('scroll', {
     inserted: function (el, binding) {
@@ -50,6 +51,7 @@ Vue.component('address-component', require('./components/_partials/AddressCompon
 Vue.component('date-time-component', require('./components/_partials/DateTimePickerComponent.vue').default);
 Vue.component('scheduling-component', require('./components/_partials/SchedulingComponent').default);
 Vue.component('modal-component', require('./components/_partials/ModalComponent.vue').default);
+Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
 
 Vue.component('meta-component', require('./components/MetaComponent.vue').default);
 Vue.component('input-group', require('./components/_partials/InputGroup.vue').default);

@@ -21,7 +21,7 @@ class CreateSchedulesTable extends Migration
             $table->morphs('schedulable');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();
-            $table->enum('status', ['completed', 'requested', 'booked', 'cancelled'])->default('requested');
+            $table->enum('status', ['completed', 'requested', 'booked', 'cancelled', 'available', 'unavailable'])->default('requested');
             $table->text('summary')->nullable();
             $table->string('uid')->unique()->nullable(true);
             $table->softDeletes();

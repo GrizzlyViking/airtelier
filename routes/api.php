@@ -27,3 +27,7 @@ Route::middleware('auth:api')->get('/countries', function () {
 Route::middleware('auth:api')->get('/types', function () {
     return ResourceType::all();
 });
+
+Route::get('/{resource}/calendar/{date}',
+	['uses' => 'Frontend\ResourceController@availability', 'as' => 'resource.calendar.availability']
+);

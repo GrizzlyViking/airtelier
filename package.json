@@ -27,6 +27,8 @@
     "webpack": "^4.43.0"
   },
   "dependencies": {
+    "laravel-echo": "^1.8.0",
+    "pusher-js": "^6.0.3",
     "quill-image-resize": "^3.0.9",
     "vue-feather-icons": "^4.22.0",
     "vue-functional-calendar": "^2.8.83",

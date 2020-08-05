@@ -12,10 +12,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property float    $amount
  * @property float    $tax_rate
  * @property int      $price_id
+ * @property string   $unit_size
+ * @property string   $unit_type
  * @property string   $currency_code
  * @property string   $description
- * @property string   $element_type
- * @property int      $element_id
+ * @property string   $priceable_type
+ * @property int      $priceable_id
  * @property float    $tax
  *
  * @property Resource $resource
@@ -26,12 +28,18 @@ class Price extends Model
 {
 	protected $fillable = [
 		'amount',
+		'unit_size',
 		'tax_rate',
 		'price_id',
 		'currency_code',
 		'description',
-		'element_type',
-		'element_id',
+		'priceable_type',
+		'priceable_id',
+	];
+
+	protected $hidden = [
+		'created_at',
+		'updated_at',
 	];
 
 	protected $casts = [

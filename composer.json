@@ -22,12 +22,16 @@
         "laravel/cashier": "^10.5",
         "laravel/framework": "^7.0",
         "laravel/passport": "^7.3",
+        "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "^4.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^4.1",

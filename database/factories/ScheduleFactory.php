@@ -1,31 +1,20 @@
 <?php
 
-use App\Models\Event;
-use App\Models\Resource;
 use App\Models\Schedule;
 use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Carbon;
 
 /** @var Factory $factory */
-$factory->define(Schedule::class, function (Faker $faker) {
-	$item_type = $faker->randomElement([
-		Resource::class,
-		Event::class,
-		Resource::class,
-		Resource::class,
-	]);
-
-	$item = factory($item_type)->create();
+$factory->define(Schedule::class, function (Faker $faker, $value) {
 	return [
 		'name'      => $faker->word,
-		'user_id'   => factory(User::class)->create(),
-		'schedulable_id'   => $item->id,
-		'schedulable_type' => $item_type,
+		'user_id'   => User::all()->random()->id,
 		/** \Illuminate\Support\Carbon $starts_at */
-		'starts_at' => $starts_at = now(),
-		'ends_at'   => (clone $starts_at)->addDays(rand(1,7))->addWeeks(rand(1,5)),
-		'status'    => $faker->randomElement(['completed', 'requested', 'booked', 'cancelled']),
+		'starts_at' => $starts_at = Carbon::parse($faker->dateTimeThisYear->format('Y-m-d H:00:00')),
+		'ends_at'   => (clone $starts_at)->addHour(),
+		'status'    => $faker->randomElement(['completed', 'requested', 'booked', 'cancelled', 'available']),
 		'summary'   => $faker->text,
 	];
 });

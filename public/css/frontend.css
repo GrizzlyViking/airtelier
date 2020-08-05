@@ -12000,3 +12000,7 @@ label {
   opacity: 1;
 }
 
+.vfc-main-container {
+  border-radius: 0.1rem !important;
+}
+

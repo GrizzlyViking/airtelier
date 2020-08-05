@@ -14,11 +14,22 @@
 // frontend
 use Illuminate\Support\Facades\Auth;
 
-Route::get('frontend', function () {
+Route::get('/', function () {
 	return view('mango.index');
 });
 
-Route::name('frontend.')->group(function () {
+Route::get('/calendar', function() {
+	return view('frontend.calendar');
+});
+
+Route::get('schedule/{resource}/calendar',
+	['uses' => 'ScheduleController@calendar','as' => 'resource.calendar']
+);
+Route::put('schedule/{id}/request',
+	['uses' => 'ScheduleController@request','as' => 'schedule.request']
+);
+
+Route::name('frontend.')->prefix('old')->group(function () {
 	Route::get('/account', ['uses' => 'UserController@show', 'as' => 'account.show'])->middleware('auth');
 	Route::put('/account', ['uses' => 'UserController@update', 'as' => 'account.update']);
 

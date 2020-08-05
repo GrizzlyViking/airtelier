@@ -97,6 +97,8 @@ label {
     border-color: #ced4da;
 }
 
+
+
 // Stripe
 input, .StripeElement {
 	@extend .form-control
@@ -104,3 +106,6 @@ input, .StripeElement {
 
 // Vue Select
 @import "~vue-select/src/scss/vue-select";
+
+// Vue Functional Calendar
+@import "vf_calendar";

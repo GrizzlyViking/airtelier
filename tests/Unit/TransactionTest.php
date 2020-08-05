@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Countries;
 use App\Models\Currency;
 use App\Models\Event;
+use App\Models\Price;
 use App\Models\Resource;
 use App\Models\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -51,8 +52,8 @@ class TransactionTest extends TestCase
         $exchange_rate = Currency::findOrFail( $currency)->exchange_rate;
 
         factory(Transaction::class, rand(100,500))->create([
-        	'paid_for_type' => Resource::class,
-			'paid_for_id' => $resource->id,
+        	'paid_for_type' => $resource->getMorphClass(),
+			'paid_for_id' => $resource->getKey(),
 			'currency' => $currency,
 			'exchange_rate' => $exchange_rate
 		]);
@@ -61,4 +62,21 @@ class TransactionTest extends TestCase
 
         $this->assertDatabaseHas('transactions', $random->toArray());
     }
+
+    /** @test */
+	public function sell_a_scheduled_event()
+	{
+		/** @var Resource $event */
+		$resource = factory(Resource::class)->create();
+		/** @var Price $price */
+		$resource->price()->save($price = factory(Price::class)->make());
+		/** @var Transaction $transaction */
+		$transaction = factory(Transaction::class)->create([
+			'paid_for_type' => $resource->getMorphClass(),
+			'paid_for_id'   => $resource->getKey(),
+			'currency'      => $price->currency->code,
+			'exchange_rate' => $price->currency->exchange_rate
+		]);
+		$this->assertDatabaseHas('transactions', $transaction->toArray());
+	}
 }
